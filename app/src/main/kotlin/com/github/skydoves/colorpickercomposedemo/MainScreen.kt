@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,6 +34,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -50,6 +52,10 @@ fun MainScreen() {
     val textColor = remember { mutableStateOf(Color.Transparent) }
 
     Column {
+        MainToolBar()
+
+        Spacer(modifier = Modifier.height(10.dp))
+
         PhotoPickerIcon(controller)
 
         ImageColorPicker(
@@ -101,6 +107,25 @@ fun MainScreen() {
                 .clip(RoundedCornerShape(6.dp))
                 .align(Alignment.CenterHorizontally),
             controller = controller
+        )
+    }
+}
+
+@Composable
+fun MainToolBar() {
+    TopAppBar(
+        elevation = 6.dp,
+        backgroundColor = Color(0xFF6200EE),
+        modifier = Modifier.height(58.dp)
+    ) {
+        Text(
+            modifier = Modifier
+                .padding(8.dp)
+                .align(Alignment.CenterVertically),
+            text = stringResource(R.string.app_name),
+            color = Color.White,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold
         )
     }
 }
