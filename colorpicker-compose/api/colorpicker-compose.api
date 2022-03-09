@@ -1,0 +1,74 @@
+public final class com/github/skydoves/colorpicker/compose/AlphaSliderKt {
+	public static final fun AlphaSlider-1sSiv8M (Landroidx/compose/ui/Modifier;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;FFJLandroidx/compose/ui/graphics/ImageBitmap;FJLandroidx/compose/ui/graphics/Paint;JJFLandroidx/compose/runtime/Composer;III)V
+}
+
+public final class com/github/skydoves/colorpicker/compose/AlphaTileDrawable : android/graphics/drawable/Drawable {
+	public static final field $stable I
+	public synthetic fun <init> (FJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun draw (Landroid/graphics/Canvas;)V
+	public fun getOpacity ()I
+	public fun setAlpha (I)V
+	public fun setColorFilter (Landroid/graphics/ColorFilter;)V
+}
+
+public final class com/github/skydoves/colorpicker/compose/AlphaTileKt {
+	public static final fun AlphaTile-Qd0NJH0 (Landroidx/compose/ui/Modifier;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;JJJFLandroidx/compose/runtime/Composer;II)V
+}
+
+public final class com/github/skydoves/colorpicker/compose/BrightnessSliderKt {
+	public static final fun BrightnessSlider-kPGd43Y (Landroidx/compose/ui/Modifier;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;FFJLandroidx/compose/ui/graphics/ImageBitmap;FJLandroidx/compose/ui/graphics/Paint;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class com/github/skydoves/colorpicker/compose/ColorEnvelope {
+	public static final field $stable I
+	public synthetic fun <init> (JLjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-0d7_KjU ()J
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Z
+	public final fun copy-ek8zF_U (JLjava/lang/String;Z)Lcom/github/skydoves/colorpicker/compose/ColorEnvelope;
+	public static synthetic fun copy-ek8zF_U$default (Lcom/github/skydoves/colorpicker/compose/ColorEnvelope;JLjava/lang/String;ZILjava/lang/Object;)Lcom/github/skydoves/colorpicker/compose/ColorEnvelope;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getColor-0d7_KjU ()J
+	public final fun getFromUser ()Z
+	public final fun getHexCode ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/github/skydoves/colorpicker/compose/ColorPickerController {
+	public static final field $stable I
+	public fun <init> ()V
+	public final fun getSelectedColor ()Landroidx/compose/runtime/State;
+	public final fun getSelectedPoint ()Landroidx/compose/runtime/State;
+	public final fun selectByCoordinate (FFZ)V
+	public final fun selectCenter (Z)V
+	public final fun setDebounceDuration (J)V
+	public final fun setEnabled (Z)V
+	public final fun setPaletteContentScale (Lcom/github/skydoves/colorpicker/compose/PaletteContentScale;)V
+	public final fun setPaletteImageBitmap (Landroidx/compose/ui/graphics/ImageBitmap;)V
+	public final fun setWheelAlpha (F)V
+	public final fun setWheelColor-8_81llA (J)V
+	public final fun setWheelImageBitmap (Landroidx/compose/ui/graphics/ImageBitmap;)V
+	public final fun setWheelPaint (Landroidx/compose/ui/graphics/Paint;)V
+	public final fun setWheelRadius-0680j_4 (F)V
+}
+
+public final class com/github/skydoves/colorpicker/compose/ColorPickerControllerKt {
+	public static final fun rememberColorPickerController (Landroidx/compose/runtime/Composer;I)Lcom/github/skydoves/colorpicker/compose/ColorPickerController;
+}
+
+public final class com/github/skydoves/colorpicker/compose/HsvColorPickerKt {
+	public static final fun HsvColorPicker (Landroidx/compose/ui/Modifier;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class com/github/skydoves/colorpicker/compose/ImageColorPickerKt {
+	public static final fun ImageColorPicker (Landroidx/compose/ui/Modifier;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;Landroidx/compose/ui/graphics/ImageBitmap;Landroidx/compose/ui/graphics/ImageBitmap;Lcom/github/skydoves/colorpicker/compose/PaletteContentScale;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class com/github/skydoves/colorpicker/compose/PaletteContentScale : java/lang/Enum {
+	public static final field CROP Lcom/github/skydoves/colorpicker/compose/PaletteContentScale;
+	public static final field FIT Lcom/github/skydoves/colorpicker/compose/PaletteContentScale;
+	public static fun valueOf (Ljava/lang/String;)Lcom/github/skydoves/colorpicker/compose/PaletteContentScale;
+	public static fun values ()[Lcom/github/skydoves/colorpicker/compose/PaletteContentScale;
+}
+
