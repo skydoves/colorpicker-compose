@@ -1,18 +1,17 @@
 <h1 align="center">ColorPicker Compose</h1></br>
 
 <p align="center">
+🎨 Jetpack Compose color picker library that allows you to get colors from any images like gallery pictures by tapping on the desired color. 
+Also, it supports brightness and alpha slider, which can adjust your ARGB factors.
+</p><br>
+
+<p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
   <a href="https://android-arsenal.com/api?level=21"><img alt="API" src="https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat"/></a>
   <a href="https://github.com/skydoves/colorpicker-compose/actions/workflows/android.yml"><img alt="API" src="https://github.com/skydoves/colorpicker-compose/actions/workflows/android.yml/badge.svg"/></a>
   <a href="https://github.com/skydoves"><img alt="Profile" src="https://skydoves.github.io/badges/skydoves.svg"/></a>
 </p><br>
 
-<p align="center">
-🎨 Jetpack Compose color picker library that allows you to get colors from any images like gallery pictures by tapping on the desired color. 
-Also, it supports brightness and alpha slider, which can adjust your ARGB factors.
-</p><br>
-
-## Preview
 <p align="center">
 <img src="preview/preview0.gif" width="31%"/>
 <img src="preview/preview1.gif" width="31%"/>
