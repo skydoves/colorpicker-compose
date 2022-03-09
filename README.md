@@ -250,7 +250,7 @@ AlphaSlider(
 )
 ```
 
-<img src="preview/preview4.gif" width="25%" align="right">
+<img src="preview/preview4.gif" width="24%" align="right">
 
 ### BrightnessSlider
 
