@@ -209,8 +209,8 @@ You can implement **AlphaSlider** as the following example:
 AlphaSlider(
     modifier = Modifier
         .fillMaxWidth()
-        .height(35.dp)
         .padding(10.dp)
+        .height(35.dp)
     controller = controller,
 )
 ```
@@ -261,8 +261,8 @@ You can implement **BrightnessSlider** as the following example:
 BrightnessSlider(
     modifier = Modifier
         .fillMaxWidth()
-        .height(35.dp)
         .padding(10.dp)
+        .height(35.dp)
     controller = controller,
 )
 ```

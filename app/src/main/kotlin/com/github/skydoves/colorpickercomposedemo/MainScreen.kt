@@ -70,8 +70,8 @@ fun MainScreen() {
         AlphaSlider(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(35.dp)
                 .padding(10.dp)
+                .height(35.dp)
                 .align(Alignment.CenterHorizontally),
             controller = controller,
         )
@@ -79,8 +79,8 @@ fun MainScreen() {
         BrightnessSlider(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(35.dp)
                 .padding(10.dp)
+                .height(35.dp)
                 .align(Alignment.CenterHorizontally),
             controller = controller,
         )
