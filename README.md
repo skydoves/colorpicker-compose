@@ -10,7 +10,7 @@
 <p align="center">
 🎨 Jetpack Compose color picker library that allows you to get colors from any images like gallery pictures by tapping on the desired color. 
 Also, it supports brightness and alpha slider, which can adjust your ARGB factors.
-</p><br>
+</p>
 
 ## Preview
 <p align="center">
