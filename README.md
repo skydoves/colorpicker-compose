@@ -76,7 +76,7 @@ ImageColorPicker(
 
 ### ImageColorPicker
 
-**ImageColorPicker** allows you to get colors from any images such as gallery pictures or drawble resources by tapping on the desired color. 
+**ImageColorPicker** allows you to get colors from any images such as gallery pictures or drawable resources by tapping on the desired color. 
 It interacts with the `ColorPickerController` to control the color picker and other components. You can use the `ImageColorPicker` as the following example:
 
 ```kotlin
