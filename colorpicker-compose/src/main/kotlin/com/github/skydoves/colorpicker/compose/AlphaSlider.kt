@@ -21,7 +21,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
@@ -84,7 +84,7 @@ public fun AlphaSlider(
         color = controller.pureSelectedColor.value
     }
 
-    LaunchedEffect(controller) {
+    SideEffect {
         controller.isAttachedAlphaSlider = true
     }
 
