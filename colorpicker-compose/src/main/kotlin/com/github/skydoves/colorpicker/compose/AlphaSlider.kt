@@ -193,7 +193,7 @@ public fun AlphaSlider(
                     )
                     canvas.drawImage(
                         wheelImageBitmap,
-                        Offset(x = point, y = bitmapSize.height / 2f - wheelImageBitmap.height / 2),
+                        Offset(x = point - (wheelImageBitmap.width / 2), y = bitmapSize.height / 2f - wheelImageBitmap.height / 2),
                         Paint()
                     )
                 }
