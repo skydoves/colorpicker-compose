@@ -265,7 +265,7 @@ BrightnessSlider(
     modifier = Modifier
         .fillMaxWidth()
         .padding(10.dp)
-        .height(35.dp)
+        .height(35.dp),
     controller = controller,
 )
 ```
@@ -290,7 +290,7 @@ BrightnessSlider(
 AlphaTile(
     modifier = Modifier
         .size(80.dp)
-        .clip(RoundedCornerShape(6.dp))
+        .clip(RoundedCornerShape(6.dp)),
     controller = controller
 )
 ```
