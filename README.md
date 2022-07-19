@@ -16,9 +16,9 @@ Also, it supports brightness and alpha slider, which can adjust your ARGB factor
 
 ## Preview
 <p align="center">
-<img src="preview/preview0.gif" width="31%"/>
-<img src="preview/preview1.gif" width="31%"/>
-<img src="preview/preview2.gif" width="31%"/>
+<img src="preview/preview0.gif" width="270"/>
+<img src="preview/preview1.gif" width="270"/>
+<img src="preview/preview2.gif" width="270"/>
 </p>
 
 ## Download
@@ -74,7 +74,7 @@ ImageColorPicker(
 )
 ```
 
-<img src="preview/preview0.gif" width="27%" align="right">
+<img src="preview/preview0.gif" width="270" align="right">
 
 ### ImageColorPicker
 
@@ -125,7 +125,7 @@ controller.setPaletteContentScale(PaletteContentScale.FIT) // scale the image to
 controller.setPaletteContentScale(PaletteContentScale.CROP) // center crop the image.
 ```
 
-<img src="preview/preview2.gif" width="27%" align="right">
+<img src="preview/preview2.gif" width="270" align="right">
 
 ### HsvColorPicker
 
@@ -200,7 +200,7 @@ You can enable or disable your color picker with the below function:
 .setEnabled(false)
 ```
 
-<img src="preview/preview3.gif" width="24%" align="right">
+<img src="preview/preview3.gif" width="270" align="right">
 
 ### AlphaSlider
 
@@ -252,7 +252,7 @@ AlphaSlider(
 )
 ```
 
-<img src="preview/preview4.gif" width="24%" align="right">
+<img src="preview/preview4.gif" width="270" align="right">
 
 ### BrightnessSlider
 
