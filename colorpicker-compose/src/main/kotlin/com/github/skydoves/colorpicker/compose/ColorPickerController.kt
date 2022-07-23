@@ -238,7 +238,7 @@ public class ColorPickerController {
     internal fun setBrightness(brightness: Float, fromUser: Boolean) {
         this.brightness.value = brightness
         val hsv = FloatArray(3)
-        android.graphics.Color.colorToHSV(selectedColor.value.toArgb(), hsv)
+        android.graphics.Color.colorToHSV(pureSelectedColor.value.toArgb(), hsv)
         hsv[2] = brightness
         _selectedColor.value =
             Color(android.graphics.Color.HSVToColor((alpha.value * 255).toInt(), hsv))
