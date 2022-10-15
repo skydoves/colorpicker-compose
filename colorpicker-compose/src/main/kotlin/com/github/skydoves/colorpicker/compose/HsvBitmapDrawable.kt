@@ -67,7 +67,12 @@ internal class HsvBitmapDrawable constructor(
         huePaint.shader = sweepShader
 
         val saturationShader = RadialGradient(
-            centerX, centerY, radius, Color.WHITE, 0x00FFFFFF, Shader.TileMode.CLAMP
+            centerX,
+            centerY,
+            radius,
+            Color.WHITE,
+            0x00FFFFFF,
+            Shader.TileMode.CLAMP
         )
         saturationPaint.shader = saturationShader
 
@@ -83,6 +88,10 @@ internal class HsvBitmapDrawable constructor(
         huePaint.colorFilter = colorFilter
     }
 
+    @Deprecated(
+        message = "This method will be deprecated on the future Android SDK",
+        replaceWith = ReplaceWith(expression = "getOpacity")
+    )
     override fun getOpacity(): Int {
         return PixelFormat.OPAQUE
     }
