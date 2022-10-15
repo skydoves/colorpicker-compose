@@ -79,7 +79,7 @@ fun MainScreen() {
                 .padding(10.dp)
                 .height(35.dp)
                 .align(Alignment.CenterHorizontally),
-            controller = controller,
+            controller = controller
         )
 
         BrightnessSlider(
@@ -88,7 +88,7 @@ fun MainScreen() {
                 .padding(10.dp)
                 .height(35.dp)
                 .align(Alignment.CenterHorizontally),
-            controller = controller,
+            controller = controller
         )
 
         Spacer(modifier = Modifier.height(30.dp))

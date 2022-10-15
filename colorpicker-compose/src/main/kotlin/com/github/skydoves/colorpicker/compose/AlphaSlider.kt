@@ -71,7 +71,7 @@ public fun AlphaSlider(
     wheelPaint: Paint = Paint().apply { color = wheelColor },
     tileOddColor: Color = defaultTileOddColor,
     tileEvenColor: Color = defaultTileEvenColor,
-    tileSize: Dp = 30.dp,
+    tileSize: Dp = 30.dp
 ) {
     var backgroundBitmap: ImageBitmap? = null
     var bitmapSize = IntSize(0, 0)
@@ -133,7 +133,7 @@ public fun AlphaSlider(
                                 bitmapSize.width - (wheelRadius.value + borderSize.value) * 2
                             val point = wheelPoint.coerceIn(
                                 minimumValue = wheelRadius.value + borderSize.value,
-                                maximumValue = bitmapSize.width - wheelRadius.value - borderSize.value,
+                                maximumValue = bitmapSize.width - wheelRadius.value - borderSize.value
                             )
                             point / sliderWidth
                         } else {
@@ -182,7 +182,7 @@ public fun AlphaSlider(
                     val position = controller.alpha.value
                     val point = (position * bitmapSize.width).coerceIn(
                         minimumValue = wheelRadius.value + borderSize.value,
-                        maximumValue = bitmapSize.width - wheelRadius.value - borderSize.value,
+                        maximumValue = bitmapSize.width - wheelRadius.value - borderSize.value
                     )
                     canvas.drawCircle(
                         Offset(x = point, y = bitmapSize.height / 2f),

@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.Dp
 public class AlphaTileDrawable constructor(
     tileSize: Dp,
     tileOddColor: Color,
-    tileEvenColor: Color,
+    tileEvenColor: Color
 ) : Drawable() {
 
     private val androidPaint: android.graphics.Paint = android.graphics.Paint(
@@ -92,5 +92,9 @@ public class AlphaTileDrawable constructor(
         androidPaint.colorFilter = colorFilter
     }
 
+    @Deprecated(
+        message = "This method will be deprecated on the future Android SDK",
+        replaceWith = ReplaceWith(expression = "getOpacity")
+    )
     override fun getOpacity(): Int = PixelFormat.OPAQUE
 }
