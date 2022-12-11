@@ -56,6 +56,8 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 
 dependencies {
     implementation Dependencies.androidxCoreKtx
+
+    implementation platform(Dependencies.composeBom)
     implementation Dependencies.composeUI
     implementation Dependencies.composeRuntime
     implementation Dependencies.composeMaterial
