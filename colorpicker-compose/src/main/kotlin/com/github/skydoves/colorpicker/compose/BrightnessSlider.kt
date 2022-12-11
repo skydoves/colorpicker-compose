@@ -62,7 +62,7 @@ public fun BrightnessSlider(
     borderSize: Dp = 5.dp,
     borderColor: Color = Color.LightGray,
     wheelImageBitmap: ImageBitmap? = null,
-    wheelRadius: Dp = 30.dp,
+    wheelRadius: Dp = 12.dp,
     wheelColor: Color = Color.White,
     wheelPaint: Paint = Paint().apply { color = wheelColor }
 ) {
@@ -165,7 +165,7 @@ public fun BrightnessSlider(
                     )
                     canvas.drawCircle(
                         Offset(x = point, y = bitmapSize.height / 2f),
-                        wheelRadius.value,
+                        wheelRadius.toPx(),
                         wheelPaint
                     )
                 } else {
@@ -176,7 +176,10 @@ public fun BrightnessSlider(
                     )
                     canvas.drawImage(
                         wheelImageBitmap,
-                        Offset(x = point - (wheelImageBitmap.width / 2), y = bitmapSize.height / 2f - wheelImageBitmap.height / 2),
+                        Offset(
+                            x = point - (wheelImageBitmap.width / 2),
+                            y = bitmapSize.height / 2f - wheelImageBitmap.height / 2
+                        ),
                         Paint()
                     )
                 }
