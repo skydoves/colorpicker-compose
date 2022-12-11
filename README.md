@@ -28,7 +28,7 @@ Also, it supports brightness and alpha slider, which can adjust your ARGB factor
 Add the dependency below to your **module**'s `build.gradle` file:
 ```gradle
 dependencies {
-    implementation "com.github.skydoves:colorpicker-compose:1.0.0"
+    implementation "com.github.skydoves:colorpicker-compose:1.0.1"
 }
 ```
 
@@ -50,7 +50,7 @@ repositories {
 Next, add the dependency below to your **module**'s `build.gradle` file:
 ```gradle
 dependencies {
-    implementation "com.github.skydoves:colorpicker-compose:1.0.1-SNAPSHOT"
+    implementation "com.github.skydoves:colorpicker-compose:1.0.2-SNAPSHOT"
 }
 ```
 
