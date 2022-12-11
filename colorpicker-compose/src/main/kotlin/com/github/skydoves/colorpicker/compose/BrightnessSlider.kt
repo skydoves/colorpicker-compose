@@ -64,7 +64,7 @@ public fun BrightnessSlider(
     wheelImageBitmap: ImageBitmap? = null,
     wheelRadius: Dp = 30.dp,
     wheelColor: Color = Color.White,
-    wheelPaint: Paint = Paint().apply { color = wheelColor },
+    wheelPaint: Paint = Paint().apply { color = wheelColor }
 ) {
     var backgroundBitmap: ImageBitmap? = null
     var bitmapSize = IntSize(0, 0)

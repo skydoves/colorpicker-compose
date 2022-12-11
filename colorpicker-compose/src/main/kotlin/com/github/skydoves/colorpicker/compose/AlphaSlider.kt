@@ -71,7 +71,7 @@ public fun AlphaSlider(
     wheelPaint: Paint = Paint().apply { color = wheelColor },
     tileOddColor: Color = defaultTileOddColor,
     tileEvenColor: Color = defaultTileEvenColor,
-    tileSize: Dp = 30.dp,
+    tileSize: Dp = 30.dp
 ) {
     var backgroundBitmap: ImageBitmap? = null
     var bitmapSize = IntSize(0, 0)
