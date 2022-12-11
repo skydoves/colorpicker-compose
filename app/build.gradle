@@ -50,6 +50,7 @@ dependencies {
 
     implementation Dependencies.material
 
+    implementation platform(Dependencies.composeBom)
     implementation Dependencies.composeUI
     implementation Dependencies.composeMaterial
     implementation Dependencies.composeRuntime
