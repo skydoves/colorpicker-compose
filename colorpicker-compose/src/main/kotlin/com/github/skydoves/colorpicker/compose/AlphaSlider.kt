@@ -178,7 +178,7 @@ public fun AlphaSlider(
                     val position = controller.alpha.value
                     val point = (bitmapSize.width * position).coerceIn(
                         minimumValue = 0f,
-                        maximumValue = bitmapSize.width.toFloat(),
+                        maximumValue = bitmapSize.width.toFloat()
                     )
                     canvas.drawCircle(
                         Offset(x = point, y = bitmapSize.height / 2f),
