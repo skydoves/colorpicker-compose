@@ -78,7 +78,7 @@ public class ColorPickerController {
     internal var brightness: MutableState<Float> = mutableStateOf(1.0f)
 
     /** Radius to draw default wheel. */
-    internal var wheelRadius: Dp = 30.dp
+    internal var wheelRadius: Dp = 12.dp
         private set
 
     /** Paint to draw default wheel. */

@@ -29,7 +29,6 @@ import androidx.compose.ui.graphics.ImageBitmapConfig
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.unit.Dp
 
 /**
  * AlphaTileDrawable displays ARGB colors including transparency with tiles on a canvas.
@@ -39,7 +38,7 @@ import androidx.compose.ui.unit.Dp
  * @param tileEvenColor Color of the even tiles.
  */
 public class AlphaTileDrawable constructor(
-    tileSize: Dp,
+    tileSize: Float,
     tileOddColor: Color,
     tileEvenColor: Color
 ) : Drawable() {
@@ -49,11 +48,10 @@ public class AlphaTileDrawable constructor(
     )
 
     init {
-        val sizeF = tileSize.value
-        val size = sizeF.toInt()
+        val size = tileSize.toInt()
         val imageBitmap = ImageBitmap(size * 2, size * 2, ImageBitmapConfig.Argb8888)
         val canvas = Canvas(imageBitmap)
-        val rect = Rect(0f, 0f, sizeF, sizeF)
+        val rect = Rect(0f, 0f, tileSize, tileSize)
 
         val bitmapPaint = Paint().apply {
             style = PaintingStyle.Fill
@@ -62,11 +60,11 @@ public class AlphaTileDrawable constructor(
 
         bitmapPaint.color = tileOddColor
         drawTile(canvas, rect, bitmapPaint, 0f, 0f)
-        drawTile(canvas, rect, bitmapPaint, sizeF, sizeF)
+        drawTile(canvas, rect, bitmapPaint, tileSize, tileSize)
 
         bitmapPaint.color = tileEvenColor
-        drawTile(canvas, rect, bitmapPaint, 0f, sizeF)
-        drawTile(canvas, rect, bitmapPaint, sizeF, 0f)
+        drawTile(canvas, rect, bitmapPaint, 0f, tileSize)
+        drawTile(canvas, rect, bitmapPaint, tileSize, 0f)
 
         androidPaint.shader = BitmapShader(
             imageBitmap.asAndroidBitmap(),

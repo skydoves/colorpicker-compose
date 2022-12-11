@@ -38,7 +38,6 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.toSize
 import androidx.core.util.Pools
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 
@@ -156,7 +155,7 @@ public fun ImageColorPicker(
             if (wheelBitmap == null) {
                 canvas.drawCircle(
                     Offset(point.x, point.y),
-                    controller.wheelRadius.value,
+                    controller.wheelRadius.toPx(),
                     controller.wheelPaint
                 )
             } else {

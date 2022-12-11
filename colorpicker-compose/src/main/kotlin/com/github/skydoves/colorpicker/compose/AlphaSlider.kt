@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -66,13 +67,14 @@ public fun AlphaSlider(
     borderSize: Dp = 5.dp,
     borderColor: Color = Color.LightGray,
     wheelImageBitmap: ImageBitmap? = null,
-    wheelRadius: Dp = 30.dp,
+    wheelRadius: Dp = 12.dp,
     wheelColor: Color = Color.White,
     wheelPaint: Paint = Paint().apply { color = wheelColor },
     tileOddColor: Color = defaultTileOddColor,
     tileEvenColor: Color = defaultTileEvenColor,
-    tileSize: Dp = 30.dp
+    tileSize: Dp = 12.dp
 ) {
+    val density = LocalDensity.current
     var backgroundBitmap: ImageBitmap? = null
     var bitmapSize = IntSize(0, 0)
     val borderPaint: Paint = Paint().apply {
@@ -95,7 +97,11 @@ public fun AlphaSlider(
             .onSizeChanged { newSize ->
                 val size =
                     newSize.takeIf { it.width != 0 && it.height != 0 } ?: return@onSizeChanged
-                val drawable = AlphaTileDrawable(tileSize, tileOddColor, tileEvenColor)
+                val drawable = AlphaTileDrawable(
+                    with(density) { tileSize.toPx() },
+                    tileOddColor,
+                    tileEvenColor
+                )
                 backgroundBitmap
                     ?.asAndroidBitmap()
                     ?.recycle()
@@ -182,7 +188,7 @@ public fun AlphaSlider(
                     )
                     canvas.drawCircle(
                         Offset(x = point, y = bitmapSize.height / 2f),
-                        wheelRadius.value,
+                        wheelRadius.toPx(),
                         wheelPaint
                     )
                 } else {
@@ -193,7 +199,10 @@ public fun AlphaSlider(
                     )
                     canvas.drawImage(
                         wheelImageBitmap,
-                        Offset(x = point - (wheelImageBitmap.width / 2), y = bitmapSize.height / 2f - wheelImageBitmap.height / 2),
+                        Offset(
+                            x = point - (wheelImageBitmap.width / 2),
+                            y = bitmapSize.height / 2f - wheelImageBitmap.height / 2
+                        ),
                         Paint()
                     )
                 }
