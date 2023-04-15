@@ -26,6 +26,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.ImageBitmapConfig
 import androidx.compose.ui.graphics.Paint
@@ -38,6 +39,8 @@ import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 /**
  * HsvColorPicker allows you to get colors from HSV color palette by tapping on the desired color.
@@ -52,8 +55,10 @@ public fun HsvColorPicker(
     modifier: Modifier,
     controller: ColorPickerController,
     wheelImageBitmap: ImageBitmap? = null,
-    onColorChanged: ((colorEnvelope: ColorEnvelope) -> Unit)? = null
+    onColorChanged: ((colorEnvelope: ColorEnvelope) -> Unit)? = null,
+    initialColor: Color? = null,
 ) {
+    var isInit = true
     val context = LocalContext.current
     var hsvBitmapDrawable: HsvBitmapDrawable? = null
     var bitmap: ImageBitmap? = null
@@ -120,6 +125,7 @@ public fun HsvColorPicker(
 
                     // set the shader matrix to the controller.
                     controller.imageBitmapMatrix.value = shaderMatrix
+
                 }
             }
             .pointerInteropFilter { event ->
@@ -153,6 +159,32 @@ public fun HsvColorPicker(
                     Offset(point.x - wheelBitmap.width / 2, point.y - wheelBitmap.height / 2),
                     Paint()
                 )
+            }
+            val palette = controller.paletteBitmap
+            if(palette != null && initialColor != null && isInit) {
+                val x2 = palette.width * 0.5f
+                val y2 = palette.height * 0.5f
+                val pickerWidth = sqrt((x2 * x2 + y2 * y2)) / 2f
+                if(pickerWidth > 0) {
+                    isInit = false
+                    val hsv = FloatArray(3)
+                    android.graphics.Color.RGBToHSV(
+                        (initialColor.red * 255).toInt(),
+                        (initialColor.green * 255).toInt(),
+                        (initialColor.blue * 255).toInt(),
+                        hsv
+                    )
+                    val colorRadius: Float = hsv[1] * pickerWidth * 2
+                    val angle: Double = ((1 - (hsv[0] / 360f)) * (2 * Math.PI))
+                    val midX: Float = controller.canvasSize.value.width / 2f
+                    val midY: Float = controller.canvasSize.value.height / 2f
+                    val xOffset: Float =
+                        (kotlin.math.cos(angle) * colorRadius).toFloat() //offset from the midpoint of the circle
+                    val yOffset: Float = sin(angle).toFloat() * colorRadius
+                    val x = midX + xOffset
+                    val y = midY + yOffset
+                    controller.selectByCoordinate(x, y, false)
+                }
             }
         }
         controller.reviseTick.value
