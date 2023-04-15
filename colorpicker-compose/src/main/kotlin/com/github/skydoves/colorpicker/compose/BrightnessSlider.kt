@@ -14,15 +14,19 @@
  * limitations under the License.
  */
 
-package com.github.skydoves.colorpicker.compose
+package net.ddns.r34w.smarthome.colorpicker
 
-import android.util.Log
 import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
@@ -57,6 +61,7 @@ import kotlin.math.sqrt
  * @param wheelColor [Color] of th wheel.
  * @param wheelPaint [Paint] to draw the wheel.
  */
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 public fun BrightnessSlider(
     modifier: Modifier,
@@ -80,7 +85,7 @@ public fun BrightnessSlider(
     val colorPaint: Paint = Paint().apply {
         color = controller.pureSelectedColor.value
     }
-    var isInit = true
+    var isInit by remember{ mutableStateOf(true) }
 
     SideEffect {
         controller.isAttachedBrightnessSlider = true
@@ -192,8 +197,8 @@ public fun BrightnessSlider(
                     isInit=false
                     val brightness = sqrt(
                         0.299 * initialColor.red.toDouble().pow(2.0) +
-                           0.587 * initialColor.green.toDouble().pow(2.0) +
-                           0.114 * initialColor.blue.toDouble().pow(2.0)
+                                0.587 * initialColor.green.toDouble().pow(2.0) +
+                                0.114 * initialColor.blue.toDouble().pow(2.0)
                     ).toFloat()
                     controller.setBrightness(brightness, fromUser = false)
                 }

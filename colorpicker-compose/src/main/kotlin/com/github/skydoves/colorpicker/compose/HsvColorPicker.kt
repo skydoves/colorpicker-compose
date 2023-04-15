@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.skydoves.colorpicker.compose
+package net.ddns.r34w.smarthome.colorpicker
 
 import android.graphics.Matrix
 import android.graphics.RectF
@@ -23,7 +23,12 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -39,6 +44,7 @@ import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
+import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
@@ -50,6 +56,7 @@ import kotlin.math.sqrt
  * @param wheelImageBitmap [ImageBitmap] to draw the wheel.
  * @param onColorChanged Color changed listener.
  */
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 public fun HsvColorPicker(
     modifier: Modifier,
@@ -58,7 +65,7 @@ public fun HsvColorPicker(
     onColorChanged: ((colorEnvelope: ColorEnvelope) -> Unit)? = null,
     initialColor: Color? = null,
 ) {
-    var isInit = true
+    var isInit by remember{ mutableStateOf(true) }
     val context = LocalContext.current
     var hsvBitmapDrawable: HsvBitmapDrawable? = null
     var bitmap: ImageBitmap? = null
@@ -179,7 +186,7 @@ public fun HsvColorPicker(
                     val midX: Float = controller.canvasSize.value.width / 2f
                     val midY: Float = controller.canvasSize.value.height / 2f
                     val xOffset: Float =
-                        (kotlin.math.cos(angle) * colorRadius).toFloat() //offset from the midpoint of the circle
+                        (cos(angle) * colorRadius).toFloat() //offset from the midpoint of the circle
                     val yOffset: Float = sin(angle).toFloat() * colorRadius
                     val x = midX + xOffset
                     val y = midY + yOffset
