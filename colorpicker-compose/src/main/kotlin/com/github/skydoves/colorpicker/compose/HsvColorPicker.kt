@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.ddns.r34w.smarthome.colorpicker
+package com.github.skydoves.colorpicker.compose
 
 import android.graphics.Matrix
 import android.graphics.RectF
@@ -55,6 +55,7 @@ import kotlin.math.sqrt
  * @param controller Allows you to control and interacts with color pickers and all relevant subcomponents.
  * @param wheelImageBitmap [ImageBitmap] to draw the wheel.
  * @param onColorChanged Color changed listener.
+ * @param initialColor [Color] of the initial state.
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -63,9 +64,9 @@ public fun HsvColorPicker(
     controller: ColorPickerController,
     wheelImageBitmap: ImageBitmap? = null,
     onColorChanged: ((colorEnvelope: ColorEnvelope) -> Unit)? = null,
-    initialColor: Color? = null,
+    initialColor: Color? = null
 ) {
-    var isInit by remember{ mutableStateOf(true) }
+    var isInit by remember { mutableStateOf(true) }
     val context = LocalContext.current
     var hsvBitmapDrawable: HsvBitmapDrawable? = null
     var bitmap: ImageBitmap? = null
@@ -132,7 +133,6 @@ public fun HsvColorPicker(
 
                     // set the shader matrix to the controller.
                     controller.imageBitmapMatrix.value = shaderMatrix
-
                 }
             }
             .pointerInteropFilter { event ->
@@ -168,11 +168,11 @@ public fun HsvColorPicker(
                 )
             }
             val palette = controller.paletteBitmap
-            if(palette != null && initialColor != null && isInit) {
+            if (palette != null && initialColor != null && isInit) {
                 val x2 = palette.width * 0.5f
                 val y2 = palette.height * 0.5f
                 val pickerWidth = sqrt((x2 * x2 + y2 * y2)) / 2f
-                if(pickerWidth > 0) {
+                if (pickerWidth > 0) {
                     isInit = false
                     val hsv = FloatArray(3)
                     android.graphics.Color.RGBToHSV(
@@ -186,7 +186,7 @@ public fun HsvColorPicker(
                     val midX: Float = controller.canvasSize.value.width / 2f
                     val midY: Float = controller.canvasSize.value.height / 2f
                     val xOffset: Float =
-                        (cos(angle) * colorRadius).toFloat() //offset from the midpoint of the circle
+                        (cos(angle) * colorRadius).toFloat() // offset from the midpoint of the circle
                     val yOffset: Float = sin(angle).toFloat() * colorRadius
                     val x = midX + xOffset
                     val y = midY + yOffset

@@ -68,7 +68,6 @@ fun MainScreen() {
             initialColor = color
         )
 
-
         Spacer(modifier = Modifier.height(50.dp))
 
         AlphaSlider(
@@ -108,7 +107,6 @@ fun MainScreen() {
             controller = controller
         )
     }
-
 }
 
 @Composable

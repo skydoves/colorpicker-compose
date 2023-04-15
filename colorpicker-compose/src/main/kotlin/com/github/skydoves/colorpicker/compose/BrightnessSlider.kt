@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.ddns.r34w.smarthome.colorpicker
+package com.github.skydoves.colorpicker.compose
 
 import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
@@ -60,6 +60,7 @@ import kotlin.math.sqrt
  * @param wheelRadius Radius of the wheel.
  * @param wheelColor [Color] of th wheel.
  * @param wheelPaint [Paint] to draw the wheel.
+ * @param initialColor [Color] of the initial state.
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -73,7 +74,7 @@ public fun BrightnessSlider(
     wheelRadius: Dp = 12.dp,
     wheelColor: Color = Color.White,
     wheelPaint: Paint = Paint().apply { color = wheelColor },
-    initialColor: Color? = null,
+    initialColor: Color? = null
 ) {
     var backgroundBitmap: ImageBitmap? = null
     var bitmapSize = IntSize(0, 0)
@@ -85,7 +86,7 @@ public fun BrightnessSlider(
     val colorPaint: Paint = Paint().apply {
         color = controller.pureSelectedColor.value
     }
-    var isInit by remember{ mutableStateOf(true) }
+    var isInit by remember { mutableStateOf(true) }
 
     SideEffect {
         controller.isAttachedBrightnessSlider = true
@@ -193,12 +194,12 @@ public fun BrightnessSlider(
                         Paint()
                     )
                 }
-                if(initialColor != null && isInit) {
-                    isInit=false
+                if (initialColor != null && isInit) {
+                    isInit = false
                     val brightness = sqrt(
                         0.299 * initialColor.red.toDouble().pow(2.0) +
-                                0.587 * initialColor.green.toDouble().pow(2.0) +
-                                0.114 * initialColor.blue.toDouble().pow(2.0)
+                            0.587 * initialColor.green.toDouble().pow(2.0) +
+                            0.114 * initialColor.blue.toDouble().pow(2.0)
                     ).toFloat()
                     controller.setBrightness(brightness, fromUser = false)
                 }
