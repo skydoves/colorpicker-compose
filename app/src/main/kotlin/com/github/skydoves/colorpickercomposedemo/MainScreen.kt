@@ -48,6 +48,7 @@ fun MainScreen() {
     val controller = rememberColorPickerController()
     val hexCode = remember { mutableStateOf("") }
     val textColor = remember { mutableStateOf(Color.Transparent) }
+    val color = Color.White
 
     Column {
         MainToolBar()
@@ -64,7 +65,7 @@ fun MainScreen() {
             onColorChanged = {
                 Log.i("Colorpicker", it.hexCode.substring(2))
             },
-            initialColor = Color.Red
+            initialColor = color
         )
 
 
@@ -85,7 +86,8 @@ fun MainScreen() {
                 .padding(10.dp)
                 .height(35.dp)
                 .align(Alignment.CenterHorizontally),
-            controller = controller
+            controller = controller,
+            initialColor = color
         )
 
         Spacer(modifier = Modifier.height(30.dp))

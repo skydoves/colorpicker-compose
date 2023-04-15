@@ -16,6 +16,7 @@
 
 package com.github.skydoves.colorpicker.compose
 
+import android.util.Log
 import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,6 +41,8 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 /**
  * BrightnessSlider allows you to adjust the brightness value of the selected color from color pickers.
@@ -64,7 +67,8 @@ public fun BrightnessSlider(
     wheelImageBitmap: ImageBitmap? = null,
     wheelRadius: Dp = 12.dp,
     wheelColor: Color = Color.White,
-    wheelPaint: Paint = Paint().apply { color = wheelColor }
+    wheelPaint: Paint = Paint().apply { color = wheelColor },
+    initialColor: Color? = null,
 ) {
     var backgroundBitmap: ImageBitmap? = null
     var bitmapSize = IntSize(0, 0)
@@ -76,6 +80,7 @@ public fun BrightnessSlider(
     val colorPaint: Paint = Paint().apply {
         color = controller.pureSelectedColor.value
     }
+    var isInit = true
 
     SideEffect {
         controller.isAttachedBrightnessSlider = true
@@ -182,6 +187,15 @@ public fun BrightnessSlider(
                         ),
                         Paint()
                     )
+                }
+                if(initialColor != null && isInit) {
+                    isInit=false
+                    val brightness = sqrt(
+                        0.299 * initialColor.red.toDouble().pow(2.0) +
+                           0.587 * initialColor.green.toDouble().pow(2.0) +
+                           0.114 * initialColor.blue.toDouble().pow(2.0)
+                    ).toFloat()
+                    controller.setBrightness(brightness, fromUser = false)
                 }
             }
         }
