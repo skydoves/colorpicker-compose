@@ -55,7 +55,8 @@ import kotlin.math.sqrt
  * @param controller Allows you to control and interacts with color pickers and all relevant subcomponents.
  * @param wheelImageBitmap [ImageBitmap] to draw the wheel.
  * @param onColorChanged Color changed listener.
- * @param initialColor [Color] of the initial state.
+ * @param initialColor [Color] of the initial state. This property works for [HsvColorPicker] and
+ * it will be selected on center if you give null value.
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -66,7 +67,7 @@ public fun HsvColorPicker(
     onColorChanged: ((colorEnvelope: ColorEnvelope) -> Unit)? = null,
     initialColor: Color? = null
 ) {
-    var isInit by remember { mutableStateOf(true) }
+    var isInitialized by remember { mutableStateOf(false) }
     val context = LocalContext.current
     var hsvBitmapDrawable: HsvBitmapDrawable? = null
     var bitmap: ImageBitmap? = null
@@ -168,12 +169,12 @@ public fun HsvColorPicker(
                 )
             }
             val palette = controller.paletteBitmap
-            if (palette != null && initialColor != null && isInit) {
+            if (palette != null && initialColor != null && !isInitialized) {
                 val x2 = palette.width * 0.5f
                 val y2 = palette.height * 0.5f
                 val pickerWidth = sqrt((x2 * x2 + y2 * y2)) / 2f
                 if (pickerWidth > 0) {
-                    isInit = false
+                    isInitialized = true
                     val hsv = FloatArray(3)
                     android.graphics.Color.RGBToHSV(
                         (initialColor.red * 255).toInt(),

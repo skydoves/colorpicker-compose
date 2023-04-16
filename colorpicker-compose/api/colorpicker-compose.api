@@ -36,7 +36,6 @@ public final class com/github/skydoves/colorpicker/compose/ColorEnvelope {
 }
 
 public final class com/github/skydoves/colorpicker/compose/ColorPickerController {
-	public static final field $stable I
 	public fun <init> ()V
 	public final fun getSelectedColor ()Landroidx/compose/runtime/State;
 	public final fun getSelectedPoint ()Landroidx/compose/runtime/State;
