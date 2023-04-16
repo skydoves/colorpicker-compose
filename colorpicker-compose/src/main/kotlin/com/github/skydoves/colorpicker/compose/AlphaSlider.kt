@@ -17,6 +17,7 @@
 package com.github.skydoves.colorpicker.compose
 
 import android.view.MotionEvent
+import androidx.annotation.FloatRange
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -69,7 +70,11 @@ public fun AlphaSlider(
     wheelImageBitmap: ImageBitmap? = null,
     wheelRadius: Dp = 12.dp,
     wheelColor: Color = Color.White,
-    wheelPaint: Paint = Paint().apply { color = wheelColor },
+    @FloatRange(from = 0.0, to = 1.0) wheelAlpha: Float = 1.0f,
+    wheelPaint: Paint = Paint().apply {
+        color = wheelColor
+        alpha = wheelAlpha
+    },
     tileOddColor: Color = defaultTileOddColor,
     tileEvenColor: Color = defaultTileEvenColor,
     tileSize: Dp = 12.dp

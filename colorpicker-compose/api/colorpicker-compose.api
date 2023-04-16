@@ -1,5 +1,5 @@
 public final class com/github/skydoves/colorpicker/compose/AlphaSliderKt {
-	public static final fun AlphaSlider-1sSiv8M (Landroidx/compose/ui/Modifier;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;FFJLandroidx/compose/ui/graphics/ImageBitmap;FJLandroidx/compose/ui/graphics/Paint;JJFLandroidx/compose/runtime/Composer;III)V
+	public static final fun AlphaSlider-VVBY8Eo (Landroidx/compose/ui/Modifier;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;FFJLandroidx/compose/ui/graphics/ImageBitmap;FJFLandroidx/compose/ui/graphics/Paint;JJFLandroidx/compose/runtime/Composer;III)V
 }
 
 public final class com/github/skydoves/colorpicker/compose/AlphaTileDrawable : android/graphics/drawable/Drawable {
@@ -16,7 +16,7 @@ public final class com/github/skydoves/colorpicker/compose/AlphaTileKt {
 }
 
 public final class com/github/skydoves/colorpicker/compose/BrightnessSliderKt {
-	public static final fun BrightnessSlider-o2woCFE (Landroidx/compose/ui/Modifier;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;FFJLandroidx/compose/ui/graphics/ImageBitmap;FJLandroidx/compose/ui/graphics/Paint;Landroidx/compose/ui/graphics/Color;Landroidx/compose/runtime/Composer;II)V
+	public static final fun BrightnessSlider-AXzc6Sc (Landroidx/compose/ui/Modifier;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;FFJLandroidx/compose/ui/graphics/ImageBitmap;FJFLandroidx/compose/ui/graphics/Paint;Landroidx/compose/ui/graphics/Color;Landroidx/compose/runtime/Composer;III)V
 }
 
 public final class com/github/skydoves/colorpicker/compose/ColorEnvelope {
