@@ -79,7 +79,7 @@ public fun AlphaSlider(
     var bitmapSize = IntSize(0, 0)
     val borderPaint: Paint = Paint().apply {
         style = PaintingStyle.Stroke
-        strokeWidth = borderSize.value
+        strokeWidth = with(LocalDensity.current) { borderSize.toPx() }
         color = borderColor
     }
     val colorPaint: Paint = Paint().apply {
@@ -150,6 +150,7 @@ public fun AlphaSlider(
                         controller.setAlpha(position.coerceIn(0f, 1f), fromUser = true)
                         true
                     }
+
                     else -> false
                 }
             }
