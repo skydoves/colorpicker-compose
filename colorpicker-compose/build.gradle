@@ -60,7 +60,6 @@ dependencies {
     implementation platform(Dependencies.composeBom)
     implementation Dependencies.composeUI
     implementation Dependencies.composeRuntime
-    implementation Dependencies.composeMaterial
     implementation Dependencies.composeFoundation
     implementation Dependencies.composeTooling
 }

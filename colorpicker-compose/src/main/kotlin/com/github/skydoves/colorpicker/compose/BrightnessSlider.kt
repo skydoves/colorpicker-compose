@@ -19,7 +19,7 @@ package com.github.skydoves.colorpicker.compose
 import android.view.MotionEvent
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -66,7 +66,7 @@ import kotlin.math.sqrt
  */
 @Composable
 public fun BrightnessSlider(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     controller: ColorPickerController,
     borderRadius: Dp = 6.dp,
     borderSize: Dp = 5.dp,
@@ -99,7 +99,7 @@ public fun BrightnessSlider(
 
     Canvas(
         modifier = modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .clip(RoundedCornerShape(borderRadius))
             .onSizeChanged { newSize ->
                 val size =
