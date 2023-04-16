@@ -16,6 +16,7 @@
 
 package com.github.skydoves.colorpickercomposedemo
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,8 +33,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,8 +40,7 @@ import androidx.compose.ui.unit.sp
 import com.github.skydoves.colorpicker.compose.AlphaSlider
 import com.github.skydoves.colorpicker.compose.AlphaTile
 import com.github.skydoves.colorpicker.compose.BrightnessSlider
-import com.github.skydoves.colorpicker.compose.ColorEnvelope
-import com.github.skydoves.colorpicker.compose.ImageColorPicker
+import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 
 @Composable
@@ -50,6 +48,7 @@ fun MainScreen() {
     val controller = rememberColorPickerController()
     val hexCode = remember { mutableStateOf("") }
     val textColor = remember { mutableStateOf(Color.Transparent) }
+    val color = Color.White
 
     Column {
         MainToolBar()
@@ -58,17 +57,15 @@ fun MainScreen() {
 
         PhotoPickerIcon(controller)
 
-        ImageColorPicker(
+        HsvColorPicker(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(320.dp)
+                .height(200.dp)
                 .padding(10.dp),
             controller = controller,
-            paletteImageBitmap = ImageBitmap.imageResource(R.drawable.palettebar),
-            onColorChanged = { colorEnvelope: ColorEnvelope ->
-                hexCode.value = colorEnvelope.hexCode
-                textColor.value = colorEnvelope.color
-            }
+            onColorChanged = {
+                Log.i("Colorpicker", it.hexCode.substring(2))
+            },
+            initialColor = color
         )
 
         Spacer(modifier = Modifier.height(50.dp))
@@ -88,7 +85,8 @@ fun MainScreen() {
                 .padding(10.dp)
                 .height(35.dp)
                 .align(Alignment.CenterHorizontally),
-            controller = controller
+            controller = controller,
+            initialColor = color
         )
 
         Spacer(modifier = Modifier.height(30.dp))

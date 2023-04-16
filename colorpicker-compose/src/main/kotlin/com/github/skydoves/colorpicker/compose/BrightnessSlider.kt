@@ -22,6 +22,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
@@ -40,6 +45,8 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 /**
  * BrightnessSlider allows you to adjust the brightness value of the selected color from color pickers.
@@ -53,7 +60,9 @@ import androidx.compose.ui.unit.dp
  * @param wheelRadius Radius of the wheel.
  * @param wheelColor [Color] of th wheel.
  * @param wheelPaint [Paint] to draw the wheel.
+ * @param initialColor [Color] of the initial state.
  */
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 public fun BrightnessSlider(
     modifier: Modifier,
@@ -64,7 +73,8 @@ public fun BrightnessSlider(
     wheelImageBitmap: ImageBitmap? = null,
     wheelRadius: Dp = 12.dp,
     wheelColor: Color = Color.White,
-    wheelPaint: Paint = Paint().apply { color = wheelColor }
+    wheelPaint: Paint = Paint().apply { color = wheelColor },
+    initialColor: Color? = null
 ) {
     var backgroundBitmap: ImageBitmap? = null
     var bitmapSize = IntSize(0, 0)
@@ -76,6 +86,7 @@ public fun BrightnessSlider(
     val colorPaint: Paint = Paint().apply {
         color = controller.pureSelectedColor.value
     }
+    var isInit by remember { mutableStateOf(true) }
 
     SideEffect {
         controller.isAttachedBrightnessSlider = true
@@ -182,6 +193,15 @@ public fun BrightnessSlider(
                         ),
                         Paint()
                     )
+                }
+                if (initialColor != null && isInit) {
+                    isInit = false
+                    val brightness = sqrt(
+                        0.299 * initialColor.red.toDouble().pow(2.0) +
+                            0.587 * initialColor.green.toDouble().pow(2.0) +
+                            0.114 * initialColor.blue.toDouble().pow(2.0)
+                    ).toFloat()
+                    controller.setBrightness(brightness, fromUser = false)
                 }
             }
         }
