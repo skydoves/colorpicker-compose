@@ -28,7 +28,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -41,12 +40,12 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.launch
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.launch
 
 /**
  * HsvColorPicker allows you to get colors from HSV color palette by tapping on the desired color.
@@ -58,7 +57,6 @@ import kotlin.math.sqrt
  * @param initialColor [Color] of the initial state. This property works for [HsvColorPicker] and
  * it will be selected on center if you give null value.
  */
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 public fun HsvColorPicker(
     modifier: Modifier,
@@ -144,6 +142,7 @@ public fun HsvColorPicker(
                         controller.selectByCoordinate(event.x, event.y, true)
                         true
                     }
+
                     else -> false
                 }
             }

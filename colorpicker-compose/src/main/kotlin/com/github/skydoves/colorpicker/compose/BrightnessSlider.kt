@@ -26,7 +26,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
@@ -63,7 +62,6 @@ import kotlin.math.sqrt
  * @param initialColor [Color] of the initial state. This property works for [HsvColorPicker] and
  * it will be selected on center if you give null value.
  */
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 public fun BrightnessSlider(
     modifier: Modifier,
