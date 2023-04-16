@@ -25,10 +25,11 @@ Also, it supports brightness and alpha slider, which can adjust your ARGB factor
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.skydoves/colorpicker-compose.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.skydoves%22%20AND%20a:%22colorpicker-compose%22)
 
 ### Gradle
-Add the dependency below to your **module**'s `build.gradle` file:
+Add the dependency below to your **module**'s `build.gradle.kts` file:
+
 ```gradle
 dependencies {
-    implementation "com.github.skydoves:colorpicker-compose:1.0.1"
+    implementation("com.github.skydoves:colorpicker-compose:1.0.2")
 }
 ```
 
@@ -41,16 +42,18 @@ dependencies {
 Snapshots of the current development version of ColorPicker-Compose are available, which track [the latest versions](https://oss.sonatype.org/content/repositories/snapshots/com/github/skydoves/colorpicker-compose/).
 
 To import snapshot versions on your project, add the code snippet below on your gradle file:
+
 ```Gradle
 repositories {
-   maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+   maven(url="https://oss.sonatype.org/content/repositories/snapshots/")
 }
 ```
 
-Next, add the dependency below to your **module**'s `build.gradle` file:
+Next, add the dependency below to your **module**'s `build.gradle.kts` file:
+
 ```gradle
 dependencies {
-    implementation "com.github.skydoves:colorpicker-compose:1.0.2-SNAPSHOT"
+    implementation("com.github.skydoves:colorpicker-compose:1.0.3-SNAPSHOT")
 }
 ```
 
