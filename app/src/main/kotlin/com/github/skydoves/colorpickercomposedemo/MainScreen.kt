@@ -16,7 +16,6 @@
 
 package com.github.skydoves.colorpickercomposedemo
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,12 +26,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -40,15 +43,15 @@ import androidx.compose.ui.unit.sp
 import com.github.skydoves.colorpicker.compose.AlphaSlider
 import com.github.skydoves.colorpicker.compose.AlphaTile
 import com.github.skydoves.colorpicker.compose.BrightnessSlider
-import com.github.skydoves.colorpicker.compose.HsvColorPicker
+import com.github.skydoves.colorpicker.compose.ColorEnvelope
+import com.github.skydoves.colorpicker.compose.ImageColorPicker
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 
 @Composable
 fun MainScreen() {
     val controller = rememberColorPickerController()
-    val hexCode = remember { mutableStateOf("") }
-    val textColor = remember { mutableStateOf(Color.Transparent) }
-    val color = Color.White
+    var hexCode by remember { mutableStateOf("") }
+    var textColor by remember { mutableStateOf(Color.Transparent) }
 
     Column {
         MainToolBar()
@@ -57,15 +60,17 @@ fun MainScreen() {
 
         PhotoPickerIcon(controller)
 
-        HsvColorPicker(
+        ImageColorPicker(
             modifier = Modifier
-                .height(200.dp)
+                .fillMaxWidth()
+                .height(320.dp)
                 .padding(10.dp),
             controller = controller,
-            onColorChanged = {
-                Log.i("Colorpicker", it.hexCode.substring(2))
-            },
-            initialColor = color
+            paletteImageBitmap = ImageBitmap.imageResource(R.drawable.palettebar),
+            onColorChanged = { colorEnvelope: ColorEnvelope ->
+                hexCode = colorEnvelope.hexCode
+                textColor = colorEnvelope.color
+            }
         )
 
         Spacer(modifier = Modifier.height(50.dp))
@@ -85,15 +90,14 @@ fun MainScreen() {
                 .padding(10.dp)
                 .height(35.dp)
                 .align(Alignment.CenterHorizontally),
-            controller = controller,
-            initialColor = color
+            controller = controller
         )
 
         Spacer(modifier = Modifier.height(30.dp))
 
         Text(
-            text = "#${hexCode.value}",
-            color = textColor.value,
+            text = "#$hexCode",
+            color = textColor,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.align(Alignment.CenterHorizontally)
