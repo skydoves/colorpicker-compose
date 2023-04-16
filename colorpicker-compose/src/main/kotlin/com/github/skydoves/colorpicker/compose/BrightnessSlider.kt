@@ -60,7 +60,8 @@ import kotlin.math.sqrt
  * @param wheelRadius Radius of the wheel.
  * @param wheelColor [Color] of th wheel.
  * @param wheelPaint [Paint] to draw the wheel.
- * @param initialColor [Color] of the initial state.
+ * @param initialColor [Color] of the initial state. This property works for [HsvColorPicker] and
+ * it will be selected on center if you give null value.
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -86,7 +87,7 @@ public fun BrightnessSlider(
     val colorPaint: Paint = Paint().apply {
         color = controller.pureSelectedColor.value
     }
-    var isInit by remember { mutableStateOf(true) }
+    var isInitialized by remember { mutableStateOf(false) }
 
     SideEffect {
         controller.isAttachedBrightnessSlider = true
@@ -140,6 +141,7 @@ public fun BrightnessSlider(
                         controller.setBrightness(position.coerceIn(0f, 1f), fromUser = true)
                         true
                     }
+
                     else -> false
                 }
             }
@@ -194,8 +196,8 @@ public fun BrightnessSlider(
                         Paint()
                     )
                 }
-                if (initialColor != null && isInit) {
-                    isInit = false
+                if (initialColor != null && !isInitialized) {
+                    isInitialized = true
                     val brightness = sqrt(
                         0.299 * initialColor.red.toDouble().pow(2.0) +
                             0.587 * initialColor.green.toDouble().pow(2.0) +

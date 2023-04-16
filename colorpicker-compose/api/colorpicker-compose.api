@@ -16,7 +16,7 @@ public final class com/github/skydoves/colorpicker/compose/AlphaTileKt {
 }
 
 public final class com/github/skydoves/colorpicker/compose/BrightnessSliderKt {
-	public static final fun BrightnessSlider-kPGd43Y (Landroidx/compose/ui/Modifier;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;FFJLandroidx/compose/ui/graphics/ImageBitmap;FJLandroidx/compose/ui/graphics/Paint;Landroidx/compose/runtime/Composer;II)V
+	public static final fun BrightnessSlider-o2woCFE (Landroidx/compose/ui/Modifier;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;FFJLandroidx/compose/ui/graphics/ImageBitmap;FJLandroidx/compose/ui/graphics/Paint;Landroidx/compose/ui/graphics/Color;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class com/github/skydoves/colorpicker/compose/ColorEnvelope {
@@ -35,7 +35,6 @@ public final class com/github/skydoves/colorpicker/compose/ColorEnvelope {
 }
 
 public final class com/github/skydoves/colorpicker/compose/ColorPickerController {
-	public static final field $stable I
 	public fun <init> ()V
 	public final fun getSelectedColor ()Landroidx/compose/runtime/State;
 	public final fun getSelectedPoint ()Landroidx/compose/runtime/State;
@@ -57,7 +56,7 @@ public final class com/github/skydoves/colorpicker/compose/ColorPickerController
 }
 
 public final class com/github/skydoves/colorpicker/compose/HsvColorPickerKt {
-	public static final fun HsvColorPicker (Landroidx/compose/ui/Modifier;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+	public static final fun HsvColorPicker-M8YrEPQ (Landroidx/compose/ui/Modifier;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/graphics/Color;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class com/github/skydoves/colorpicker/compose/ImageColorPickerKt {
