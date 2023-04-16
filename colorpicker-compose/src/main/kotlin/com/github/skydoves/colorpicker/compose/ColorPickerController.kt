@@ -23,6 +23,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,6 +51,7 @@ public fun rememberColorPickerController(): ColorPickerController {
  * and all relevant subcomponents. You can create and remember [ColorPickerController]
  * with the [rememberColorPickerController] extension.
  */
+@Stable
 public class ColorPickerController {
 
     /** An [ImageBitmap] to be drawn on the canvas as a palette. */
