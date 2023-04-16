@@ -20,6 +20,7 @@ public final class com/github/skydoves/colorpicker/compose/BrightnessSliderKt {
 }
 
 public final class com/github/skydoves/colorpicker/compose/ColorEnvelope {
+	public static final field $stable I
 	public synthetic fun <init> (JLjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-0d7_KjU ()J
 	public final fun component2 ()Ljava/lang/String;
@@ -35,6 +36,7 @@ public final class com/github/skydoves/colorpicker/compose/ColorEnvelope {
 }
 
 public final class com/github/skydoves/colorpicker/compose/ColorPickerController {
+	public static final field $stable I
 	public fun <init> ()V
 	public final fun getSelectedColor ()Landroidx/compose/runtime/State;
 	public final fun getSelectedPoint ()Landroidx/compose/runtime/State;
