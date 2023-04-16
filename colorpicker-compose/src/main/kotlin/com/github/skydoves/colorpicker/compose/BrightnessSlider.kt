@@ -41,6 +41,7 @@ import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -79,7 +80,7 @@ public fun BrightnessSlider(
     var bitmapSize = IntSize(0, 0)
     val borderPaint: Paint = Paint().apply {
         style = PaintingStyle.Stroke
-        strokeWidth = borderSize.value
+        strokeWidth = with(LocalDensity.current) { borderSize.toPx() }
         color = borderColor
     }
     val colorPaint: Paint = Paint().apply {
