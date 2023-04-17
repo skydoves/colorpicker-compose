@@ -180,8 +180,8 @@ public fun HsvColorPicker(
                     )
                     val angle = (Math.PI / 180f) * hsv[0]
                     val saturationVector = pickerRadius * hsv[1]
-                    val x = saturationVector * cos(angle)+center.x
-                    val y = saturationVector * sin(angle)+center.y
+                    val x = saturationVector * cos(angle) + center.x
+                    val y = saturationVector * sin(angle) + center.y
                     controller.selectByCoordinate(x.toFloat(), y.toFloat(), false)
                 }
             }

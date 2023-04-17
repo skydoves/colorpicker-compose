@@ -201,7 +201,7 @@ public fun BrightnessSlider(
                 }
                 if (initialColor != null && !isInitialized) {
                     isInitialized = true
-                    val brightness = max(max(initialColor.red,initialColor.green),initialColor.blue)
+                    val brightness = max(max(initialColor.red, initialColor.green), initialColor.blue)
                     controller.setBrightness(brightness, fromUser = false)
                 }
             }
