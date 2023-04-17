@@ -45,7 +45,6 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import kotlin.math.cos
 import kotlin.math.sin
-import kotlin.math.sqrt
 
 /**
  * HsvColorPicker allows you to get colors from HSV color palette by tapping on the desired color.
@@ -169,10 +168,8 @@ public fun HsvColorPicker(
             }
             val palette = controller.paletteBitmap
             if (palette != null && initialColor != null && !isInitialized) {
-                val x2 = palette.width * 0.5f
-                val y2 = palette.height * 0.5f
-                val pickerWidth = sqrt((x2 * x2 + y2 * y2)) / 2f
-                if (pickerWidth > 0) {
+                val pickerRadius: Float = palette.width.coerceAtMost(palette.height) * 0.5f
+                if (pickerRadius > 0) {
                     isInitialized = true
                     val hsv = FloatArray(3)
                     android.graphics.Color.RGBToHSV(
@@ -181,16 +178,11 @@ public fun HsvColorPicker(
                         (initialColor.blue * 255).toInt(),
                         hsv
                     )
-                    val colorRadius: Float = hsv[1] * pickerWidth * 2
-                    val angle: Double = ((1 - (hsv[0] / 360f)) * (2 * Math.PI))
-                    val midX: Float = controller.canvasSize.value.width / 2f
-                    val midY: Float = controller.canvasSize.value.height / 2f
-                    val xOffset: Float =
-                        (cos(angle) * colorRadius).toFloat() // offset from the midpoint of the circle
-                    val yOffset: Float = sin(angle).toFloat() * colorRadius
-                    val x = midX + xOffset
-                    val y = midY + yOffset
-                    controller.selectByCoordinate(x, y, false)
+                    val angle = (Math.PI / 180f) * hsv[0]
+                    val saturationVector = pickerRadius * hsv[1]
+                    val x = saturationVector * cos(angle)+center.x
+                    val y = saturationVector * sin(angle)+center.y
+                    controller.selectByCoordinate(x.toFloat(), y.toFloat(), false)
                 }
             }
         }
