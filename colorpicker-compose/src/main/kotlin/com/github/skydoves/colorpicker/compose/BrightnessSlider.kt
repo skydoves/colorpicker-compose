@@ -46,8 +46,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import kotlin.math.pow
-import kotlin.math.sqrt
+import kotlin.math.max
 
 /**
  * BrightnessSlider allows you to adjust the brightness value of the selected color from color pickers.
@@ -202,11 +201,7 @@ public fun BrightnessSlider(
                 }
                 if (initialColor != null && !isInitialized) {
                     isInitialized = true
-                    val brightness = sqrt(
-                        0.299 * initialColor.red.toDouble().pow(2.0) +
-                            0.587 * initialColor.green.toDouble().pow(2.0) +
-                            0.114 * initialColor.blue.toDouble().pow(2.0)
-                    ).toFloat()
+                    val brightness = max(max(initialColor.red, initialColor.green), initialColor.blue)
                     controller.setBrightness(brightness, fromUser = false)
                 }
             }
