@@ -244,7 +244,11 @@ public class ColorPickerController {
         hsv[2] = brightness
         _selectedColor.value =
             Color(android.graphics.Color.HSVToColor((alpha.value * 255).toInt(), hsv))
-        notifyColorChanged(fromUser)
+        if (fromUser && debounceDuration != 0L) {
+            notifyColorChangedWithDebounce(fromUser)
+        } else {
+            notifyColorChanged(fromUser)
+        }
     }
 
     /** Return a [Color] that is applied with HSV color factors to the [color]. */
