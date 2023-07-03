@@ -178,7 +178,7 @@ public fun HsvColorPicker(
                         (initialColor.blue * 255).toInt(),
                         hsv
                     )
-                    val angle = (Math.PI / 180f) * hsv[0]
+                    val angle = (Math.PI / 180f) * hsv[0] * (-1)
                     val saturationVector = pickerRadius * hsv[1]
                     val x = saturationVector * cos(angle) + center.x
                     val y = saturationVector * sin(angle) + center.y
