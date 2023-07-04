@@ -16,9 +16,10 @@
 
 package com.github.skydoves.colorpicker.compose
 
-import android.view.MotionEvent
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -37,7 +38,7 @@ import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.input.pointer.pointerInteropFilter
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
@@ -132,31 +133,42 @@ public fun AlphaSlider(
                     }
                 bitmapSize = size
             }
-            .pointerInteropFilter { event ->
-                when (event.action) {
-                    MotionEvent.ACTION_DOWN,
-                    MotionEvent.ACTION_MOVE,
-                    MotionEvent.ACTION_UP -> {
-                        // calculate wheel position.
-                        val wheelPoint = event.x
-                        val position: Float = if (wheelImageBitmap == null) {
-                            val point = wheelPoint.coerceIn(
-                                minimumValue = 0f,
-                                maximumValue = bitmapSize.width.toFloat()
-                            )
-                            point / bitmapSize.width
-                        } else {
-                            val point = wheelPoint.coerceIn(
-                                minimumValue = 0f,
-                                maximumValue = bitmapSize.width.toFloat()
-                            )
-                            point / bitmapSize.width
-                        }
-                        controller.setAlpha(position.coerceIn(0f, 1f), fromUser = true)
-                        true
+            .pointerInput(Unit) {
+                detectHorizontalDragGestures { change, _ ->
+                    val wheelPoint = change.position.x
+                    val position: Float = if (wheelImageBitmap == null) {
+                        val point = wheelPoint.coerceIn(
+                            minimumValue = 0f,
+                            maximumValue = bitmapSize.width.toFloat()
+                        )
+                        point / bitmapSize.width
+                    } else {
+                        val point = wheelPoint.coerceIn(
+                            minimumValue = 0f,
+                            maximumValue = bitmapSize.width.toFloat()
+                        )
+                        point / bitmapSize.width
                     }
-
-                    else -> false
+                    controller.setAlpha(position.coerceIn(0f, 1f), fromUser = true)
+                }
+            }
+            .pointerInput(Unit) {
+                detectTapGestures { offset ->
+                    val wheelPoint = offset.x
+                    val position: Float = if (wheelImageBitmap == null) {
+                        val point = wheelPoint.coerceIn(
+                            minimumValue = 0f,
+                            maximumValue = bitmapSize.width.toFloat()
+                        )
+                        point / bitmapSize.width
+                    } else {
+                        val point = wheelPoint.coerceIn(
+                            minimumValue = 0f,
+                            maximumValue = bitmapSize.width.toFloat()
+                        )
+                        point / bitmapSize.width
+                    }
+                    controller.setAlpha(position.coerceIn(0f, 1f), fromUser = true)
                 }
             }
     ) {
