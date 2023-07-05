@@ -29,7 +29,7 @@ Add the dependency below to your **module**'s `build.gradle.kts` file:
 
 ```gradle
 dependencies {
-    implementation("com.github.skydoves:colorpicker-compose:1.0.2")
+    implementation("com.github.skydoves:colorpicker-compose:1.0.3")
 }
 ```
 
@@ -53,7 +53,7 @@ Next, add the dependency below to your **module**'s `build.gradle.kts` file:
 
 ```gradle
 dependencies {
-    implementation("com.github.skydoves:colorpicker-compose:1.0.3-SNAPSHOT")
+    implementation("com.github.skydoves:colorpicker-compose:1.0.4-SNAPSHOT")
 }
 ```
 
