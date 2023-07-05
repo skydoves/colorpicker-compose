@@ -18,8 +18,9 @@ package com.github.skydoves.colorpicker.compose
 
 import android.graphics.Matrix
 import android.graphics.RectF
-import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -37,7 +38,7 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.input.pointer.pointerInteropFilter
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.Dispatchers
@@ -133,16 +134,14 @@ public fun HsvColorPicker(
                     controller.imageBitmapMatrix.value = shaderMatrix
                 }
             }
-            .pointerInteropFilter { event ->
-                when (event.action) {
-                    MotionEvent.ACTION_DOWN,
-                    MotionEvent.ACTION_MOVE,
-                    MotionEvent.ACTION_UP -> {
-                        controller.selectByCoordinate(event.x, event.y, true)
-                        true
-                    }
-
-                    else -> false
+            .pointerInput(Unit) {
+                detectTapGestures { offset ->
+                    controller.selectByCoordinate(offset.x, offset.y, true)
+                }
+            }
+            .pointerInput(Unit) {
+                detectDragGestures { change, _ ->
+                    controller.selectByCoordinate(change.position.x, change.position.y, true)
                 }
             }
     ) {
