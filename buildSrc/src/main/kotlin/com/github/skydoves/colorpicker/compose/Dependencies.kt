@@ -4,17 +4,17 @@ object Versions {
     internal const val ANDROID_GRADLE_PLUGIN = "7.4.2"
     internal const val ANDROID_GRADLE_SPOTLESS = "6.7.0"
     internal const val GRADLE_NEXUS_PUBLISH_PLUGIN = "1.3.0"
-    internal const val KOTLIN = "1.8.10"
-    internal const val KOTLIN_GRADLE_DOKKA = "1.8.10"
-    internal const val KOTLIN_BINARY_VALIDATOR = "0.13.0"
-    internal const val KOTLIN_COROUTINE = "1.6.4"
+    internal const val KOTLIN = "1.8.22"
+    internal const val KOTLIN_GRADLE_DOKKA = "1.8.20"
+    internal const val KOTLIN_BINARY_VALIDATOR = "0.13.1"
+    internal const val KOTLIN_COROUTINE = "1.7.2"
 
     internal const val MATERIAL = "1.6.0"
     internal const val ANDROIDX_CORE_KTX = "1.8.0"
 
-    internal const val COMPOSE_BOM = "2023.04.00"
-    internal const val COMPOSE_COMPILER = "1.4.4"
-    internal const val COMPOSE_ACTIVITY = "1.4.0"
+    internal const val COMPOSE_BOM = "2023.06.01"
+    internal const val COMPOSE_COMPILER = "1.4.8"
+    internal const val COMPOSE_ACTIVITY = "1.7.2"
     internal const val PHOTO_PICKER = "1.0.0-alpha06"
 }
 
