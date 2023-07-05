@@ -35,7 +35,7 @@ internal object BitmapCalculator {
             bitmap,
             targetSize.width,
             targetSize.height,
-            false
+            false,
         )
     }
 

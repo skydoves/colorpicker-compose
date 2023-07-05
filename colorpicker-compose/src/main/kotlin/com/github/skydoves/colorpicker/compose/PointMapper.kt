@@ -39,7 +39,7 @@ internal object PointMapper {
     private fun approximatedPoint(
         controller: ColorPickerController,
         start: PointF,
-        end: PointF
+        end: PointF,
     ): PointF {
         if (getDistance(start, end) <= 3) return end
         val center: PointF = getCenterPoint(start, end)
@@ -75,7 +75,7 @@ internal object PointMapper {
             (
                 abs(end.x - start.x) * abs(end.x - start.x) +
                     abs(end.y - start.y) * abs(end.y - start.y)
-                ).toDouble()
+                ).toDouble(),
         ).toInt()
     }
 }

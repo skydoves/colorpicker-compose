@@ -40,11 +40,11 @@ import androidx.compose.ui.graphics.asAndroidBitmap
 public class AlphaTileDrawable constructor(
     tileSize: Float,
     tileOddColor: Color,
-    tileEvenColor: Color
+    tileEvenColor: Color,
 ) : Drawable() {
 
     private val androidPaint: android.graphics.Paint = android.graphics.Paint(
-        android.graphics.Paint.ANTI_ALIAS_FLAG
+        android.graphics.Paint.ANTI_ALIAS_FLAG,
     )
 
     init {
@@ -69,7 +69,7 @@ public class AlphaTileDrawable constructor(
         androidPaint.shader = BitmapShader(
             imageBitmap.asAndroidBitmap(),
             Shader.TileMode.REPEAT,
-            Shader.TileMode.REPEAT
+            Shader.TileMode.REPEAT,
         )
     }
 
@@ -92,7 +92,7 @@ public class AlphaTileDrawable constructor(
 
     @Deprecated(
         message = "This method will be deprecated on the future Android SDK",
-        replaceWith = ReplaceWith(expression = "getOpacity")
+        replaceWith = ReplaceWith(expression = "getOpacity"),
     )
     override fun getOpacity(): Int = PixelFormat.OPAQUE
 }

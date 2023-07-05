@@ -52,7 +52,7 @@ public fun AlphaTile(
     selectedColor: Color = Color.Transparent,
     tileOddColor: Color = defaultTileOddColor,
     tileEvenColor: Color = defaultTileEvenColor,
-    tileSize: Dp = 12.dp
+    tileSize: Dp = 12.dp,
 ) {
     val density = LocalDensity.current
     var backgroundBitmap: ImageBitmap? = null
@@ -68,7 +68,11 @@ public fun AlphaTile(
                 val size =
                     newSize.takeIf { it.width != 0 && it.height != 0 } ?: return@onSizeChanged
                 val drawable =
-                    AlphaTileDrawable(with(density) { tileSize.toPx() }, tileOddColor, tileEvenColor)
+                    AlphaTileDrawable(
+                        with(density) { tileSize.toPx() },
+                        tileOddColor,
+                        tileEvenColor,
+                    )
                 backgroundBitmap
                     ?.asAndroidBitmap()
                     ?.recycle()
@@ -79,12 +83,12 @@ public fun AlphaTile(
                             0,
                             0,
                             backgroundCanvas.nativeCanvas.width,
-                            backgroundCanvas.nativeCanvas.height
+                            backgroundCanvas.nativeCanvas.height,
                         )
                         drawable.draw(backgroundCanvas.nativeCanvas)
                     }
                 bitmapSize = size
-            }
+            },
     ) {
         drawIntoCanvas { canvas ->
             backgroundBitmap?.let {
@@ -94,7 +98,7 @@ public fun AlphaTile(
                     0f,
                     bitmapSize.width.toFloat(),
                     bitmapSize.height.toFloat(),
-                    colorPaint
+                    colorPaint,
                 )
             }
         }

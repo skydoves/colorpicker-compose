@@ -70,7 +70,7 @@ fun MainScreen() {
             onColorChanged = { colorEnvelope: ColorEnvelope ->
                 hexCode = colorEnvelope.hexCode
                 textColor = colorEnvelope.color
-            }
+            },
         )
 
         Spacer(modifier = Modifier.height(50.dp))
@@ -81,7 +81,7 @@ fun MainScreen() {
                 .padding(10.dp)
                 .height(35.dp)
                 .align(Alignment.CenterHorizontally),
-            controller = controller
+            controller = controller,
         )
 
         BrightnessSlider(
@@ -90,7 +90,7 @@ fun MainScreen() {
                 .padding(10.dp)
                 .height(35.dp)
                 .align(Alignment.CenterHorizontally),
-            controller = controller
+            controller = controller,
         )
 
         Spacer(modifier = Modifier.height(30.dp))
@@ -100,7 +100,7 @@ fun MainScreen() {
             color = textColor,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier.align(Alignment.CenterHorizontally),
         )
 
         AlphaTile(
@@ -108,7 +108,7 @@ fun MainScreen() {
                 .size(80.dp)
                 .clip(RoundedCornerShape(6.dp))
                 .align(Alignment.CenterHorizontally),
-            controller = controller
+            controller = controller,
         )
     }
 }
@@ -118,7 +118,7 @@ fun MainToolBar() {
     TopAppBar(
         elevation = 6.dp,
         backgroundColor = Color(0xFF6200EE),
-        modifier = Modifier.height(58.dp)
+        modifier = Modifier.height(58.dp),
     ) {
         Text(
             modifier = Modifier
@@ -127,7 +127,7 @@ fun MainToolBar() {
             text = stringResource(R.string.app_name),
             color = Color.White,
             fontSize = 18.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
         )
     }
 }

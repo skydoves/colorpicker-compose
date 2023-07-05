@@ -78,7 +78,7 @@ public fun AlphaSlider(
     },
     tileOddColor: Color = defaultTileOddColor,
     tileEvenColor: Color = defaultTileEvenColor,
-    tileSize: Dp = 12.dp
+    tileSize: Dp = 12.dp,
 ) {
     val density = LocalDensity.current
     var backgroundBitmap: ImageBitmap? = null
@@ -106,7 +106,7 @@ public fun AlphaSlider(
                 val drawable = AlphaTileDrawable(
                     with(density) { tileSize.toPx() },
                     tileOddColor,
-                    tileEvenColor
+                    tileEvenColor,
                 )
                 backgroundBitmap
                     ?.asAndroidBitmap()
@@ -118,7 +118,7 @@ public fun AlphaSlider(
                             0,
                             0,
                             backgroundCanvas.nativeCanvas.width,
-                            backgroundCanvas.nativeCanvas.height
+                            backgroundCanvas.nativeCanvas.height,
                         )
                         drawable.draw(backgroundCanvas.nativeCanvas)
                         backgroundCanvas.drawRoundRect(
@@ -128,7 +128,7 @@ public fun AlphaSlider(
                             bottom = size.height.toFloat(),
                             radiusX = borderRadius.value,
                             radiusY = borderRadius.value,
-                            paint = borderPaint
+                            paint = borderPaint,
                         )
                     }
                 bitmapSize = size
@@ -139,13 +139,13 @@ public fun AlphaSlider(
                     val position: Float = if (wheelImageBitmap == null) {
                         val point = wheelPoint.coerceIn(
                             minimumValue = 0f,
-                            maximumValue = bitmapSize.width.toFloat()
+                            maximumValue = bitmapSize.width.toFloat(),
                         )
                         point / bitmapSize.width
                     } else {
                         val point = wheelPoint.coerceIn(
                             minimumValue = 0f,
-                            maximumValue = bitmapSize.width.toFloat()
+                            maximumValue = bitmapSize.width.toFloat(),
                         )
                         point / bitmapSize.width
                     }
@@ -158,19 +158,19 @@ public fun AlphaSlider(
                     val position: Float = if (wheelImageBitmap == null) {
                         val point = wheelPoint.coerceIn(
                             minimumValue = 0f,
-                            maximumValue = bitmapSize.width.toFloat()
+                            maximumValue = bitmapSize.width.toFloat(),
                         )
                         point / bitmapSize.width
                     } else {
                         val point = wheelPoint.coerceIn(
                             minimumValue = 0f,
-                            maximumValue = bitmapSize.width.toFloat()
+                            maximumValue = bitmapSize.width.toFloat(),
                         )
                         point / bitmapSize.width
                     }
                     controller.setAlpha(position.coerceIn(0f, 1f), fromUser = true)
                 }
-            }
+            },
     ) {
         drawIntoCanvas { canvas ->
             backgroundBitmap?.let {
@@ -184,7 +184,7 @@ public fun AlphaSlider(
                     colors = listOf(startColor, endColor),
                     from = Offset.Zero,
                     to = Offset(bitmapSize.width.toFloat(), bitmapSize.height.toFloat()),
-                    tileMode = TileMode.Clamp
+                    tileMode = TileMode.Clamp,
                 )
                 colorPaint.shader = shader
                 canvas.drawRoundRect(
@@ -194,7 +194,7 @@ public fun AlphaSlider(
                     bottom = bitmapSize.height.toFloat(),
                     radiusX = borderRadius.value,
                     radiusY = borderRadius.value,
-                    paint = colorPaint
+                    paint = colorPaint,
                 )
 
                 // draw wheel bitmap on the canvas.
@@ -202,26 +202,26 @@ public fun AlphaSlider(
                     val position = controller.alpha.value
                     val point = (bitmapSize.width * position).coerceIn(
                         minimumValue = 0f,
-                        maximumValue = bitmapSize.width.toFloat()
+                        maximumValue = bitmapSize.width.toFloat(),
                     )
                     canvas.drawCircle(
                         Offset(x = point, y = bitmapSize.height / 2f),
                         wheelRadius.toPx(),
-                        wheelPaint
+                        wheelPaint,
                     )
                 } else {
                     val position = controller.alpha.value
                     val point = (bitmapSize.width * position).coerceIn(
                         minimumValue = 0f,
-                        maximumValue = bitmapSize.width.toFloat()
+                        maximumValue = bitmapSize.width.toFloat(),
                     )
                     canvas.drawImage(
                         wheelImageBitmap,
                         Offset(
                             x = point - (wheelImageBitmap.width / 2),
-                            y = bitmapSize.height / 2f - wheelImageBitmap.height / 2
+                            y = bitmapSize.height / 2f - wheelImageBitmap.height / 2,
                         ),
-                        Paint()
+                        Paint(),
                     )
                 }
             }

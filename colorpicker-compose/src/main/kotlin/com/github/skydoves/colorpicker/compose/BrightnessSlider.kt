@@ -79,7 +79,7 @@ public fun BrightnessSlider(
         color = wheelColor
         alpha = wheelAlpha
     },
-    initialColor: Color? = null
+    initialColor: Color? = null,
 ) {
     var backgroundBitmap: ImageBitmap? = null
     var bitmapSize = IntSize(0, 0)
@@ -117,7 +117,7 @@ public fun BrightnessSlider(
                             bottom = size.height.toFloat(),
                             radiusX = borderRadius.value,
                             radiusY = borderRadius.value,
-                            paint = borderPaint
+                            paint = borderPaint,
                         )
                     }
                 bitmapSize = size
@@ -129,13 +129,13 @@ public fun BrightnessSlider(
                     val position: Float = if (wheelImageBitmap == null) {
                         val point = wheelPoint.coerceIn(
                             minimumValue = 0f,
-                            maximumValue = bitmapSize.width.toFloat()
+                            maximumValue = bitmapSize.width.toFloat(),
                         )
                         point / bitmapSize.width
                     } else {
                         val point = wheelPoint.coerceIn(
                             minimumValue = 0f,
-                            maximumValue = bitmapSize.width.toFloat()
+                            maximumValue = bitmapSize.width.toFloat(),
                         )
                         point / bitmapSize.width
                     }
@@ -149,19 +149,19 @@ public fun BrightnessSlider(
                     val position: Float = if (wheelImageBitmap == null) {
                         val point = wheelPoint.coerceIn(
                             minimumValue = 0f,
-                            maximumValue = bitmapSize.width.toFloat()
+                            maximumValue = bitmapSize.width.toFloat(),
                         )
                         point / bitmapSize.width
                     } else {
                         val point = wheelPoint.coerceIn(
                             minimumValue = 0f,
-                            maximumValue = bitmapSize.width.toFloat()
+                            maximumValue = bitmapSize.width.toFloat(),
                         )
                         point / bitmapSize.width
                     }
                     controller.setBrightness(position.coerceIn(0f, 1f), fromUser = true)
                 }
-            }
+            },
     ) {
         drawIntoCanvas { canvas ->
             backgroundBitmap?.let {
@@ -173,7 +173,7 @@ public fun BrightnessSlider(
                     colors = listOf(Color.Black, controller.pureSelectedColor.value),
                     from = Offset.Zero,
                     to = Offset(bitmapSize.width.toFloat(), bitmapSize.height.toFloat()),
-                    tileMode = TileMode.Clamp
+                    tileMode = TileMode.Clamp,
                 )
                 colorPaint.shader = shader
                 canvas.drawRoundRect(
@@ -183,7 +183,7 @@ public fun BrightnessSlider(
                     bottom = bitmapSize.height.toFloat(),
                     radiusX = borderRadius.value,
                     radiusY = borderRadius.value,
-                    paint = colorPaint
+                    paint = colorPaint,
                 )
 
                 // draw wheel bitmap on the canvas.
@@ -191,31 +191,32 @@ public fun BrightnessSlider(
                     val position = controller.brightness.value
                     val point = (bitmapSize.width * position).coerceIn(
                         minimumValue = 0f,
-                        maximumValue = bitmapSize.width.toFloat()
+                        maximumValue = bitmapSize.width.toFloat(),
                     )
                     canvas.drawCircle(
                         Offset(x = point, y = bitmapSize.height / 2f),
                         wheelRadius.toPx(),
-                        wheelPaint
+                        wheelPaint,
                     )
                 } else {
                     val position = controller.brightness.value
                     val point = (bitmapSize.width * position).coerceIn(
                         minimumValue = 0f,
-                        maximumValue = bitmapSize.width.toFloat()
+                        maximumValue = bitmapSize.width.toFloat(),
                     )
                     canvas.drawImage(
                         wheelImageBitmap,
                         Offset(
                             x = point - (wheelImageBitmap.width / 2),
-                            y = bitmapSize.height / 2f - wheelImageBitmap.height / 2
+                            y = bitmapSize.height / 2f - wheelImageBitmap.height / 2,
                         ),
-                        Paint()
+                        Paint(),
                     )
                 }
                 if (initialColor != null && !isInitialized) {
                     isInitialized = true
-                    val brightness = max(max(initialColor.red, initialColor.green), initialColor.blue)
+                    val brightness =
+                        max(max(initialColor.red, initialColor.green), initialColor.blue)
                     controller.setBrightness(brightness, fromUser = false)
                 }
             }

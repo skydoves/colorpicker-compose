@@ -30,5 +30,5 @@ import androidx.compose.ui.graphics.Color
 public data class ColorEnvelope(
     val color: Color,
     val hexCode: String,
-    val fromUser: Boolean
+    val fromUser: Boolean,
 )

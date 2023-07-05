@@ -63,7 +63,7 @@ public fun HsvColorPicker(
     controller: ColorPickerController,
     wheelImageBitmap: ImageBitmap? = null,
     onColorChanged: ((colorEnvelope: ColorEnvelope) -> Unit)? = null,
-    initialColor: Color? = null
+    initialColor: Color? = null,
 ) {
     var isInitialized by remember { mutableStateOf(false) }
     val context = LocalContext.current
@@ -102,7 +102,7 @@ public fun HsvColorPicker(
                                 0,
                                 0,
                                 size.width,
-                                size.height
+                                size.height,
                             )
                         }
 
@@ -114,7 +114,9 @@ public fun HsvColorPicker(
                     val bitmapWidth: Int = it.asAndroidBitmap().width
                     val bitmapHeight: Int = it.asAndroidBitmap().height
 
-                    if (bitmapWidth * mDrawableRect.height() > mDrawableRect.width() * bitmapHeight) {
+                    if (bitmapWidth * mDrawableRect.height() >
+                        mDrawableRect.width() * bitmapHeight
+                    ) {
                         scale = mDrawableRect.height() / bitmapHeight.toFloat()
                         dx = (mDrawableRect.width() - bitmapWidth * scale) * 0.5f
                     } else {
@@ -127,7 +129,7 @@ public fun HsvColorPicker(
                     // post translate the matrix with the specified translation.
                     shaderMatrix.postTranslate(
                         (dx + 0.5f) + mDrawableRect.left,
-                        (dy + 0.5f) + mDrawableRect.top
+                        (dy + 0.5f) + mDrawableRect.top,
                     )
 
                     // set the shader matrix to the controller.
@@ -143,7 +145,7 @@ public fun HsvColorPicker(
                 detectDragGestures { change, _ ->
                     controller.selectByCoordinate(change.position.x, change.position.y, true)
                 }
-            }
+            },
     ) {
         drawIntoCanvas { canvas ->
             // draw hsv bitmap on the canvas.
@@ -156,13 +158,13 @@ public fun HsvColorPicker(
                 canvas.drawCircle(
                     Offset(point.x, point.y),
                     controller.wheelRadius.toPx(),
-                    controller.wheelPaint
+                    controller.wheelPaint,
                 )
             } else {
                 canvas.drawImage(
                     wheelBitmap,
                     Offset(point.x - wheelBitmap.width / 2, point.y - wheelBitmap.height / 2),
-                    Paint()
+                    Paint(),
                 )
             }
             val palette = controller.paletteBitmap
@@ -175,7 +177,7 @@ public fun HsvColorPicker(
                         (initialColor.red * 255).toInt(),
                         (initialColor.green * 255).toInt(),
                         (initialColor.blue * 255).toInt(),
-                        hsv
+                        hsv,
                     )
                     val angle = (Math.PI / 180f) * hsv[0] * (-1)
                     val saturationVector = pickerRadius * hsv[1]

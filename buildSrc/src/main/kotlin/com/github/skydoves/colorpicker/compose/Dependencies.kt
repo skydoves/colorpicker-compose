@@ -2,7 +2,7 @@ package com.github.skydoves.colorpicker.compose
 
 object Versions {
     internal const val ANDROID_GRADLE_PLUGIN = "7.4.2"
-    internal const val ANDROID_GRADLE_SPOTLESS = "6.7.0"
+    internal const val ANDROID_GRADLE_SPOTLESS = "6.19.0"
     internal const val GRADLE_NEXUS_PUBLISH_PLUGIN = "1.3.0"
     internal const val KOTLIN = "1.8.22"
     internal const val KOTLIN_GRADLE_DOKKA = "1.8.20"

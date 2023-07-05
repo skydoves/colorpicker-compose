@@ -58,7 +58,7 @@ public fun ImageColorPicker(
     paletteImageBitmap: ImageBitmap,
     wheelImageBitmap: ImageBitmap? = null,
     paletteContentScale: PaletteContentScale = PaletteContentScale.FIT,
-    onColorChanged: ((colorEnvelope: ColorEnvelope) -> Unit)? = null
+    onColorChanged: ((colorEnvelope: ColorEnvelope) -> Unit)? = null,
 ) {
     val coroutineScope = rememberCoroutineScope()
     DisposableEffect(key1 = controller) {
@@ -89,13 +89,14 @@ public fun ImageColorPicker(
                 when (event.action) {
                     MotionEvent.ACTION_DOWN,
                     MotionEvent.ACTION_MOVE,
-                    MotionEvent.ACTION_UP -> {
+                    MotionEvent.ACTION_UP,
+                    -> {
                         controller.selectByCoordinate(event.x, event.y, true)
                         true
                     }
                     else -> false
                 }
-            }
+            },
     ) {
         drawIntoCanvas { canvas ->
             // draw image bitmap on the canvas.
@@ -134,7 +135,7 @@ public fun ImageColorPicker(
                 // post translate the matrix with the specified translation.
                 shaderMatrix.postTranslate(
                     (dx + 0.5f) + mDrawableRect.left,
-                    (dy + 0.5f) + mDrawableRect.top
+                    (dy + 0.5f) + mDrawableRect.top,
                 )
                 // apply the scaled matrix to the shader.
                 shader.setLocalMatrix(shaderMatrix)
@@ -156,13 +157,13 @@ public fun ImageColorPicker(
                 canvas.drawCircle(
                     Offset(point.x, point.y),
                     controller.wheelRadius.toPx(),
-                    controller.wheelPaint
+                    controller.wheelPaint,
                 )
             } else {
                 canvas.drawImage(
                     wheelBitmap,
                     Offset(point.x - wheelBitmap.width / 2, point.y - wheelBitmap.height / 2),
-                    Paint()
+                    Paint(),
                 )
             }
         }

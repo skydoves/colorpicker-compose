@@ -37,7 +37,7 @@ import kotlin.math.min
  */
 internal class HsvBitmapDrawable constructor(
     resources: Resources,
-    bitmap: Bitmap
+    bitmap: Bitmap,
 ) : BitmapDrawable(resources, bitmap) {
 
     private val huePaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -60,9 +60,9 @@ internal class HsvBitmapDrawable constructor(
                 Color.CYAN,
                 Color.GREEN,
                 Color.YELLOW,
-                Color.RED
+                Color.RED,
             ),
-            floatArrayOf(0.000f, 0.166f, 0.333f, 0.499f, 0.666f, 0.833f, 0.999f)
+            floatArrayOf(0.000f, 0.166f, 0.333f, 0.499f, 0.666f, 0.833f, 0.999f),
         )
         huePaint.shader = sweepShader
 
@@ -72,7 +72,7 @@ internal class HsvBitmapDrawable constructor(
             radius,
             Color.WHITE,
             0x00FFFFFF,
-            Shader.TileMode.CLAMP
+            Shader.TileMode.CLAMP,
         )
         saturationPaint.shader = saturationShader
 
@@ -90,7 +90,7 @@ internal class HsvBitmapDrawable constructor(
 
     @Deprecated(
         message = "This method will be deprecated on the future Android SDK",
-        replaceWith = ReplaceWith(expression = "getOpacity")
+        replaceWith = ReplaceWith(expression = "getOpacity"),
     )
     override fun getOpacity(): Int {
         return PixelFormat.OPAQUE

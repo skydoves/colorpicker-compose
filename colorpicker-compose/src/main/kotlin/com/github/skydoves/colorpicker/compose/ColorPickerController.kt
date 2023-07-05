@@ -119,7 +119,9 @@ public class ColorPickerController {
     /** Set an [ImageBitmap] to draw on the canvas as a palette. */
     public fun setPaletteImageBitmap(imageBitmap: ImageBitmap) {
         val targetSize = canvasSize.value.takeIf { it.width != 0 && it.height != 0 }
-            ?: throw IllegalAccessException("Can't set an ImageBitmap before initializing the canvas")
+            ?: throw IllegalAccessException(
+                "Can't set an ImageBitmap before initializing the canvas",
+            )
         val copiedBitmap =
             imageBitmap.asAndroidBitmap().copy(Bitmap.Config.ARGB_8888, false)
         val resized = when (paletteContentScale) {
@@ -322,7 +324,7 @@ public class ColorPickerController {
                 (
                     atan2(
                         y2.toDouble(),
-                        -x2.toDouble()
+                        -x2.toDouble(),
                     ) / Math.PI * 180f
                     ).toFloat() + 180
                 ).also { hsv[0] = it }

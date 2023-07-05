@@ -41,7 +41,7 @@ import com.google.modernstorage.photopicker.PhotoPicker
 @Composable
 @SuppressLint("UnsafeOptInUsageError")
 fun ColumnScope.PhotoPickerIcon(
-    controller: ColorPickerController
+    controller: ColorPickerController,
 ) {
     val context = LocalContext.current
     val photoPicker =
@@ -60,7 +60,7 @@ fun ColumnScope.PhotoPickerIcon(
     Box(
         modifier = Modifier
             .padding(horizontal = 16.dp)
-            .align(Alignment.End)
+            .align(Alignment.End),
     ) {
         Image(
             modifier = Modifier
@@ -70,7 +70,7 @@ fun ColumnScope.PhotoPickerIcon(
                     photoPicker.launch(PhotoPicker.Args(PhotoPicker.Type.IMAGES_ONLY, 1))
                 },
             imageVector = ImageVector.vectorResource(R.drawable.ic_gallery),
-            contentDescription = null
+            contentDescription = null,
         )
     }
 }
