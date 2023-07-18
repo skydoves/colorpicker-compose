@@ -16,6 +16,7 @@
 
 package com.github.skydoves.colorpickercomposedemo
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
@@ -26,11 +27,13 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.materialIcon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -45,9 +48,9 @@ import androidx.navigation.compose.rememberNavController
 import com.github.skydoves.colorpickercomposedemo.screens.HsvColorPickerColoredSelectorScreen
 import com.github.skydoves.colorpickercomposedemo.screens.ImageColorPickerScreen
 
-sealed class Screen(val route: String, val name: String) {
-    object ImageColorPicker : Screen("image_picker", "Image")
-    object HsvPicker : Screen("hsv_picker", "HSV")
+sealed class Screen(val route: String, val name: String, @DrawableRes val drawable: Int) {
+    object ImageColorPicker : Screen("image_picker", "Image", R.drawable.image_24px)
+    object HsvPicker : Screen("hsv_picker", "HSV", R.drawable.palette_24px)
 }
 
 val navigationItems = listOf(
@@ -103,7 +106,7 @@ fun BottomBar(navController: NavController) {
         val currentDestination = navBackStackEntry?.destination
         navigationItems.forEach { screen ->
             BottomNavigationItem(
-                icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
+                icon = { Icon(painterResource(id = screen.drawable), contentDescription = null) },
                 label = { Text(screen.name) },
                 selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                 onClick = {
