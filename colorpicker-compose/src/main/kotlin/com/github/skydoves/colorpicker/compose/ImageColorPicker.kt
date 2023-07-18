@@ -17,7 +17,6 @@
 package com.github.skydoves.colorpicker.compose
 
 import android.graphics.Matrix
-import android.graphics.PointF
 import android.graphics.RectF
 import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
@@ -61,7 +60,7 @@ public fun ImageColorPicker(
     controller: ColorPickerController,
     paletteImageBitmap: ImageBitmap,
     wheelImageBitmap: ImageBitmap? = null,
-    drawOnPosSelected: (DrawScope.(selectedPos: PointF) -> Unit)? = null,
+    drawOnPosSelected: (DrawScope.() -> Unit)? = null,
     drawThumbIndicator: Boolean = wheelImageBitmap == null && drawOnPosSelected == null,
     paletteContentScale: PaletteContentScale = PaletteContentScale.FIT,
     onColorChanged: ((colorEnvelope: ColorEnvelope) -> Unit)? = null,
@@ -176,7 +175,7 @@ public fun ImageColorPicker(
             }
 
             if (drawOnPosSelected != null) {
-                this.drawOnPosSelected(controller.selectedPoint.value)
+                this.drawOnPosSelected()
             }
         }
         controller.reviseTick.value

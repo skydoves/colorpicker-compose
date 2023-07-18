@@ -17,7 +17,6 @@
 package com.github.skydoves.colorpicker.compose
 
 import android.graphics.Matrix
-import android.graphics.PointF
 import android.graphics.RectF
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -66,7 +65,7 @@ public fun HsvColorPicker(
     modifier: Modifier,
     controller: ColorPickerController,
     wheelImageBitmap: ImageBitmap? = null,
-    drawOnPosSelected: (DrawScope.(selectedPos: PointF) -> Unit)? = null,
+    drawOnPosSelected: (DrawScope.() -> Unit)? = null,
     drawThumbIndicator: Boolean = wheelImageBitmap == null && drawOnPosSelected == null,
     onColorChanged: ((colorEnvelope: ColorEnvelope) -> Unit)? = null,
     initialColor: Color? = null,
@@ -177,7 +176,7 @@ public fun HsvColorPicker(
             }
 
             if (drawOnPosSelected != null) {
-                this.drawOnPosSelected(controller.selectedPoint.value)
+                this.drawOnPosSelected()
             }
 
             val palette = controller.paletteBitmap

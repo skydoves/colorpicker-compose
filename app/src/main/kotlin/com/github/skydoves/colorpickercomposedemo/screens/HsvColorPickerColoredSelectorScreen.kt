@@ -60,8 +60,11 @@ fun HsvColorPickerColoredSelectorScreen() {
                 modifier = Modifier
                     .padding(10.dp),
                 controller = controller,
-                drawOnPosSelected = { pos ->
-                    drawColorIndicator(pos, controller.selectedColor.value)
+                drawOnPosSelected = {
+                    drawColorIndicator(
+                        controller.selectedPoint.value,
+                        controller.selectedColor.value,
+                    )
                 },
                 onColorChanged = { colorEnvelope ->
                     hexCode = colorEnvelope.hexCode
