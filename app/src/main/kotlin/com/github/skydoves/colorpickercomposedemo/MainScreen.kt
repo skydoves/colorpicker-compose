@@ -42,8 +42,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.github.skydoves.colorpickercomposedemo.screens.ImageColorPickerScreen
 import com.github.skydoves.colorpickercomposedemo.screens.HsvColorPickerColoredSelectorScreen
+import com.github.skydoves.colorpickercomposedemo.screens.ImageColorPickerScreen
 
 sealed class Screen(val route: String, val name: String) {
     object ImageColorPicker : Screen("image_picker", "Image")
@@ -54,14 +54,19 @@ val navigationItems = listOf(
     Screen.ImageColorPicker,
     Screen.HsvPicker,
 )
+
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { BottomBar(navController) },
-        topBar = { MainToolBar() }
+        topBar = { MainToolBar() },
     ) { innerPadding ->
-        NavHost(navController, startDestination = Screen.ImageColorPicker.route, Modifier.padding(innerPadding)) {
+        NavHost(
+            navController,
+            startDestination = Screen.ImageColorPicker.route,
+            Modifier.padding(innerPadding),
+        ) {
             composable(Screen.ImageColorPicker.route) {
                 ImageColorPickerScreen()
             }
@@ -115,7 +120,7 @@ fun BottomBar(navController: NavController) {
                         // Restore state when reselecting a previously selected item
                         restoreState = true
                     }
-                }
+                },
             )
         }
     }
