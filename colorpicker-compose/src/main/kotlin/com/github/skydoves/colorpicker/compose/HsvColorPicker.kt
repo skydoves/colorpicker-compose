@@ -17,6 +17,7 @@
 package com.github.skydoves.colorpicker.compose
 
 import android.graphics.Matrix
+import android.graphics.PointF
 import android.graphics.RectF
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -36,6 +37,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.ImageBitmapConfig
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.input.pointer.pointerInput
@@ -53,6 +55,8 @@ import kotlin.math.sin
  * @param modifier [Modifier] to decorate the internal Canvas.
  * @param controller Allows you to control and interacts with color pickers and all relevant subcomponents.
  * @param wheelImageBitmap [ImageBitmap] to draw the wheel.
+ * @param drawOnPosSelected to draw anything on the canvas when [ColorPickerController.selectedPoint] changes
+ * @param drawThumbIndicator should the indicator be drawn on the canvas. Defaults to false if either [wheelImageBitmap] or [drawOnPosSelected] are not null.
  * @param onColorChanged Color changed listener.
  * @param initialColor [Color] of the initial state. This property works for [HsvColorPicker] and
  * it will be selected on center if you give null value.
@@ -62,6 +66,8 @@ public fun HsvColorPicker(
     modifier: Modifier,
     controller: ColorPickerController,
     wheelImageBitmap: ImageBitmap? = null,
+    drawOnPosSelected: (DrawScope.(selectedPos: PointF) -> Unit)? = null,
+    drawThumbIndicator: Boolean = wheelImageBitmap == null && drawOnPosSelected == null,
     onColorChanged: ((colorEnvelope: ColorEnvelope) -> Unit)? = null,
     initialColor: Color? = null,
 ) {
@@ -154,19 +160,26 @@ public fun HsvColorPicker(
             // draw wheel bitmap on the canvas.
             val point = controller.selectedPoint.value
             val wheelBitmap = controller.wheelBitmap
-            if (wheelBitmap == null) {
-                canvas.drawCircle(
-                    Offset(point.x, point.y),
-                    controller.wheelRadius.toPx(),
-                    controller.wheelPaint,
-                )
-            } else {
+            if (wheelBitmap != null) {
                 canvas.drawImage(
                     wheelBitmap,
                     Offset(point.x - wheelBitmap.width / 2, point.y - wheelBitmap.height / 2),
                     Paint(),
                 )
             }
+
+            if (drawThumbIndicator) {
+                canvas.drawCircle(
+                    Offset(point.x, point.y),
+                    controller.wheelRadius.toPx(),
+                    controller.wheelPaint,
+                )
+            }
+
+            if (drawOnPosSelected != null) {
+                this.drawOnPosSelected(controller.selectedPoint.value)
+            }
+
             val palette = controller.paletteBitmap
             if (palette != null && initialColor != null && !isInitialized) {
                 val pickerRadius: Float = palette.width.coerceAtMost(palette.height) * 0.5f

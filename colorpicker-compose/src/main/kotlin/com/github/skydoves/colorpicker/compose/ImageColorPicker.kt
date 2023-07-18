@@ -17,6 +17,7 @@
 package com.github.skydoves.colorpicker.compose
 
 import android.graphics.Matrix
+import android.graphics.PointF
 import android.graphics.RectF
 import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
@@ -32,6 +33,7 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.onSizeChanged
@@ -48,6 +50,8 @@ import kotlinx.coroutines.launch
  * @param controller Allows you to control and interacts with color pickers and all relevant subcomponents.
  * @param paletteImageBitmap [ImageBitmap] to draw the palette.
  * @param wheelImageBitmap [ImageBitmap] to draw the wheel.
+ * @param drawOnPosSelected to draw anything on the canvas when [ColorPickerController.selectedPoint] changes
+ * @param drawThumbIndicator should the indicator be drawn on the canvas. Defaults to false if either [wheelImageBitmap] or [drawOnPosSelected] are not null.
  * @param paletteContentScale Represents a rule to apply to scale a source rectangle to be inscribed into a destination.
  * @param onColorChanged Color changed listener.
  */
@@ -57,6 +61,8 @@ public fun ImageColorPicker(
     controller: ColorPickerController,
     paletteImageBitmap: ImageBitmap,
     wheelImageBitmap: ImageBitmap? = null,
+    drawOnPosSelected: (DrawScope.(selectedPos: PointF) -> Unit)? = null,
+    drawThumbIndicator: Boolean = wheelImageBitmap == null && drawOnPosSelected == null,
     paletteContentScale: PaletteContentScale = PaletteContentScale.FIT,
     onColorChanged: ((colorEnvelope: ColorEnvelope) -> Unit)? = null,
 ) {
@@ -153,18 +159,24 @@ public fun ImageColorPicker(
             // draw wheel bitmap on the canvas.
             val point = controller.selectedPoint.value
             val wheelBitmap = controller.wheelBitmap
-            if (wheelBitmap == null) {
-                canvas.drawCircle(
-                    Offset(point.x, point.y),
-                    controller.wheelRadius.toPx(),
-                    controller.wheelPaint,
-                )
-            } else {
+            if (wheelBitmap != null) {
                 canvas.drawImage(
                     wheelBitmap,
                     Offset(point.x - wheelBitmap.width / 2, point.y - wheelBitmap.height / 2),
                     Paint(),
                 )
+            }
+
+            if (drawThumbIndicator) {
+                canvas.drawCircle(
+                    Offset(point.x, point.y),
+                    controller.wheelRadius.toPx(),
+                    controller.wheelPaint,
+                )
+            }
+
+            if (drawOnPosSelected != null) {
+                this.drawOnPosSelected(controller.selectedPoint.value)
             }
         }
         controller.reviseTick.value
