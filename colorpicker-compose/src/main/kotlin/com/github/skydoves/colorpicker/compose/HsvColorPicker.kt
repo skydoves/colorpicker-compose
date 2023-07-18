@@ -55,7 +55,7 @@ import kotlin.math.sin
  * @param controller Allows you to control and interacts with color pickers and all relevant subcomponents.
  * @param wheelImageBitmap [ImageBitmap] to draw the wheel.
  * @param drawOnPosSelected to draw anything on the canvas when [ColorPickerController.selectedPoint] changes
- * @param drawThumbIndicator should the indicator be drawn on the canvas. Defaults to false if either [wheelImageBitmap] or [drawOnPosSelected] are not null.
+ * @param drawDefaultWheelIndicator should the indicator be drawn on the canvas. Defaults to false if either [wheelImageBitmap] or [drawOnPosSelected] are not null.
  * @param onColorChanged Color changed listener.
  * @param initialColor [Color] of the initial state. This property works for [HsvColorPicker] and
  * it will be selected on center if you give null value.
@@ -66,7 +66,7 @@ public fun HsvColorPicker(
     controller: ColorPickerController,
     wheelImageBitmap: ImageBitmap? = null,
     drawOnPosSelected: (DrawScope.() -> Unit)? = null,
-    drawThumbIndicator: Boolean = wheelImageBitmap == null && drawOnPosSelected == null,
+    drawDefaultWheelIndicator: Boolean = wheelImageBitmap == null && drawOnPosSelected == null,
     onColorChanged: ((colorEnvelope: ColorEnvelope) -> Unit)? = null,
     initialColor: Color? = null,
 ) {
@@ -167,7 +167,7 @@ public fun HsvColorPicker(
                 )
             }
 
-            if (drawThumbIndicator) {
+            if (drawDefaultWheelIndicator) {
                 canvas.drawCircle(
                     Offset(point.x, point.y),
                     controller.wheelRadius.toPx(),
