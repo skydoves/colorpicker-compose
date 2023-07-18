@@ -56,6 +56,7 @@ dependencies {
     implementation Dependencies.composeRuntime
     implementation Dependencies.composeTooling
     implementation Dependencies.composeActivity
+    implementation Dependencies.composeNavigation
 
     implementation Dependencies.photoPicker
 }

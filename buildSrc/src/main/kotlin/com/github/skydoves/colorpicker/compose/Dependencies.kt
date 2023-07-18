@@ -15,6 +15,7 @@ object Versions {
     internal const val COMPOSE_BOM = "2023.06.01"
     internal const val COMPOSE_COMPILER = "1.4.8"
     internal const val COMPOSE_ACTIVITY = "1.7.2"
+    internal const val COMPOSE_NAVIGATION = "2.6.0"
     internal const val PHOTO_PICKER = "1.0.0-alpha06"
 }
 
@@ -42,6 +43,7 @@ object Dependencies {
     const val composeFoundation = "androidx.compose.foundation:foundation"
     const val composeTooling = "androidx.compose.ui:ui-tooling"
     const val composeActivity = "androidx.activity:activity-compose:${Versions.COMPOSE_ACTIVITY}"
+    const val composeNavigation = "androidx.navigation:navigation-compose:${Versions.COMPOSE_NAVIGATION}"
     const val photoPicker =
         "com.google.modernstorage:modernstorage-photopicker:${Versions.PHOTO_PICKER}"
 }
