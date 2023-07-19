@@ -16,100 +16,64 @@
 
 package com.github.skydoves.colorpickercomposedemo
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.github.skydoves.colorpicker.compose.AlphaSlider
-import com.github.skydoves.colorpicker.compose.AlphaTile
-import com.github.skydoves.colorpicker.compose.BrightnessSlider
-import com.github.skydoves.colorpicker.compose.ColorEnvelope
-import com.github.skydoves.colorpicker.compose.ImageColorPicker
-import com.github.skydoves.colorpicker.compose.rememberColorPickerController
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.github.skydoves.colorpickercomposedemo.screens.HsvColorPickerColoredSelectorScreen
+import com.github.skydoves.colorpickercomposedemo.screens.ImageColorPickerScreen
+
+sealed class Screen(val route: String, val name: String, @DrawableRes val drawable: Int) {
+    object ImageColorPicker : Screen("image_picker", "Image", R.drawable.image_24px)
+    object HsvPicker : Screen("hsv_picker", "HSV", R.drawable.palette_24px)
+}
+
+val navigationItems = listOf(
+    Screen.ImageColorPicker,
+    Screen.HsvPicker,
+)
 
 @Composable
 fun MainScreen() {
-    val controller = rememberColorPickerController()
-    var hexCode by remember { mutableStateOf("") }
-    var textColor by remember { mutableStateOf(Color.Transparent) }
-
-    Column {
-        MainToolBar()
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        PhotoPickerIcon(controller)
-
-        ImageColorPicker(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(320.dp)
-                .padding(10.dp),
-            controller = controller,
-            paletteImageBitmap = ImageBitmap.imageResource(R.drawable.palettebar),
-            onColorChanged = { colorEnvelope: ColorEnvelope ->
-                hexCode = colorEnvelope.hexCode
-                textColor = colorEnvelope.color
-            },
-        )
-
-        Spacer(modifier = Modifier.height(50.dp))
-
-        AlphaSlider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-                .height(35.dp)
-                .align(Alignment.CenterHorizontally),
-            controller = controller,
-        )
-
-        BrightnessSlider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-                .height(35.dp)
-                .align(Alignment.CenterHorizontally),
-            controller = controller,
-        )
-
-        Spacer(modifier = Modifier.height(30.dp))
-
-        Text(
-            text = "#$hexCode",
-            color = textColor,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-        )
-
-        AlphaTile(
-            modifier = Modifier
-                .size(80.dp)
-                .clip(RoundedCornerShape(6.dp))
-                .align(Alignment.CenterHorizontally),
-            controller = controller,
-        )
+    val navController = rememberNavController()
+    Scaffold(
+        bottomBar = { BottomBar(navController) },
+        topBar = { MainToolBar() },
+    ) { innerPadding ->
+        NavHost(
+            navController,
+            startDestination = Screen.ImageColorPicker.route,
+            Modifier.padding(innerPadding),
+        ) {
+            composable(Screen.ImageColorPicker.route) {
+                ImageColorPickerScreen()
+            }
+            composable(Screen.HsvPicker.route) {
+                HsvColorPickerColoredSelectorScreen()
+            }
+        }
     }
 }
 
@@ -129,5 +93,35 @@ fun MainToolBar() {
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
         )
+    }
+}
+
+@Composable
+fun BottomBar(navController: NavController) {
+    BottomNavigation {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentDestination = navBackStackEntry?.destination
+        navigationItems.forEach { screen ->
+            BottomNavigationItem(
+                icon = { Icon(painterResource(id = screen.drawable), contentDescription = null) },
+                label = { Text(screen.name) },
+                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                onClick = {
+                    navController.navigate(screen.route) {
+                        // Pop up to the start destination of the graph to
+                        // avoid building up a large stack of destinations
+                        // on the back stack as users select items
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        // Avoid multiple copies of the same destination when
+                        // reselecting the same item
+                        launchSingleTop = true
+                        // Restore state when reselecting a previously selected item
+                        restoreState = true
+                    }
+                },
+            )
+        }
     }
 }
