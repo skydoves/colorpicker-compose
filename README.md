@@ -148,6 +148,8 @@ HsvColorPicker(
 )
 ```
 
+To initialize the color picker with a specific color, pass the color to the `initialColor` argument. Initial color is white by default.
+
 > **Note**: If you use `HsvColorPicker`, you can not set the palette and content scale with the `setPaletteImageBitmap` and `setPaletteContentScale` functions.
 
 ### ColorEnvelope
