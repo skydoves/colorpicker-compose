@@ -24,6 +24,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
@@ -60,6 +64,8 @@ import androidx.compose.ui.unit.dp
  * @param tileOddColor Color of the odd tiles.
  * @param tileEvenColor Color of the even tiles.
  * @param tileSize DP size of tiles.
+ * @param initialColor [Color] of the initial state. This property works for [HsvColorPicker] and
+ * it will be selected on rightmost of slider if you give null value.
  */
 @Composable
 public fun AlphaSlider(
@@ -79,6 +85,7 @@ public fun AlphaSlider(
     tileOddColor: Color = defaultTileOddColor,
     tileEvenColor: Color = defaultTileEvenColor,
     tileSize: Dp = 12.dp,
+    initialColor: Color? = null,
 ) {
     val density = LocalDensity.current
     var backgroundBitmap: ImageBitmap? = null
@@ -91,6 +98,7 @@ public fun AlphaSlider(
     val colorPaint: Paint = Paint().apply {
         color = controller.pureSelectedColor.value
     }
+    var isInitialized by remember { mutableStateOf(false) }
 
     SideEffect {
         controller.isAttachedAlphaSlider = true
@@ -224,6 +232,10 @@ public fun AlphaSlider(
                         Paint(),
                     )
                 }
+            }
+            if (initialColor != null && !isInitialized) {
+                isInitialized = true
+                controller.setAlpha(alpha = initialColor.alpha, fromUser = false)
             }
         }
     }
