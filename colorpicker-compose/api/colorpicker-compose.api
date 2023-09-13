@@ -1,5 +1,5 @@
 public final class com/github/skydoves/colorpicker/compose/AlphaSliderKt {
-	public static final fun AlphaSlider-VVBY8Eo (Landroidx/compose/ui/Modifier;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;FFJLandroidx/compose/ui/graphics/ImageBitmap;FJFLandroidx/compose/ui/graphics/Paint;JJFLandroidx/compose/runtime/Composer;III)V
+	public static final fun AlphaSlider-I89wPZw (Landroidx/compose/ui/Modifier;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;FFJLandroidx/compose/ui/graphics/ImageBitmap;FJFLandroidx/compose/ui/graphics/Paint;JJFLandroidx/compose/ui/graphics/Color;Landroidx/compose/runtime/Composer;III)V
 }
 
 public final class com/github/skydoves/colorpicker/compose/AlphaTileDrawable : android/graphics/drawable/Drawable {
