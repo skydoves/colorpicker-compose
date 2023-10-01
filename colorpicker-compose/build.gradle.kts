@@ -65,6 +65,12 @@ tasks.withType(JavaCompile::class.java).configureEach {
   this.sourceCompatibility = libs.versions.jvmTarget.get()
 }
 
+baselineProfile {
+  filter {
+    include("com.github.skydoves.colorpicker.compose.**")
+  }
+}
+
 dependencies {
   implementation(libs.androidx.core)
 
@@ -73,4 +79,6 @@ dependencies {
   implementation(libs.androidx.compose.ui.tooling)
   implementation(libs.androidx.compose.runtime)
   implementation(libs.androidx.compose.foundation)
+
+  baselineProfile(project(":benchmark"))
 }

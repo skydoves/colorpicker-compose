@@ -78,8 +78,6 @@ fun ImageColorPickerScreen() {
         .padding(10.dp)
         .height(35.dp)
         .align(Alignment.CenterHorizontally),
-      borderColor = Color.Yellow,
-      borderSize = 10.dp,
       controller = controller,
     )
 
@@ -89,8 +87,6 @@ fun ImageColorPickerScreen() {
         .padding(10.dp)
         .height(35.dp)
         .align(Alignment.CenterHorizontally),
-      borderColor = Color.Yellow,
-      borderSize = 10.dp,
       controller = controller,
     )
 

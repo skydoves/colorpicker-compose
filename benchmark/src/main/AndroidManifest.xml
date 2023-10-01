@@ -14,7 +14,4 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<resources>
-
-    <style name="Theme.ColorPickerComposeDemo" parent="android:Theme.Material.Light.NoActionBar" />
-</resources>
+<manifest />

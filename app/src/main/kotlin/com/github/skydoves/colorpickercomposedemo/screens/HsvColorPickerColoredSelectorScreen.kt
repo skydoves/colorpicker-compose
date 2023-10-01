@@ -30,9 +30,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,12 +50,13 @@ import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 
 @Preview
 @Composable
+@ExperimentalComposeUiApi
 fun HsvColorPickerColoredSelectorScreen() {
   val controller = rememberColorPickerController()
   var hexCode by remember { mutableStateOf("") }
   var textColor by remember { mutableStateOf(Color.Transparent) }
 
-  Column {
+  Column(modifier = Modifier.semantics { testTagsAsResourceId = true }) {
     Spacer(modifier = Modifier.weight(1f))
 
     Box(modifier = Modifier.weight(8f)) {
@@ -77,6 +82,7 @@ fun HsvColorPickerColoredSelectorScreen() {
 
     AlphaSlider(
       modifier = Modifier
+        .testTag("HSV_AlphaSlider")
         .fillMaxWidth()
         .padding(10.dp)
         .height(35.dp)
