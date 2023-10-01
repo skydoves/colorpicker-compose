@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "ColorPickerComposeDemo"
 include(":app")
 include(":colorpicker-compose")
+include(":benchmark")

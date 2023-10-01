@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:OptIn(ExperimentalComposeUiApi::class)
+
 package com.github.skydoves.colorpicker.compose
 
 import android.graphics.Matrix
@@ -22,6 +24,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.toRect
@@ -98,6 +101,7 @@ public fun ImageColorPicker(
             controller.selectByCoordinate(event.x, event.y, true)
             true
           }
+
           else -> false
         }
       },

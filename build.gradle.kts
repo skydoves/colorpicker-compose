@@ -9,6 +9,7 @@ plugins {
   alias(libs.plugins.spotless)
   alias(libs.plugins.dokka)
   alias(libs.plugins.kotlin.binary.compatibility)
+  alias(libs.plugins.android.test) apply false
 }
 
 subprojects {

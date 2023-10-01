@@ -45,8 +45,8 @@ import com.github.skydoves.colorpickercomposedemo.screens.HsvColorPickerColoredS
 import com.github.skydoves.colorpickercomposedemo.screens.ImageColorPickerScreen
 
 sealed class Screen(val route: String, val name: String, @DrawableRes val drawable: Int) {
-  object ImageColorPicker : Screen("image_picker", "Image", R.drawable.image_24px)
-  object HsvPicker : Screen("hsv_picker", "HSV", R.drawable.palette_24px)
+  data object ImageColorPicker : Screen("image_picker", "Image", R.drawable.image_24px)
+  data object HsvPicker : Screen("hsv_picker", "HSV", R.drawable.palette_24px)
 }
 
 val navigationItems = listOf(

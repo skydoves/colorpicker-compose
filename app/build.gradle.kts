@@ -38,6 +38,14 @@ android {
   lint {
     abortOnError = false
   }
+  buildTypes {
+    create("benchmark") {
+      initWith(buildTypes.getByName("release"))
+      signingConfig = signingConfigs.getByName("debug")
+      matchingFallbacks += listOf("release")
+      isDebuggable = false
+    }
+  }
 }
 
 dependencies {
@@ -50,6 +58,7 @@ dependencies {
   implementation(libs.androidx.compose.material)
   implementation(libs.androidx.compose.foundation)
   implementation(libs.androidx.compose.runtime)
+  implementation(libs.androidx.compose.navigation)
 
   implementation(libs.photo.picker)
 }
