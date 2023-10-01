@@ -37,7 +37,7 @@ class BaselineProfileGenerator {
       packageName = packageName,
       stableIterations = 2,
       maxIterations = 8,
-      includeInStartupProfile = true
+      includeInStartupProfile = true,
     ) {
       pressHome()
       // This block defines the app's critical user journey. Here we are interested in
