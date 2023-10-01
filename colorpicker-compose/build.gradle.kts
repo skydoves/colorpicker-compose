@@ -67,7 +67,7 @@ tasks.withType(JavaCompile::class.java).configureEach {
 
 baselineProfile {
   filter {
-    include("com.skydoves.colorpicker.compose.**")
+    include("com.github.skydoves.colorpicker.compose.**")
   }
 }
 
