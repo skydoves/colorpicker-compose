@@ -6,6 +6,7 @@ plugins {
   id(libs.plugins.kotlin.android.get().pluginId)
   id(libs.plugins.baseline.profile.get().pluginId)
 }
+
 android {
   namespace = "com.github.skydoves.colorpickercomposedemo"
   compileSdk = Configuration.compileSdk
@@ -38,6 +39,7 @@ android {
   lint {
     abortOnError = false
   }
+
   buildTypes {
     create("benchmark") {
       initWith(buildTypes.getByName("release"))

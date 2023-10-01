@@ -37,6 +37,7 @@ class BaselineProfileGenerator {
       packageName = packageName,
       stableIterations = 2,
       maxIterations = 8,
+      includeInStartupProfile = true
     ) {
       pressHome()
       // This block defines the app's critical user journey. Here we are interested in
@@ -45,16 +46,16 @@ class BaselineProfileGenerator {
       startActivityAndWait()
       device.waitForIdle()
 
-      device.testSnitcherScenario() || return@collect
+      device.testColorPickerDemoScenario() || return@collect
     }
 }
 
-private fun UiDevice.testSnitcherScenario(): Boolean {
-  waitForObject(By.res("Image")).click()
+private fun UiDevice.testColorPickerDemoScenario(): Boolean {
+  waitForObject(By.res("HSV")).click()
 
   waitForIdle()
 
-  return wait(Until.hasObject(By.res("HSV")), 5_000)
+  return wait(Until.hasObject(By.res("HSV_AlphaSlider")), 5_000)
 }
 
 private fun UiDevice.waitForObject(selector: BySelector, timeout: Long = 5_000): UiObject2 {
