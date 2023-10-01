@@ -3,62 +3,63 @@ import com.github.skydoves.colorpicker.compose.Dependencies
 import com.github.skydoves.colorpicker.compose.Versions
 
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
+  id 'com.android.application'
+  id 'org.jetbrains.kotlin.android'
 }
 
 android {
-    compileSdkVersion Configuration.compileSdk
-    defaultConfig {
-        applicationId "com.github.skydoves.colorpickercomposedemo"
-        minSdkVersion Configuration.minSdk
-        targetSdkVersion Configuration.targetSdk
-        versionCode Configuration.versionCode
-        versionName Configuration.versionName
-    }
+  compileSdk Configuration.compileSdk
+  namespace "com.github.skydoves.colorpickercomposedemo"
+  defaultConfig {
+    applicationId "com.github.skydoves.colorpickercomposedemo"
+    minSdkVersion Configuration.minSdk
+    targetSdkVersion Configuration.targetSdk
+    versionCode Configuration.versionCode
+    versionName Configuration.versionName
+  }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
 
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
+  kotlinOptions {
+    jvmTarget = '1.8'
+  }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion Versions.COMPOSE_COMPILER
-    }
+  composeOptions {
+    kotlinCompilerExtensionVersion Versions.COMPOSE_COMPILER
+  }
 
-    buildFeatures {
-        compose true
-    }
+  buildFeatures {
+    compose true
+  }
 
-    packagingOptions {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
-        }
+  packagingOptions {
+    resources {
+      excludes += '/META-INF/{AL2.0,LGPL2.1}'
     }
+  }
 
-    lintOptions {
-        abortOnError false
-    }
+  lintOptions {
+    abortOnError false
+  }
 }
 
 dependencies {
-    implementation project(":colorpicker-compose")
+  implementation project(":colorpicker-compose")
 
-    implementation Dependencies.material
+  implementation Dependencies.material
 
-    implementation platform(Dependencies.composeBom)
-    implementation Dependencies.composeUI
-    implementation Dependencies.composeMaterial
-    implementation Dependencies.composeRuntime
-    implementation Dependencies.composeTooling
-    implementation Dependencies.composeActivity
-    implementation Dependencies.composeNavigation
+  implementation platform(Dependencies.composeBom)
+  implementation Dependencies.composeUI
+  implementation Dependencies.composeMaterial
+  implementation Dependencies.composeRuntime
+  implementation Dependencies.composeTooling
+  implementation Dependencies.composeActivity
+  implementation Dependencies.composeNavigation
 
-    implementation Dependencies.photoPicker
+  implementation Dependencies.photoPicker
 }
 
 apply from: "$rootDir/spotless.gradle"
