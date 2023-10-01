@@ -49,66 +49,70 @@ import com.github.skydoves.colorpickercomposedemo.R
 
 @Composable
 fun ImageColorPickerScreen() {
-    val controller = rememberColorPickerController()
-    var hexCode by remember { mutableStateOf("") }
-    var textColor by remember { mutableStateOf(Color.Transparent) }
+  val controller = rememberColorPickerController()
+  var hexCode by remember { mutableStateOf("") }
+  var textColor by remember { mutableStateOf(Color.Transparent) }
 
-    Column {
-        Spacer(modifier = Modifier.weight(1f))
+  Column {
+    Spacer(modifier = Modifier.weight(1f))
 
-        PhotoPickerIcon(controller)
+    PhotoPickerIcon(controller)
 
-        ImageColorPicker(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .padding(10.dp),
-            controller = controller,
-            paletteImageBitmap = ImageBitmap.imageResource(R.drawable.palettebar),
-            onColorChanged = { colorEnvelope: ColorEnvelope ->
-                hexCode = colorEnvelope.hexCode
-                textColor = colorEnvelope.color
-            },
-        )
+    ImageColorPicker(
+      modifier = Modifier
+        .fillMaxWidth()
+        .height(200.dp)
+        .padding(10.dp),
+      controller = controller,
+      paletteImageBitmap = ImageBitmap.imageResource(R.drawable.palettebar),
+      onColorChanged = { colorEnvelope: ColorEnvelope ->
+        hexCode = colorEnvelope.hexCode
+        textColor = colorEnvelope.color
+      },
+    )
 
-        Spacer(modifier = Modifier.weight(5f))
+    Spacer(modifier = Modifier.weight(5f))
 
-        AlphaSlider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-                .height(35.dp)
-                .align(Alignment.CenterHorizontally),
-            controller = controller,
-        )
+    AlphaSlider(
+      modifier = Modifier
+        .fillMaxWidth()
+        .padding(10.dp)
+        .height(35.dp)
+        .align(Alignment.CenterHorizontally),
+      borderColor = Color.Yellow,
+      borderSize = 10.dp,
+      controller = controller,
+    )
 
-        BrightnessSlider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-                .height(35.dp)
-                .align(Alignment.CenterHorizontally),
-            controller = controller,
-        )
+    BrightnessSlider(
+      modifier = Modifier
+        .fillMaxWidth()
+        .padding(10.dp)
+        .height(35.dp)
+        .align(Alignment.CenterHorizontally),
+      borderColor = Color.Yellow,
+      borderSize = 10.dp,
+      controller = controller,
+    )
 
-        Spacer(modifier = Modifier.weight(3f))
+    Spacer(modifier = Modifier.weight(3f))
 
-        Text(
-            text = "#$hexCode",
-            color = textColor,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-        )
+    Text(
+      text = "#$hexCode",
+      color = textColor,
+      fontSize = 16.sp,
+      fontWeight = FontWeight.Bold,
+      modifier = Modifier.align(Alignment.CenterHorizontally),
+    )
 
-        AlphaTile(
-            modifier = Modifier
-                .size(80.dp)
-                .clip(RoundedCornerShape(6.dp))
-                .align(Alignment.CenterHorizontally),
-            controller = controller,
-        )
+    AlphaTile(
+      modifier = Modifier
+        .size(80.dp)
+        .clip(RoundedCornerShape(6.dp))
+        .align(Alignment.CenterHorizontally),
+      controller = controller,
+    )
 
-        Spacer(modifier = Modifier.height(50.dp))
-    }
+    Spacer(modifier = Modifier.height(50.dp))
+  }
 }

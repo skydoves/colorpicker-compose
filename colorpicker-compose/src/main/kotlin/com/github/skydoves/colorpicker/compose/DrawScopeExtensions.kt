@@ -26,17 +26,17 @@ private const val SELECTOR_RADIUS: Float = 50f
 private const val BORDER_WIDTH: Float = 10f
 
 public fun DrawScope.drawColorIndicator(pos: PointF, color: Color) {
-    drawCircle(color, SELECTOR_RADIUS, Offset(pos.x, pos.y))
-    drawCircle(
-        Color.White,
-        SELECTOR_RADIUS - (BORDER_WIDTH / 2),
-        Offset(pos.x, pos.y),
-        style = Stroke(width = BORDER_WIDTH),
-    )
-    drawCircle(
-        Color.LightGray,
-        SELECTOR_RADIUS,
-        Offset(pos.x, pos.y),
-        style = Stroke(width = 1f),
-    )
+  drawCircle(color, SELECTOR_RADIUS, Offset(pos.x, pos.y))
+  drawCircle(
+    Color.White,
+    SELECTOR_RADIUS - (BORDER_WIDTH / 2),
+    Offset(pos.x, pos.y),
+    style = Stroke(width = BORDER_WIDTH),
+  )
+  drawCircle(
+    Color.LightGray,
+    SELECTOR_RADIUS,
+    Offset(pos.x, pos.y),
+    style = Stroke(width = 1f),
+  )
 }

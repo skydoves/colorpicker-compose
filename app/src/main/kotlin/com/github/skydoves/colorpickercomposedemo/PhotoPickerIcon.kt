@@ -41,36 +41,36 @@ import com.google.modernstorage.photopicker.PhotoPicker
 @Composable
 @SuppressLint("UnsafeOptInUsageError")
 fun ColumnScope.PhotoPickerIcon(
-    controller: ColorPickerController,
+  controller: ColorPickerController,
 ) {
-    val context = LocalContext.current
-    val photoPicker =
-        rememberLauncherForActivityResult(PhotoPicker()) { uris ->
-            val uri = uris.firstOrNull() ?: return@rememberLauncherForActivityResult
+  val context = LocalContext.current
+  val photoPicker =
+    rememberLauncherForActivityResult(PhotoPicker()) { uris ->
+      val uri = uris.firstOrNull() ?: return@rememberLauncherForActivityResult
 
-            val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.contentResolver, uri))
-            } else {
-                MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
-            }
+      val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.contentResolver, uri))
+      } else {
+        MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+      }
 
-            controller.setPaletteImageBitmap(bitmap.asImageBitmap())
-        }
-
-    Box(
-        modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .align(Alignment.End),
-    ) {
-        Image(
-            modifier = Modifier
-                .size(42.dp)
-                .clickable {
-                    // Launch the picker with only one image selectable
-                    photoPicker.launch(PhotoPicker.Args(PhotoPicker.Type.IMAGES_ONLY, 1))
-                },
-            imageVector = ImageVector.vectorResource(R.drawable.ic_gallery),
-            contentDescription = null,
-        )
+      controller.setPaletteImageBitmap(bitmap.asImageBitmap())
     }
+
+  Box(
+    modifier = Modifier
+      .padding(horizontal = 16.dp)
+      .align(Alignment.End),
+  ) {
+    Image(
+      modifier = Modifier
+        .size(42.dp)
+        .clickable {
+          // Launch the picker with only one image selectable
+          photoPicker.launch(PhotoPicker.Args(PhotoPicker.Type.IMAGES_ONLY, 1))
+        },
+      imageVector = ImageVector.vectorResource(R.drawable.ic_gallery),
+      contentDescription = null,
+    )
+  }
 }
