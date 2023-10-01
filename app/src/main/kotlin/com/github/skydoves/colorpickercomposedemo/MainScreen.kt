@@ -46,82 +46,82 @@ import com.github.skydoves.colorpickercomposedemo.screens.HsvColorPickerColoredS
 import com.github.skydoves.colorpickercomposedemo.screens.ImageColorPickerScreen
 
 sealed class Screen(val route: String, val name: String, @DrawableRes val drawable: Int) {
-    object ImageColorPicker : Screen("image_picker", "Image", R.drawable.image_24px)
-    object HsvPicker : Screen("hsv_picker", "HSV", R.drawable.palette_24px)
+  object ImageColorPicker : Screen("image_picker", "Image", R.drawable.image_24px)
+  object HsvPicker : Screen("hsv_picker", "HSV", R.drawable.palette_24px)
 }
 
 val navigationItems = listOf(
-    Screen.ImageColorPicker,
-    Screen.HsvPicker,
+  Screen.ImageColorPicker,
+  Screen.HsvPicker,
 )
 
 @Composable
 fun MainScreen() {
-    val navController = rememberNavController()
-    Scaffold(
-        bottomBar = { BottomBar(navController) },
-        topBar = { MainToolBar() },
-    ) { innerPadding ->
-        NavHost(
-            navController,
-            startDestination = Screen.ImageColorPicker.route,
-            Modifier.padding(innerPadding),
-        ) {
-            composable(Screen.ImageColorPicker.route) {
-                ImageColorPickerScreen()
-            }
-            composable(Screen.HsvPicker.route) {
-                HsvColorPickerColoredSelectorScreen()
-            }
-        }
+  val navController = rememberNavController()
+  Scaffold(
+    bottomBar = { BottomBar(navController) },
+    topBar = { MainToolBar() },
+  ) { innerPadding ->
+    NavHost(
+      navController,
+      startDestination = Screen.ImageColorPicker.route,
+      Modifier.padding(innerPadding),
+    ) {
+      composable(Screen.ImageColorPicker.route) {
+        ImageColorPickerScreen()
+      }
+      composable(Screen.HsvPicker.route) {
+        HsvColorPickerColoredSelectorScreen()
+      }
     }
+  }
 }
 
 @Composable
 fun MainToolBar() {
-    TopAppBar(
-        elevation = 6.dp,
-        backgroundColor = Color(0xFF6200EE),
-        modifier = Modifier.height(58.dp),
-    ) {
-        Text(
-            modifier = Modifier
-                .padding(8.dp)
-                .align(Alignment.CenterVertically),
-            text = stringResource(R.string.app_name),
-            color = Color.White,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-        )
-    }
+  TopAppBar(
+    elevation = 6.dp,
+    backgroundColor = Color(0xFF6200EE),
+    modifier = Modifier.height(58.dp),
+  ) {
+    Text(
+      modifier = Modifier
+        .padding(8.dp)
+        .align(Alignment.CenterVertically),
+      text = stringResource(R.string.app_name),
+      color = Color.White,
+      fontSize = 18.sp,
+      fontWeight = FontWeight.Bold,
+    )
+  }
 }
 
 @Composable
 fun BottomBar(navController: NavController) {
-    BottomNavigation {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentDestination = navBackStackEntry?.destination
-        navigationItems.forEach { screen ->
-            BottomNavigationItem(
-                icon = { Icon(painterResource(id = screen.drawable), contentDescription = null) },
-                label = { Text(screen.name) },
-                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                onClick = {
-                    navController.navigate(screen.route) {
-                        // Pop up to the start destination of the graph to
-                        // avoid building up a large stack of destinations
-                        // on the back stack as users select items
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
-                        // Avoid multiple copies of the same destination when
-                        // reselecting the same item
-                        launchSingleTop = true
-                        // Restore state when reselecting a previously selected item
-                        restoreState = true
-                    }
-                },
-            )
-        }
+  BottomNavigation {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+    navigationItems.forEach { screen ->
+      BottomNavigationItem(
+        icon = { Icon(painterResource(id = screen.drawable), contentDescription = null) },
+        label = { Text(screen.name) },
+        selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+        onClick = {
+          navController.navigate(screen.route) {
+            // Pop up to the start destination of the graph to
+            // avoid building up a large stack of destinations
+            // on the back stack as users select items
+            popUpTo(navController.graph.findStartDestination().id) {
+              saveState = true
+            }
+            // Avoid multiple copies of the same destination when
+            // reselecting the same item
+            launchSingleTop = true
+            // Restore state when reselecting a previously selected item
+            restoreState = true
+          }
+        },
+      )
     }
+  }
 }

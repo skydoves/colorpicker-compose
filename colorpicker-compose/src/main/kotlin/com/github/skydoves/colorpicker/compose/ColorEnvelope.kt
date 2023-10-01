@@ -28,7 +28,7 @@ import androidx.compose.ui.graphics.Color
  */
 @Immutable
 public data class ColorEnvelope(
-    val color: Color,
-    val hexCode: String,
-    val fromUser: Boolean,
+  val color: Color,
+  val hexCode: String,
+  val fromUser: Boolean,
 )

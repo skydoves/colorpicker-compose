@@ -69,174 +69,174 @@ import androidx.compose.ui.unit.dp
  */
 @Composable
 public fun AlphaSlider(
-    modifier: Modifier = Modifier,
-    controller: ColorPickerController,
-    borderRadius: Dp = 6.dp,
-    borderSize: Dp = 5.dp,
-    borderColor: Color = Color.LightGray,
-    wheelImageBitmap: ImageBitmap? = null,
-    wheelRadius: Dp = 12.dp,
-    wheelColor: Color = Color.White,
-    @FloatRange(from = 0.0, to = 1.0) wheelAlpha: Float = 1.0f,
-    wheelPaint: Paint = Paint().apply {
-        color = wheelColor
-        alpha = wheelAlpha
-    },
-    tileOddColor: Color = defaultTileOddColor,
-    tileEvenColor: Color = defaultTileEvenColor,
-    tileSize: Dp = 12.dp,
-    initialColor: Color? = null,
+  modifier: Modifier = Modifier,
+  controller: ColorPickerController,
+  borderRadius: Dp = 6.dp,
+  borderSize: Dp = 5.dp,
+  borderColor: Color = Color.LightGray,
+  wheelImageBitmap: ImageBitmap? = null,
+  wheelRadius: Dp = 12.dp,
+  wheelColor: Color = Color.White,
+  @FloatRange(from = 0.0, to = 1.0) wheelAlpha: Float = 1.0f,
+  wheelPaint: Paint = Paint().apply {
+    color = wheelColor
+    alpha = wheelAlpha
+  },
+  tileOddColor: Color = defaultTileOddColor,
+  tileEvenColor: Color = defaultTileEvenColor,
+  tileSize: Dp = 12.dp,
+  initialColor: Color? = null,
 ) {
-    val density = LocalDensity.current
-    var backgroundBitmap: ImageBitmap? = null
-    var bitmapSize = IntSize(0, 0)
-    val borderPaint: Paint = Paint().apply {
-        style = PaintingStyle.Stroke
-        strokeWidth = with(LocalDensity.current) { borderSize.toPx() }
-        color = borderColor
-    }
-    val colorPaint: Paint = Paint().apply {
-        color = controller.pureSelectedColor.value
-    }
-    var isInitialized by remember { mutableStateOf(false) }
+  val density = LocalDensity.current
+  var backgroundBitmap: ImageBitmap? = null
+  var bitmapSize = IntSize(0, 0)
+  val borderPaint: Paint = Paint().apply {
+    style = PaintingStyle.Stroke
+    strokeWidth = with(LocalDensity.current) { borderSize.toPx() }
+    color = borderColor
+  }
+  val colorPaint: Paint = Paint().apply {
+    color = controller.pureSelectedColor.value
+  }
+  var isInitialized by remember { mutableStateOf(false) }
 
-    SideEffect {
-        controller.isAttachedAlphaSlider = true
-    }
+  SideEffect {
+    controller.isAttachedAlphaSlider = true
+  }
 
-    Canvas(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(borderRadius))
-            .onSizeChanged { newSize ->
-                val size =
-                    newSize.takeIf { it.width != 0 && it.height != 0 } ?: return@onSizeChanged
-                val drawable = AlphaTileDrawable(
-                    with(density) { tileSize.toPx() },
-                    tileOddColor,
-                    tileEvenColor,
-                )
-                backgroundBitmap
-                    ?.asAndroidBitmap()
-                    ?.recycle()
-                backgroundBitmap =
-                    ImageBitmap(size.width, size.height, ImageBitmapConfig.Argb8888).apply {
-                        val backgroundCanvas = Canvas(this)
-                        drawable.setBounds(
-                            0,
-                            0,
-                            backgroundCanvas.nativeCanvas.width,
-                            backgroundCanvas.nativeCanvas.height,
-                        )
-                        drawable.draw(backgroundCanvas.nativeCanvas)
-                        backgroundCanvas.drawRoundRect(
-                            left = 0f,
-                            top = 0f,
-                            right = size.width.toFloat(),
-                            bottom = size.height.toFloat(),
-                            radiusX = borderRadius.value,
-                            radiusY = borderRadius.value,
-                            paint = borderPaint,
-                        )
-                    }
-                bitmapSize = size
-            }
-            .pointerInput(Unit) {
-                detectHorizontalDragGestures { change, _ ->
-                    val wheelPoint = change.position.x
-                    val position: Float = if (wheelImageBitmap == null) {
-                        val point = wheelPoint.coerceIn(
-                            minimumValue = 0f,
-                            maximumValue = bitmapSize.width.toFloat(),
-                        )
-                        point / bitmapSize.width
-                    } else {
-                        val point = wheelPoint.coerceIn(
-                            minimumValue = 0f,
-                            maximumValue = bitmapSize.width.toFloat(),
-                        )
-                        point / bitmapSize.width
-                    }
-                    controller.setAlpha(position.coerceIn(0f, 1f), fromUser = true)
-                }
-            }
-            .pointerInput(Unit) {
-                detectTapGestures { offset ->
-                    val wheelPoint = offset.x
-                    val position: Float = if (wheelImageBitmap == null) {
-                        val point = wheelPoint.coerceIn(
-                            minimumValue = 0f,
-                            maximumValue = bitmapSize.width.toFloat(),
-                        )
-                        point / bitmapSize.width
-                    } else {
-                        val point = wheelPoint.coerceIn(
-                            minimumValue = 0f,
-                            maximumValue = bitmapSize.width.toFloat(),
-                        )
-                        point / bitmapSize.width
-                    }
-                    controller.setAlpha(position.coerceIn(0f, 1f), fromUser = true)
-                }
-            },
-    ) {
-        drawIntoCanvas { canvas ->
-            backgroundBitmap?.let {
-                // draw background bitmap.
-                canvas.drawImage(it, Offset.Zero, Paint())
-
-                // draw a linear gradient color shader.
-                val startColor = controller.pureSelectedColor.value.copy(alpha = 0f)
-                val endColor = controller.pureSelectedColor.value.copy(alpha = 1f)
-                val shader = LinearGradientShader(
-                    colors = listOf(startColor, endColor),
-                    from = Offset.Zero,
-                    to = Offset(bitmapSize.width.toFloat(), bitmapSize.height.toFloat()),
-                    tileMode = TileMode.Clamp,
-                )
-                colorPaint.shader = shader
-                canvas.drawRoundRect(
-                    left = 0f,
-                    top = 0f,
-                    right = bitmapSize.width.toFloat(),
-                    bottom = bitmapSize.height.toFloat(),
-                    radiusX = borderRadius.value,
-                    radiusY = borderRadius.value,
-                    paint = colorPaint,
-                )
-
-                // draw wheel bitmap on the canvas.
-                if (wheelImageBitmap == null) {
-                    val position = controller.alpha.value
-                    val point = (bitmapSize.width * position).coerceIn(
-                        minimumValue = 0f,
-                        maximumValue = bitmapSize.width.toFloat(),
-                    )
-                    canvas.drawCircle(
-                        Offset(x = point, y = bitmapSize.height / 2f),
-                        wheelRadius.toPx(),
-                        wheelPaint,
-                    )
-                } else {
-                    val position = controller.alpha.value
-                    val point = (bitmapSize.width * position).coerceIn(
-                        minimumValue = 0f,
-                        maximumValue = bitmapSize.width.toFloat(),
-                    )
-                    canvas.drawImage(
-                        wheelImageBitmap,
-                        Offset(
-                            x = point - (wheelImageBitmap.width / 2),
-                            y = bitmapSize.height / 2f - wheelImageBitmap.height / 2,
-                        ),
-                        Paint(),
-                    )
-                }
-            }
-            if (initialColor != null && !isInitialized) {
-                isInitialized = true
-                controller.setAlpha(alpha = initialColor.alpha, fromUser = false)
-            }
+  Canvas(
+    modifier = modifier
+      .fillMaxWidth()
+      .clip(RoundedCornerShape(borderRadius))
+      .onSizeChanged { newSize ->
+        val size =
+          newSize.takeIf { it.width != 0 && it.height != 0 } ?: return@onSizeChanged
+        val drawable = AlphaTileDrawable(
+          with(density) { tileSize.toPx() },
+          tileOddColor,
+          tileEvenColor,
+        )
+        backgroundBitmap
+          ?.asAndroidBitmap()
+          ?.recycle()
+        backgroundBitmap =
+          ImageBitmap(size.width, size.height, ImageBitmapConfig.Argb8888).apply {
+            val backgroundCanvas = Canvas(this)
+            drawable.setBounds(
+              0,
+              0,
+              backgroundCanvas.nativeCanvas.width,
+              backgroundCanvas.nativeCanvas.height,
+            )
+            drawable.draw(backgroundCanvas.nativeCanvas)
+            backgroundCanvas.drawRoundRect(
+              left = 0f,
+              top = 0f,
+              right = size.width.toFloat(),
+              bottom = size.height.toFloat(),
+              radiusX = borderRadius.value,
+              radiusY = borderRadius.value,
+              paint = borderPaint,
+            )
+          }
+        bitmapSize = size
+      }
+      .pointerInput(Unit) {
+        detectHorizontalDragGestures { change, _ ->
+          val wheelPoint = change.position.x
+          val position: Float = if (wheelImageBitmap == null) {
+            val point = wheelPoint.coerceIn(
+              minimumValue = 0f,
+              maximumValue = bitmapSize.width.toFloat(),
+            )
+            point / bitmapSize.width
+          } else {
+            val point = wheelPoint.coerceIn(
+              minimumValue = 0f,
+              maximumValue = bitmapSize.width.toFloat(),
+            )
+            point / bitmapSize.width
+          }
+          controller.setAlpha(position.coerceIn(0f, 1f), fromUser = true)
         }
+      }
+      .pointerInput(Unit) {
+        detectTapGestures { offset ->
+          val wheelPoint = offset.x
+          val position: Float = if (wheelImageBitmap == null) {
+            val point = wheelPoint.coerceIn(
+              minimumValue = 0f,
+              maximumValue = bitmapSize.width.toFloat(),
+            )
+            point / bitmapSize.width
+          } else {
+            val point = wheelPoint.coerceIn(
+              minimumValue = 0f,
+              maximumValue = bitmapSize.width.toFloat(),
+            )
+            point / bitmapSize.width
+          }
+          controller.setAlpha(position.coerceIn(0f, 1f), fromUser = true)
+        }
+      },
+  ) {
+    drawIntoCanvas { canvas ->
+      backgroundBitmap?.let {
+        // draw background bitmap.
+        canvas.drawImage(it, Offset.Zero, Paint())
+
+        // draw a linear gradient color shader.
+        val startColor = controller.pureSelectedColor.value.copy(alpha = 0f)
+        val endColor = controller.pureSelectedColor.value.copy(alpha = 1f)
+        val shader = LinearGradientShader(
+          colors = listOf(startColor, endColor),
+          from = Offset.Zero,
+          to = Offset(bitmapSize.width.toFloat(), bitmapSize.height.toFloat()),
+          tileMode = TileMode.Clamp,
+        )
+        colorPaint.shader = shader
+        canvas.drawRoundRect(
+          left = 0f,
+          top = 0f,
+          right = bitmapSize.width.toFloat(),
+          bottom = bitmapSize.height.toFloat(),
+          radiusX = borderRadius.value,
+          radiusY = borderRadius.value,
+          paint = colorPaint,
+        )
+
+        // draw wheel bitmap on the canvas.
+        if (wheelImageBitmap == null) {
+          val position = controller.alpha.value
+          val point = (bitmapSize.width * position).coerceIn(
+            minimumValue = 0f,
+            maximumValue = bitmapSize.width.toFloat(),
+          )
+          canvas.drawCircle(
+            Offset(x = point, y = bitmapSize.height / 2f),
+            wheelRadius.toPx(),
+            wheelPaint,
+          )
+        } else {
+          val position = controller.alpha.value
+          val point = (bitmapSize.width * position).coerceIn(
+            minimumValue = 0f,
+            maximumValue = bitmapSize.width.toFloat(),
+          )
+          canvas.drawImage(
+            wheelImageBitmap,
+            Offset(
+              x = point - (wheelImageBitmap.width / 2),
+              y = bitmapSize.height / 2f - wheelImageBitmap.height / 2,
+            ),
+            Paint(),
+          )
+        }
+      }
+      if (initialColor != null && !isInitialized) {
+        isInitialized = true
+        controller.setAlpha(alpha = initialColor.alpha, fromUser = false)
+      }
     }
+  }
 }

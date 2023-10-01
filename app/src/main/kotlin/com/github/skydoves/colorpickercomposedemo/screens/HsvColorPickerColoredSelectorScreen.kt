@@ -48,66 +48,66 @@ import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 @Preview
 @Composable
 fun HsvColorPickerColoredSelectorScreen() {
-    val controller = rememberColorPickerController()
-    var hexCode by remember { mutableStateOf("") }
-    var textColor by remember { mutableStateOf(Color.Transparent) }
+  val controller = rememberColorPickerController()
+  var hexCode by remember { mutableStateOf("") }
+  var textColor by remember { mutableStateOf(Color.Transparent) }
 
-    Column {
-        Spacer(modifier = Modifier.weight(1f))
+  Column {
+    Spacer(modifier = Modifier.weight(1f))
 
-        Box(modifier = Modifier.weight(8f)) {
-            HsvColorPicker(
-                modifier = Modifier
-                    .padding(10.dp),
-                controller = controller,
-                drawOnPosSelected = {
-                    drawColorIndicator(
-                        controller.selectedPoint.value,
-                        controller.selectedColor.value,
-                    )
-                },
-                onColorChanged = { colorEnvelope ->
-                    hexCode = colorEnvelope.hexCode
-                    textColor = colorEnvelope.color
-                },
-                initialColor = Color.Red,
-            )
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        AlphaSlider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-                .height(35.dp)
-                .align(Alignment.CenterHorizontally),
-            controller = controller,
-        )
-
-        BrightnessSlider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-                .height(35.dp)
-                .align(Alignment.CenterHorizontally),
-            controller = controller,
-        )
-
-        Text(
-            text = "#$hexCode",
-            color = textColor,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-        )
-        AlphaTile(
-            modifier = Modifier
-                .size(80.dp)
-                .clip(RoundedCornerShape(6.dp))
-                .align(Alignment.CenterHorizontally),
-            controller = controller,
-        )
-        Spacer(modifier = Modifier.weight(1f))
+    Box(modifier = Modifier.weight(8f)) {
+      HsvColorPicker(
+        modifier = Modifier
+          .padding(10.dp),
+        controller = controller,
+        drawOnPosSelected = {
+          drawColorIndicator(
+            controller.selectedPoint.value,
+            controller.selectedColor.value,
+          )
+        },
+        onColorChanged = { colorEnvelope ->
+          hexCode = colorEnvelope.hexCode
+          textColor = colorEnvelope.color
+        },
+        initialColor = Color.Red,
+      )
     }
+
+    Spacer(modifier = Modifier.weight(1f))
+
+    AlphaSlider(
+      modifier = Modifier
+        .fillMaxWidth()
+        .padding(10.dp)
+        .height(35.dp)
+        .align(Alignment.CenterHorizontally),
+      controller = controller,
+    )
+
+    BrightnessSlider(
+      modifier = Modifier
+        .fillMaxWidth()
+        .padding(10.dp)
+        .height(35.dp)
+        .align(Alignment.CenterHorizontally),
+      controller = controller,
+    )
+
+    Text(
+      text = "#$hexCode",
+      color = textColor,
+      fontSize = 16.sp,
+      fontWeight = FontWeight.Bold,
+      modifier = Modifier.align(Alignment.CenterHorizontally),
+    )
+    AlphaTile(
+      modifier = Modifier
+        .size(80.dp)
+        .clip(RoundedCornerShape(6.dp))
+        .align(Alignment.CenterHorizontally),
+      controller = controller,
+    )
+    Spacer(modifier = Modifier.weight(1f))
+  }
 }
