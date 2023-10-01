@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:OptIn(ExperimentalComposeUiApi::class)
+
 package com.github.skydoves.colorpickercomposedemo
 
 import androidx.annotation.DrawableRes
@@ -27,10 +29,14 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -58,6 +64,7 @@ val navigationItems = listOf(
 fun MainScreen() {
   val navController = rememberNavController()
   Scaffold(
+    modifier = Modifier.semantics { testTagsAsResourceId = true },
     bottomBar = { BottomBar(navController) },
     topBar = { MainToolBar() },
   ) { innerPadding ->
@@ -102,6 +109,7 @@ fun BottomBar(navController: NavController) {
     val currentDestination = navBackStackEntry?.destination
     navigationItems.forEach { screen ->
       BottomNavigationItem(
+        modifier = Modifier.testTag(screen.name),
         icon = { Icon(painterResource(id = screen.drawable), contentDescription = null) },
         label = { Text(screen.name) },
         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,

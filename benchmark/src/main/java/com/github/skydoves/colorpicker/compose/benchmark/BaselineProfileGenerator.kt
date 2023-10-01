@@ -50,15 +50,11 @@ class BaselineProfileGenerator {
 }
 
 private fun UiDevice.testSnitcherScenario(): Boolean {
-  waitForObject(By.res("launch_second_activity")).click()
+  waitForObject(By.res("Image")).click()
 
   waitForIdle()
 
-  waitForObject(By.res("exception")).click()
-
-  waitForIdle()
-
-  return wait(Until.hasObject(By.res("exception_trace_screen")), 5_000)
+  return wait(Until.hasObject(By.res("HSV")), 5_000)
 }
 
 private fun UiDevice.waitForObject(selector: BySelector, timeout: Long = 5_000): UiObject2 {

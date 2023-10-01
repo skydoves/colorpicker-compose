@@ -61,4 +61,6 @@ dependencies {
   implementation(libs.androidx.compose.navigation)
 
   implementation(libs.photo.picker)
+
+  baselineProfile(project(":benchmark"))
 }
