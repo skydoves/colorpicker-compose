@@ -72,6 +72,7 @@ public final class com/github/skydoves/colorpicker/compose/ImageColorPickerKt {
 public final class com/github/skydoves/colorpicker/compose/PaletteContentScale : java/lang/Enum {
 	public static final field CROP Lcom/github/skydoves/colorpicker/compose/PaletteContentScale;
 	public static final field FIT Lcom/github/skydoves/colorpicker/compose/PaletteContentScale;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lcom/github/skydoves/colorpicker/compose/PaletteContentScale;
 	public static fun values ()[Lcom/github/skydoves/colorpicker/compose/PaletteContentScale;
 }
