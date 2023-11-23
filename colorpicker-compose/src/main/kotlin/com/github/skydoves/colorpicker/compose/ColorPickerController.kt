@@ -37,6 +37,9 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.max
+import kotlin.math.sin
 import kotlin.math.sqrt
 
 /** Creates and remembers a [ColorPickerController] on the current composer. */
@@ -203,6 +206,31 @@ public class ColorPickerController {
         notifyColorChangedWithDebounce(fromUser)
       } else {
         notifyColorChanged(fromUser)
+      }
+    }
+  }
+
+  public fun selectByColor(color: Color, fromUser: Boolean) {
+    val palette = paletteBitmap
+    if (palette != null) {
+      val pickerRadius: Float = palette.width.coerceAtMost(palette.height) * 0.5f
+      if (pickerRadius > 0) {
+        val hsv = FloatArray(3)
+        android.graphics.Color.RGBToHSV(
+          (color.red * 255).toInt(),
+          (color.green * 255).toInt(),
+          (color.blue * 255).toInt(),
+          hsv,
+        )
+        val angle = (Math.PI / 180f) * hsv[0] * (-1)
+        val saturationVector = pickerRadius * hsv[1]
+        val x = saturationVector * cos(angle) + (palette.width / 2)
+        val y = saturationVector * sin(angle) + (palette.height / 2)
+        selectByCoordinate(x.toFloat(), y.toFloat(), fromUser)
+
+        // select brightness
+        val brightness = max(max(color.red, color.green), color.blue)
+        setBrightness(brightness, fromUser = false)
       }
     }
   }
