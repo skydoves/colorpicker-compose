@@ -210,6 +210,12 @@ public class ColorPickerController {
     }
   }
 
+  /**
+   * Select a specific color and update with the selected color.
+   *
+   * @param color Color to be selected.
+   * @param fromUser Represents this event is triggered by user or not.
+   */
   public fun selectByColor(color: Color, fromUser: Boolean) {
     val palette = paletteBitmap
     if (palette != null) {
@@ -228,7 +234,6 @@ public class ColorPickerController {
         val y = saturationVector * sin(angle) + (palette.height / 2)
         selectByCoordinate(x.toFloat(), y.toFloat(), fromUser)
 
-        // select brightness
         val brightness = max(max(color.red, color.green), color.blue)
         setBrightness(brightness, fromUser = false)
       }
