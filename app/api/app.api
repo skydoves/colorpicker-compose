@@ -67,6 +67,13 @@ public final class com/github/skydoves/colorpickercomposedemo/Screen$ImageColorP
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/github/skydoves/colorpickercomposedemo/screens/ComposableSingletons$HsvColorPickerColoredSelectorScreenKt {
+	public static final field INSTANCE Lcom/github/skydoves/colorpickercomposedemo/screens/ComposableSingletons$HsvColorPickerColoredSelectorScreenKt;
+	public static field lambda-1 Lkotlin/jvm/functions/Function2;
+	public fun <init> ()V
+	public final fun getLambda-1$app_release ()Lkotlin/jvm/functions/Function2;
+}
+
 public final class com/github/skydoves/colorpickercomposedemo/screens/HsvColorPickerColoredSelectorScreenKt {
 	public static final fun HsvColorPickerColoredSelectorScreen (Landroidx/compose/runtime/Composer;I)V
 }
