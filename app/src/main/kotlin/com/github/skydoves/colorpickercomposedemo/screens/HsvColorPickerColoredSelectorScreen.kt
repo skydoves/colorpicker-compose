@@ -17,12 +17,15 @@ package com.github.skydoves.colorpickercomposedemo.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,6 +51,7 @@ import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import com.github.skydoves.colorpicker.compose.drawColorIndicator
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 
+@OptIn(ExperimentalMaterialApi::class)
 @Preview
 @Composable
 @ExperimentalComposeUiApi
@@ -58,6 +62,23 @@ fun HsvColorPickerColoredSelectorScreen() {
 
   Column(modifier = Modifier.semantics { testTagsAsResourceId = true }) {
     Spacer(modifier = Modifier.weight(1f))
+
+    Row(modifier = Modifier.weight(3f)) {
+      listOf(Color.Red, Color.Green, Color.Blue, Color.Yellow, Color.Gray)
+        .forEach { color ->
+          Surface(
+            modifier = Modifier
+              .height(40.dp)
+              .weight(1f)
+              .padding(horizontal = 4.dp),
+            color = color,
+            shape = RoundedCornerShape(6.dp),
+            onClick = {
+              controller.selectByColor(color, true)
+            },
+          ) {}
+        }
+    }
 
     Box(modifier = Modifier.weight(8f)) {
       HsvColorPicker(
