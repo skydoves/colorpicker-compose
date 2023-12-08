@@ -181,7 +181,7 @@ public fun ImageColorPicker(
         this.drawOnPosSelected()
       }
     }
-    controller.reviseTick.value
+    controller.reviseTick.intValue
   }
 }
 
