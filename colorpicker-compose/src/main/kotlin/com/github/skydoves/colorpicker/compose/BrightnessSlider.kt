@@ -168,8 +168,8 @@ public fun BrightnessSlider(
         canvas.drawImage(it, Offset.Zero, Paint())
 
         // draw a linear gradient color shader.
-        val startColor = controller.pureSelectedColor.value.copy(alpha = 0f)
-        val endColor = controller.pureSelectedColor.value.copy(alpha = 1f)
+        val startColor = Color.Black
+        val endColor = controller.pureSelectedColor.value
         val shader = LinearGradientShader(
           colors = listOf(startColor, endColor),
           from = Offset.Zero,
