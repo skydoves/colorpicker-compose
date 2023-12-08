@@ -198,6 +198,6 @@ public fun HsvColorPicker(
         }
       }
     }
-    controller.reviseTick.value
+    controller.reviseTick.intValue
   }
 }
