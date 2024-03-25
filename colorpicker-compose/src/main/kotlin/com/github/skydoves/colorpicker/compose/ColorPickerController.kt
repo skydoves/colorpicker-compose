@@ -236,6 +236,8 @@ public class ColorPickerController {
         val y = saturationVector * sin(angle) + (palette.height / 2)
         selectByCoordinate(x.toFloat(), y.toFloat(), fromUser)
 
+        setAlpha(color.alpha, fromUser = false)
+
         val brightness = max(max(color.red, color.green), color.blue)
         setBrightness(brightness, fromUser = false)
       }
@@ -266,7 +268,7 @@ public class ColorPickerController {
   }
 
   /** Combine the alpha value to the selected pure color. */
-  internal fun setAlpha(alpha: Float, fromUser: Boolean) {
+  public fun setAlpha(alpha: Float, fromUser: Boolean) {
     this.alpha.value = alpha
     _selectedColor.value = selectedColor.value.copy(alpha = alpha)
     notifyColorChanged(fromUser)

@@ -43,6 +43,7 @@ public final class com/github/skydoves/colorpicker/compose/ColorPickerController
 	public final fun selectByColor-DxMtmZc (JZ)V
 	public final fun selectByCoordinate (FFZ)V
 	public final fun selectCenter (Z)V
+	public final fun setAlpha (FZ)V
 	public final fun setBrightness (FZ)V
 	public final fun setDebounceDuration (J)V
 	public final fun setEnabled (Z)V
