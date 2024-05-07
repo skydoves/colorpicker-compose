@@ -30,12 +30,17 @@ internal object BitmapCalculator {
    * corresponding dimension of the target size.
    */
   internal fun scaleBitmap(bitmap: Bitmap, targetSize: IntSize): Bitmap {
-    return Bitmap.createScaledBitmap(
-      bitmap,
-      targetSize.width,
-      targetSize.height,
-      false,
-    )
+    val sameSize = (targetSize.height == bitmap.height && targetSize.width == bitmap.width)
+    return if (sameSize) {
+      bitmap.copy(bitmap.config, bitmap.isMutable)
+    } else {
+      Bitmap.createScaledBitmap(
+        bitmap,
+        targetSize.width,
+        targetSize.height,
+        false,
+      )
+    }
   }
 
   /**
