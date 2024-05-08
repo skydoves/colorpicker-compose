@@ -134,7 +134,11 @@ public class ColorPickerController {
     }
     paletteBitmap = resized.asImageBitmap()
     copiedBitmap.recycle()
-    selectCenter(fromUser = false)
+    if (isHsvColorPalette) {
+      selectByColor(_selectedColor.value, false)
+    } else {
+      selectCenter(fromUser = false)
+    }
     reviseTick.intValue++
   }
 
