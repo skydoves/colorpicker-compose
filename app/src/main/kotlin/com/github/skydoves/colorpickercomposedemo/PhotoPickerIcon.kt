@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:OptIn(BuildCompat.PrereleaseSdkCheck::class)
+
 package com.github.skydoves.colorpickercomposedemo
 
 import android.annotation.SuppressLint
@@ -34,6 +36,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.core.os.BuildCompat
 import com.github.skydoves.colorpicker.compose.ColorPickerController
 import com.google.modernstorage.photopicker.PhotoPicker
 
@@ -58,16 +61,16 @@ fun ColumnScope.PhotoPickerIcon(
 
   Box(
     modifier = Modifier
-      .padding(horizontal = 16.dp)
-      .align(Alignment.End),
+        .padding(horizontal = 16.dp)
+        .align(Alignment.End),
   ) {
     Image(
       modifier = Modifier
-        .size(42.dp)
-        .clickable {
-          // Launch the picker with only one image selectable
-          photoPicker.launch(PhotoPicker.Args(PhotoPicker.Type.IMAGES_ONLY, 1))
-        },
+          .size(42.dp)
+          .clickable {
+            // Launch the picker with only one image selectable
+            photoPicker.launch(PhotoPicker.Args(PhotoPicker.Type.IMAGES_ONLY, 1))
+          },
       imageVector = ImageVector.vectorResource(R.drawable.ic_gallery),
       contentDescription = null,
     )
