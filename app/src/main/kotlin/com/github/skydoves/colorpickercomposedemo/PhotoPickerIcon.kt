@@ -61,16 +61,16 @@ fun ColumnScope.PhotoPickerIcon(
 
   Box(
     modifier = Modifier
-        .padding(horizontal = 16.dp)
-        .align(Alignment.End),
+      .padding(horizontal = 16.dp)
+      .align(Alignment.End),
   ) {
     Image(
       modifier = Modifier
-          .size(42.dp)
-          .clickable {
-            // Launch the picker with only one image selectable
-            photoPicker.launch(PhotoPicker.Args(PhotoPicker.Type.IMAGES_ONLY, 1))
-          },
+        .size(42.dp)
+        .clickable {
+          // Launch the picker with only one image selectable
+          photoPicker.launch(PhotoPicker.Args(PhotoPicker.Type.IMAGES_ONLY, 1))
+        },
       imageVector = ImageVector.vectorResource(R.drawable.ic_gallery),
       contentDescription = null,
     )
