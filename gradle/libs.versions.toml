@@ -1,12 +1,11 @@
 [versions]
-agp = "8.4.0"
+agp = "8.4.2"
 dokka = "1.9.10"
-nexusPlugin = "0.25.3"
-kotlin = "1.9.23"
+nexusPlugin = "0.29.0"
+kotlin = "2.0.0"
 kotlinBinaryCompatibility = "0.14.0"
 jvmTarget = "11"
-androidxComposeBom = "2024.05.00"
-androidxComposeCompiler = "1.5.13"
+androidxComposeBom = "2024.06.00"
 androidxActivity = "1.9.0"
 androidxTest = "1.5.2"
 androidxCore = "1.13.1"
@@ -23,6 +22,7 @@ androidxMacroBenchmark = "1.2.4"
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-test = { id = "com.android.test", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
