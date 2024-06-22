@@ -21,6 +21,8 @@ import android.graphics.Matrix
 import android.graphics.RectF
 import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -36,8 +38,10 @@ import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.toSize
 import androidx.core.util.Pools
 import kotlinx.coroutines.Dispatchers
@@ -54,6 +58,7 @@ import kotlinx.coroutines.launch
  * @param drawOnPosSelected to draw anything on the canvas when [ColorPickerController.selectedPoint] changes
  * @param drawDefaultWheelIndicator should the indicator be drawn on the canvas. Defaults to false if either [wheelImageBitmap] or [drawOnPosSelected] are not null.
  * @param paletteContentScale Represents a rule to apply to scale a source rectangle to be inscribed into a destination.
+ * @param previewImagePainter Display an image instead of the palette on the inspection preview mode on Android Studio.
  * @param onColorChanged Color changed listener.
  */
 @Composable
@@ -65,6 +70,7 @@ public fun ImageColorPicker(
   drawOnPosSelected: (DrawScope.() -> Unit)? = null,
   drawDefaultWheelIndicator: Boolean = wheelImageBitmap == null && drawOnPosSelected == null,
   paletteContentScale: PaletteContentScale = PaletteContentScale.FIT,
+  previewImagePainter: Painter? = null,
   onColorChanged: ((colorEnvelope: ColorEnvelope) -> Unit)? = null,
 ) {
   val coroutineScope = rememberCoroutineScope()
@@ -83,6 +89,15 @@ public fun ImageColorPicker(
     onDispose {
       controller.releaseBitmap()
     }
+  }
+
+  if (LocalInspectionMode.current && previewImagePainter != null) {
+    Image(
+      modifier = modifier.fillMaxSize(),
+      painter = previewImagePainter,
+      contentDescription = null,
+    )
+    return
   }
 
   Canvas(
