@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.github.skydoves.colorpicker.compose.AlphaSlider
@@ -46,6 +47,7 @@ import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 import com.github.skydoves.colorpickercomposedemo.PhotoPickerIcon
 import com.github.skydoves.colorpickercomposedemo.R
 
+@Preview
 @Composable
 fun ImageColorPickerScreen() {
   val controller = rememberColorPickerController()
