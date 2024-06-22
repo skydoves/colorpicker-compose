@@ -42,6 +42,7 @@ public final class com/github/skydoves/colorpicker/compose/ColorPickerController
 	public final fun getSelectedPoint ()Landroidx/compose/runtime/State;
 	public final fun selectByColor-DxMtmZc (JZ)V
 	public final fun selectByCoordinate (FFZ)V
+	public final fun selectByHsv ([FFZ)V
 	public final fun selectCenter (Z)V
 	public final fun setAlpha (FZ)V
 	public final fun setBrightness (FZ)V

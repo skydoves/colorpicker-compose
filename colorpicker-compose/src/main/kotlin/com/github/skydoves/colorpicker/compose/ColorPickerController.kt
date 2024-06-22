@@ -234,15 +234,39 @@ public class ColorPickerController {
           (color.blue * 255).toInt(),
           hsv,
         )
+        selectByHsv(hsv = hsv, alpha = color.alpha, fromUser = fromUser)
+      }
+    }
+  }
+
+  /**
+   * Select a specific color and update with the selected color.
+   *
+   * @param hsv A float array that represents hsv color code.
+   * @param alpha An alpha value that will be composed with the [hsv] color code.
+   * @param fromUser Represents this event is triggered by user or not.
+   */
+  public fun selectByHsv(hsv: FloatArray, alpha: Float, fromUser: Boolean) {
+    val palette = paletteBitmap
+    if (palette != null) {
+      val pickerRadius: Float = palette.width.coerceAtMost(palette.height) * 0.5f
+      if (pickerRadius > 0) {
         val angle = (Math.PI / 180f) * hsv[0] * (-1)
         val saturationVector = pickerRadius * hsv[1]
         val x = saturationVector * cos(angle) + (palette.width / 2)
         val y = saturationVector * sin(angle) + (palette.height / 2)
         selectByCoordinate(x.toFloat(), y.toFloat(), fromUser)
+        setAlpha(alpha, fromUser = false)
 
-        setAlpha(color.alpha, fromUser = false)
+        val color = android.graphics.Color.HSVToColor((alpha * 255).toInt(), hsv)
 
-        val brightness = max(max(color.red, color.green), color.blue)
+        val brightness = max(
+          max(
+            android.graphics.Color.red(color) / 255.0f,
+            android.graphics.Color.green(color) / 255.0f,
+          ),
+          android.graphics.Color.blue(color) / 255.0f,
+        )
         setBrightness(brightness, fromUser = false)
       }
     }
