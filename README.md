@@ -24,12 +24,29 @@ Also, it supports brightness and alpha slider, which can adjust your ARGB factor
 ## Download
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.skydoves/colorpicker-compose.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.skydoves%22%20AND%20a:%22colorpicker-compose%22)
 
+### Version Catalog
+
+If you're using Version Catalog, you can configure the dependency by adding it to your `libs.versions.toml` file as follows:
+
+```
+[versions]
+#...
+colorpicker = "1.0.9"
+
+[libraries]
+#...
+compose-colorpicker = { module = "com.github.skydoves:colorpicker-compose", version.ref = "colorpicker" }
+```
+
 ### Gradle
 Add the dependency below to your **module**'s `build.gradle.kts` file:
 
 ```gradle
 dependencies {
     implementation("com.github.skydoves:colorpicker-compose:1.0.9")
+    
+    // if you're using Version Catalog
+    implementation(libs.compose.colorpicker)
 }
 ```
 
