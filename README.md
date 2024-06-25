@@ -29,35 +29,9 @@ Add the dependency below to your **module**'s `build.gradle.kts` file:
 
 ```gradle
 dependencies {
-    implementation("com.github.skydoves:colorpicker-compose:1.0.8")
+    implementation("com.github.skydoves:colorpicker-compose:1.0.9")
 }
 ```
-
-## SNAPSHOT 
-
-<details>
- <summary>See how to import the snapshot</summary>
-
-### Including the SNAPSHOT
-Snapshots of the current development version of ColorPicker-Compose are available, which track [the latest versions](https://oss.sonatype.org/content/repositories/snapshots/com/github/skydoves/colorpicker-compose/).
-
-To import snapshot versions on your project, add the code snippet below on your gradle file:
-
-```Gradle
-repositories {
-   maven(url="https://oss.sonatype.org/content/repositories/snapshots/")
-}
-```
-
-Next, add the dependency below to your **module**'s `build.gradle.kts` file:
-
-```gradle
-dependencies {
-    implementation("com.github.skydoves:colorpicker-compose:1.0.8-SNAPSHOT")
-}
-```
-
-</details>
 
 ## Usage
 
