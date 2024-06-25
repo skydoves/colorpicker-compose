@@ -28,7 +28,7 @@ Also, it supports brightness and alpha slider, which can adjust your ARGB factor
 
 If you're using Version Catalog, you can configure the dependency by adding it to your `libs.versions.toml` file as follows:
 
-```
+```toml
 [versions]
 #...
 colorpicker = "1.0.9"
