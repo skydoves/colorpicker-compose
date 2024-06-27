@@ -10,6 +10,7 @@
 
 # Kotlin class files
 ./.kotlin
+/.kotlin
 
 # Generated files
 bin/
