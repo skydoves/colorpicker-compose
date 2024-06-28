@@ -190,6 +190,15 @@ constructor(
   }
 
   /**
+   * Select center point of the palette.
+   *
+   * @param fromUser Represents this event is triggered by user or not.
+   */
+  public fun selectCenter(fromUser: Boolean) {
+    selectByCoordinate(canvasSize.center, fromUser)
+  }
+
+  /**
    * Select a specific color and update with the selected color.
    *
    * @param color Color to be selected.
