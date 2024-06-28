@@ -56,7 +56,9 @@ public fun rememberColorPickerController(): ColorPickerController {
  * with the [rememberColorPickerController] extension.
  */
 @Stable
-public class ColorPickerController @OptIn(DelicateCoroutinesApi::class) constructor(
+public class ColorPickerController
+@OptIn(DelicateCoroutinesApi::class)
+constructor(
   internal val coroutineScope: CoroutineScope = GlobalScope,
 ) {
   internal var canvasSize: Size = Size.Zero
@@ -94,21 +96,33 @@ public class ColorPickerController @OptIn(DelicateCoroutinesApi::class) construc
 
   /** Radius to draw default wheel. */
   public var wheelRadius: Dp = 12.dp
-    set(value) { field = value; reviseTick.intValue++ }
+    set(value) {
+      field = value
+      reviseTick.intValue++
+    }
 
   /** Paint to draw default wheel. */
   public var wheelPaint: Paint = Paint().apply { color = Color.White }
-    set(value) { field = value; reviseTick.intValue++ }
+    set(value) {
+      field = value
+      reviseTick.intValue++
+    }
 
   /** Color of the default wheel. */
   public var wheelColor: Color
     get() = wheelPaint.color
-    set(value) { wheelPaint.color = value; reviseTick.intValue++ }
+    set(value) {
+      wheelPaint.color = value
+      reviseTick.intValue++
+    }
 
   /** Color of the default wheel. */
   public var wheelAlpha: Float
     get() = wheelPaint.alpha
-    set(value) { wheelPaint.alpha = value; reviseTick.intValue++ }
+    set(value) {
+      wheelPaint.alpha = value
+      reviseTick.intValue++
+    }
 
   private val _enabled: MutableState<Boolean> = mutableStateOf(true)
 
@@ -126,6 +140,7 @@ public class ColorPickerController @OptIn(DelicateCoroutinesApi::class) construc
   internal var reviseTick = mutableIntStateOf(0)
 
   private var _colorFlow = MutableStateFlow<ColorEnvelope?>(null)
+
   @OptIn(FlowPreview::class)
   public fun getColorFlow(debounceDuration: Long = 0): Flow<ColorEnvelope> =
     _colorFlow.filterNotNull().debounce(debounceDuration)

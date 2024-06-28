@@ -78,7 +78,8 @@ public fun HsvColorPicker(
         val angle = vector.angle()
         val hue = angleToHue(angle) // hue: 0 to 360
         val sat = min(vector.length() / radius, 1f) // saturation: 0 to 1
-        val newPoint = Offset.fromAngle(angle, sat * radius) + center // in case saturation was out of bounds
+        // adjust point in case saturation was out of bounds
+        val newPoint = Offset.fromAngle(angle, sat * radius) + center
         try {
           Color.hsv(hue, sat, 1f) to newPoint
         } catch (e: IllegalArgumentException) {
@@ -87,6 +88,6 @@ public fun HsvColorPicker(
         }
       }
     },
-    draw = { drawHsvColorGradient(controller.canvasSize) }
+    draw = { drawHsvColorGradient(controller.canvasSize) },
   )
 }

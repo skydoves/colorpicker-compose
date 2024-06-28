@@ -24,7 +24,6 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.RadialGradient
 import androidx.compose.ui.graphics.TileMode
 
-
 /**
  * Draws hsv color gradient with hue and saturation on a canvas.
  */
@@ -48,13 +47,13 @@ private val hsvSweepGradient = Brush.sweepGradient(
   0.666f to Color.Green,
   0.833f to Color.Yellow,
   0.999f to Color.Red,
-  //center = center,
+  // center = center,
 )
 
 private val saturationGradient = Brush.radialGradient(
   0f to Color(0xFFFFFFFF),
   1f to Color(0x00FFFFFF),
-  //center = center,
-  //radius = radius,
+  // center = center,
+  // radius = radius,
   tileMode = TileMode.Clamp,
 ) as RadialGradient

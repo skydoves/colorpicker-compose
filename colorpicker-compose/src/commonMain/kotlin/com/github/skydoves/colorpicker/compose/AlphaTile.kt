@@ -62,8 +62,9 @@ public fun AlphaTile(
     modifier
       .fillMaxSize()
       .onSizeChanged { size ->
-        if (size.width != 0 && size.height != 0)
+        if (size.width != 0 && size.height != 0) {
           background = ImageBitmap.fromPaint(paint, size)
+        }
       },
   ) {
     drawIntoCanvas { canvas ->

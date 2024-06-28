@@ -34,10 +34,15 @@ internal fun Color.toHSV(): Triple<Float, Float, Float> {
   val cmin = minOf(red, green, blue)
   val diff = cmax - cmin
 
-  val h = if (diff == 0f) 0.0f
-  else if (cmax == red) (60 * ((green - blue) / diff) + 360f) % 360f
-  else if (cmax == green) (60 * ((blue - red) / diff) + 120f) % 360f
-  else /*if (cmax == blue)*/ (60 * ((red - green) / diff) + 240f) % 360f
+  val h = if (diff == 0f) {
+    0.0f
+  } else if (cmax == red) {
+    (60 * ((green - blue) / diff) + 360f) % 360f
+  } else if (cmax == green) {
+    (60 * ((blue - red) / diff) + 120f) % 360f
+  } else {
+    (60 * ((red - green) / diff) + 240f) % 360f // if (cmax == blue)
+  }
   val s = if (cmax == 0f) 0f else diff / cmax
   val v = cmax
 

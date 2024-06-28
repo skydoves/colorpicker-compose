@@ -24,7 +24,6 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import kotlin.math.max
 
 /**
  * BrightnessSlider allows you to adjust the brightness value of the selected color from color pickers.
