@@ -102,8 +102,14 @@ constructor(
   /** An [ImageBitmap] to be drawn on the canvas as a wheel. */
   public var wheelBitmap: ImageBitmap? = null
 
+  internal val _debounceDuration: MutableState<Long?> = mutableStateOf(null)
+
   /** A debounce duration for observing color changes. */
-  private var debounceDuration: Long? = null
+  public var debounceDuration: Long?
+    get() = _debounceDuration.value
+    set(value) {
+      _debounceDuration.value = value
+    }
 
   /** Radius to draw default wheel. */
   public var wheelRadius: Dp = 12.dp
@@ -263,11 +269,6 @@ constructor(
     if (setBrightness(brightness)) {
       notifyColorChanged(fromUser)
     }
-  }
-
-  /** Sets the debounce duration that allows you to observe color changes with a given duration. */
-  public fun setDebounceDuration(duration: Long = 0) {
-    this.debounceDuration = duration
   }
 
   /** Notify color changes to the color picker and other subcomponents. */

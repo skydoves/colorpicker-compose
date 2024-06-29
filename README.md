@@ -10,7 +10,7 @@
 </p><br>
 
 <p align="center">
-🎨 Jetpack Compose color picker library that allows you to get colors from any images like gallery pictures by tapping on the desired color. 
+🎨 Kotlin Multiplatform color picker library that allows you to get colors from any images like gallery pictures by tapping on the desired color. 
 Also, it supports brightness and alpha slider, which can adjust your ARGB factors.
 </p>
 
@@ -185,7 +185,7 @@ You can select specific points with the functions below:
 You can set the debounce duration, which decides to invoke the color listener from the last tapping. Debounce can be useful to reduce overhead. For example, communicating with IoT devices or relevant works that require heavy operations.
 
 ```kotlin
-.setDebounceDuration(300L)
+controller.debounceDuration = 200L
 ```
 
 #### Enable and Disable
@@ -193,7 +193,7 @@ You can set the debounce duration, which decides to invoke the color listener fr
 You can enable or disable your color picker with the below function:
 
 ```kotlin
-.setEnabled(false)
+controller.enabled = false
 ```
 
 <img src="preview/preview3.gif" width="270" align="right">

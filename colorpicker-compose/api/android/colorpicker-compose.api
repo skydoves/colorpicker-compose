@@ -33,6 +33,7 @@ public final class com/github/skydoves/colorpicker/compose/ColorPickerController
 	public synthetic fun <init> (Lkotlinx/coroutines/CoroutineScope;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getColorFlow (J)Lkotlinx/coroutines/flow/Flow;
 	public static synthetic fun getColorFlow$default (Lcom/github/skydoves/colorpicker/compose/ColorPickerController;JILjava/lang/Object;)Lkotlinx/coroutines/flow/Flow;
+	public final fun getDebounceDuration ()Ljava/lang/Long;
 	public final fun getEnabled ()Z
 	public final fun getPaletteBitmap ()Lkotlinx/coroutines/flow/StateFlow;
 	public final fun getSelectedColor ()Landroidx/compose/runtime/State;
@@ -50,8 +51,7 @@ public final class com/github/skydoves/colorpicker/compose/ColorPickerController
 	public final fun selectCenter (Z)V
 	public final fun setAlpha (FZ)V
 	public final fun setBrightness (FZ)V
-	public final fun setDebounceDuration (J)V
-	public static synthetic fun setDebounceDuration$default (Lcom/github/skydoves/colorpicker/compose/ColorPickerController;JILjava/lang/Object;)V
+	public final fun setDebounceDuration (Ljava/lang/Long;)V
 	public final fun setEnabled (Z)V
 	public final fun setPaletteImageBitmap (Landroidx/compose/ui/graphics/ImageBitmap;)V
 	public final fun setWheelAlpha (F)V

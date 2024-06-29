@@ -64,9 +64,12 @@ internal fun ColorPicker(
 ) {
   var initialized by remember { mutableStateOf(false) }
 
-  DisposableEffect(key1 = controller) {
+  val debounceDuration = controller.debounceDuration
+  DisposableEffect(key1 = controller, key2 = debounceDuration) {
     controller.coroutineScope.launch(Dispatchers.Main) {
-      controller.getColorFlow().collect { onColorChanged(it) }
+      controller.getColorFlow(debounceDuration ?: 0).collect {
+        onColorChanged(it)
+      }
     }
     onDispose { controller.releaseBitmap() }
   }

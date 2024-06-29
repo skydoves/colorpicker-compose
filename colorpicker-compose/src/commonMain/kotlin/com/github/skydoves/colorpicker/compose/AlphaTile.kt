@@ -53,9 +53,9 @@ public fun AlphaTile(
     color = controller?.selectedColor?.value ?: selectedColor
   }
   val paint = alphaTilePaint(
-    with(density) { tileSize.toPx() },
-    tileOddColor,
-    tileEvenColor,
+    tileSize = with(density) { tileSize.toPx() },
+    tileOddColor = tileOddColor,
+    tileEvenColor = tileEvenColor,
   )
 
   Canvas(
