@@ -82,7 +82,6 @@ internal fun Slider(
     alpha = wheelAlpha
   },
   initialColor: Color? = null,
-
   drawBackground: Canvas.(IntSize) -> Unit = {},
   getValue: ColorPickerController.() -> Float,
   setValue: ColorPickerController.(Float, fromUser: Boolean) -> Unit,
@@ -144,14 +143,14 @@ internal fun Slider(
 
         // draw wheel bitmap on the canvas.
         canvas.drawWheel(
-          controller.getValue(),
-          width,
-          height,
-          wheelImageBitmap,
-          wheelRadiusPx,
-          wheelColor,
-          wheelAlpha,
-          wheelPaint,
+          position = controller.getValue(),
+          width = width,
+          height = height,
+          wheelImageBitmap = wheelImageBitmap,
+          wheelRadius = wheelRadiusPx,
+          wheelColor = wheelColor,
+          wheelAlpha = wheelAlpha,
+          wheelPaint = wheelPaint,
         )
       }
 

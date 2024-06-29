@@ -76,17 +76,17 @@ public fun AlphaSlider(
   }
 
   Slider(
-    modifier,
-    controller,
-    borderRadius,
-    borderSize,
-    borderColor,
-    wheelImageBitmap,
-    wheelRadius,
-    wheelColor,
-    wheelAlpha,
-    wheelPaint,
-    initialColor,
+    modifier = modifier,
+    controller = controller,
+    borderRadius = borderRadius,
+    borderSize = borderSize,
+    borderColor = borderColor,
+    wheelImageBitmap = wheelImageBitmap,
+    wheelRadius = wheelRadius,
+    wheelColor = wheelColor,
+    wheelAlpha = wheelAlpha,
+    wheelPaint = wheelPaint,
+    initialColor = initialColor,
     drawBackground = {
       drawRoundRect(it, borderRadius.value, paint)
     },

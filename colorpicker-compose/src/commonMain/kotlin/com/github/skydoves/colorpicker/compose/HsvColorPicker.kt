@@ -62,7 +62,6 @@ public fun HsvColorPicker(
     drawOnPosSelected = drawOnPosSelected,
     drawDefaultWheelIndicator = drawDefaultWheelIndicator,
     onColorChanged = onColorChanged,
-
     sizeChanged = {
       size = it
       radius = size.radius
