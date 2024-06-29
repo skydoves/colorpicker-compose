@@ -104,6 +104,9 @@ dependencies {
 
 baselineProfile {
   baselineProfileOutputDir = "../../src/androidMain"
+  filter {
+    include("com.github.skydoves.colorpicker.compose.**")
+  }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
