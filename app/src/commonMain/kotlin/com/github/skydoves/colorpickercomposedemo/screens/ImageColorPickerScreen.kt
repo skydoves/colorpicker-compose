@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -62,6 +63,7 @@ fun ImageColorPickerScreen() {
 
     ImageColorPicker(
       modifier = Modifier
+        .testTag("ImageColorPicker")
         .fillMaxWidth()
         .height(200.dp)
         .padding(10.dp),
@@ -78,6 +80,7 @@ fun ImageColorPickerScreen() {
 
     AlphaSlider(
       modifier = Modifier
+        .testTag("ImageColorPicker_AlphaSlider")
         .fillMaxWidth()
         .padding(10.dp)
         .height(35.dp)

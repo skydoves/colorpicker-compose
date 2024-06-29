@@ -96,10 +96,14 @@ android {
   lint {
     abortOnError = false
   }
+}
 
-  baselineProfile {
-    baselineProfileOutputDir = "../../src/androidMain"
-  }
+dependencies {
+  baselineProfile(project(":benchmark"))
+}
+
+baselineProfile {
+  baselineProfileOutputDir = "../../src/androidMain"
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
