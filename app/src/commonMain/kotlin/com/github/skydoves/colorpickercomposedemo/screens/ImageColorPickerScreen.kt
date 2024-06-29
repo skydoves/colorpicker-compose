@@ -59,13 +59,15 @@ fun ImageColorPickerScreen() {
   Column {
     Spacer(modifier = Modifier.weight(1f))
 
-    PhotoPickerIcon(controller)
+    PhotoPickerIcon { imageBitmap ->
+      imageBitmap?.let { controller.setPaletteImageBitmap(it) }
+    }
 
     ImageColorPicker(
       modifier = Modifier
         .testTag("ImageColorPicker")
         .fillMaxWidth()
-        .height(200.dp)
+        .height(300.dp)
         .padding(10.dp),
       controller = controller,
       paletteImageBitmap = imageResource(Res.drawable.palettebar),

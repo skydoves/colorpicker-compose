@@ -15,12 +15,6 @@
  */
 package com.github.skydoves.colorpickercomposedemo
 
-// import android.graphics.ImageDecoder
-// import android.os.Build
-// import android.provider.MediaStore
-// import androidx.activity.compose.rememberLauncherForActivityResult
-// import androidx.compose.ui.graphics.asImageBitmap
-// import androidx.compose.ui.res.vectorResource
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -28,33 +22,34 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import colorpickercomposedemo.app.generated.resources.Res
 import colorpickercomposedemo.app.generated.resources.ic_gallery
-import com.github.skydoves.colorpicker.compose.ColorPickerController
+import com.preat.peekaboo.image.picker.SelectionMode
+import com.preat.peekaboo.image.picker.rememberImagePickerLauncher
+import com.preat.peekaboo.image.picker.toImageBitmap
 import org.jetbrains.compose.resources.vectorResource
-
-// import com.google.modernstorage.photopicker.PhotoPicker
 
 @Composable
 fun ColumnScope.PhotoPickerIcon(
-  controller: ColorPickerController,
+  onImageSelected: (ImageBitmap?) -> Unit,
 ) {
-//  val context = LocalContext.current
-//  val photoPicker =
-//    rememberLauncherForActivityResult(PhotoPicker()) { uris ->
-//      val uri = uris.firstOrNull() ?: return@rememberLauncherForActivityResult
-//
-//      val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-//        ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.contentResolver, uri))
-//      } else {
-//        MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
-//      }
-//
-//      controller.setPaletteImageBitmap(bitmap.asImageBitmap())
-//    }
+  val scope = rememberCoroutineScope()
+
+  val singleImagePicker = rememberImagePickerLauncher(
+    selectionMode = SelectionMode.Single,
+    scope = scope,
+    onResult = { byteArrays ->
+      byteArrays.firstOrNull()?.let {
+        val imageBitmap = it.toImageBitmap()
+        onImageSelected.invoke(imageBitmap)
+      }
+    },
+  )
 
   Box(
     modifier = Modifier
@@ -64,10 +59,7 @@ fun ColumnScope.PhotoPickerIcon(
     Image(
       modifier = Modifier
         .size(42.dp)
-        .clickable {
-          // Launch the picker with only one image selectable
-          // photoPicker.launch(PhotoPicker.Args(PhotoPicker.Type.IMAGES_ONLY, 1))
-        },
+        .clickable { singleImagePicker.launch() },
       imageVector = vectorResource(Res.drawable.ic_gallery),
       contentDescription = null,
     )

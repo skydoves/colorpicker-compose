@@ -34,11 +34,11 @@ kotlin {
       implementation(compose.components.uiToolingPreview)
       implementation(compose.material)
       implementation(compose.components.resources)
+
       implementation(libs.androidx.compose.navigation)
+      implementation(libs.image.picker)
 
       implementation(project(":colorpicker-compose"))
-
-      // TODO: implementation(libs.photo.picker)
     }
 
     androidMain.dependencies {
@@ -56,7 +56,7 @@ android {
 
   defaultConfig {
     applicationId = "com.github.skydoves.colorpickercomposedemo"
-    minSdk = Configuration.minSdk
+    minSdk = Configuration.demoMinSdk
     targetSdk = Configuration.targetSdk
     versionCode = Configuration.versionCode
     versionName = Configuration.versionName

@@ -40,6 +40,7 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filterNotNull
 
@@ -63,9 +64,12 @@ constructor(
 ) {
   internal var canvasSize: Size = Size.Zero
     set(value) {
-      if (value == field) { return }
+      if (value == field) {
+        return
+      }
       val cur = _selectedPoint.value
-      _selectedPoint.value = Offset( // TODO: check this for aspect ratio preservation
+      _selectedPoint.value = Offset(
+        // TODO: check this for aspect ratio preservation
         cur.x * value.width / field.width,
         cur.y * value.height / field.height,
       )
@@ -90,6 +94,10 @@ constructor(
 
   /** Brightness value to be applied with the selected color. */
   internal var brightness: MutableState<Float> = mutableFloatStateOf(1.0f)
+
+  /** An [ImageBitmap] to be drawn on the canvas as a palette. */
+  private var _paletteBitmap: MutableStateFlow<ImageBitmap?> = MutableStateFlow(null)
+  public val paletteBitmap: StateFlow<ImageBitmap?> = _paletteBitmap
 
   /** An [ImageBitmap] to be drawn on the canvas as a wheel. */
   public var wheelBitmap: ImageBitmap? = null
@@ -129,7 +137,9 @@ constructor(
   /** Enable or not color selection. */
   public var enabled: Boolean
     get() = _enabled.value
-    set(value) { _enabled.value = value }
+    set(value) {
+      _enabled.value = value
+    }
 
   /** Indicates if the alpha slider has been attached. */
   internal var isAttachedAlphaSlider: Boolean = false
@@ -233,17 +243,23 @@ constructor(
     var changed = selectByCoordinate(hsvToCoord(h, s, canvasSize.center))
     changed = setAlpha(alpha) || changed
     changed = setBrightness(v) || changed
-    if (changed) { notifyColorChanged(fromUser) }
+    if (changed) {
+      notifyColorChanged(fromUser)
+    }
   }
 
   /** Combine the alpha value to the selected pure color. */
   public fun setAlpha(alpha: Float, fromUser: Boolean) {
-    if (setAlpha(alpha)) { notifyColorChanged(fromUser) }
+    if (setAlpha(alpha)) {
+      notifyColorChanged(fromUser)
+    }
   }
 
   /** Combine the brightness value to the selected pure color. */
   public fun setBrightness(brightness: Float, fromUser: Boolean) {
-    if (setBrightness(brightness)) { notifyColorChanged(fromUser) }
+    if (setBrightness(brightness)) {
+      notifyColorChanged(fromUser)
+    }
   }
 
   /** Notify color changes to the color picker and other subcomponents. */
@@ -272,7 +288,9 @@ constructor(
 
   /** Combine the alpha value to the selected pure color. */
   private fun setAlpha(alpha: Float): Boolean {
-    if (!enabled || this.alpha.value == alpha) { return false }
+    if (!enabled || this.alpha.value == alpha) {
+      return false
+    }
     this.alpha.value = alpha
     _selectedColor.value = selectedColor.value.copy(alpha = alpha)
     return true
@@ -280,7 +298,9 @@ constructor(
 
   /** Combine the brightness value to the selected pure color. */
   private fun setBrightness(brightness: Float): Boolean {
-    if (!enabled || this.brightness.value == brightness) { return false }
+    if (!enabled || this.brightness.value == brightness) {
+      return false
+    }
     this.brightness.value = brightness
     val (h, s, _) = pureSelectedColor.value.toHSV()
     _selectedColor.value = Color.hsv(h, s, brightness, alpha.value)
@@ -294,7 +314,20 @@ constructor(
     return Color.hsv(h, s, actualV, if (isAttachedAlphaSlider) alpha.value else 1f)
   }
 
+  /** Set an [ImageBitmap] to draw on the canvas as a palette. */
+  public fun setPaletteImageBitmap(imageBitmap: ImageBitmap) {
+    val targetSize = imageBitmap.takeIf { it.width != 0 && it.height != 0 }
+      ?: throw RuntimeException(
+        "Can't set an ImageBitmap before initializing the canvas",
+      )
+    canvasSize = Size(targetSize.width.toFloat(), targetSize.height.toFloat())
+    _paletteBitmap.value = imageBitmap
+    selectCenter(fromUser = false)
+    reviseTick.intValue++
+  }
+
   internal fun releaseBitmap() {
     wheelBitmap = null
+    _paletteBitmap.value = null
   }
 }
