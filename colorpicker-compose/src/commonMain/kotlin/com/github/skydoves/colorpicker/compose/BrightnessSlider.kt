@@ -15,7 +15,6 @@
  */
 package com.github.skydoves.colorpicker.compose
 
-import androidx.annotation.FloatRange
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
@@ -50,7 +49,7 @@ public fun BrightnessSlider(
   wheelImageBitmap: ImageBitmap? = null,
   wheelRadius: Dp = 12.dp,
   wheelColor: Color = Color.White,
-  @FloatRange(from = 0.0, to = 1.0) wheelAlpha: Float = 1.0f,
+  wheelAlpha: Float = 1.0f,
   wheelPaint: Paint = Paint().apply {
     color = wheelColor
     alpha = wheelAlpha
