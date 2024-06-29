@@ -96,9 +96,16 @@ android {
   lint {
     abortOnError = false
   }
+}
 
-  baselineProfile {
-    baselineProfileOutputDir = "../../src/androidMain"
+dependencies {
+  baselineProfile(project(":benchmark"))
+}
+
+baselineProfile {
+  baselineProfileOutputDir = "../../src/androidMain"
+  filter {
+    include("com.github.skydoves.colorpicker.compose.**")
   }
 }
 

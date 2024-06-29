@@ -70,9 +70,9 @@ fun MainScreen() {
     topBar = { MainToolBar() },
   ) { innerPadding ->
     NavHost(
-      navController,
+      modifier = Modifier.padding(innerPadding),
+      navController = navController,
       startDestination = Screen.ImageColorPicker.route,
-      Modifier.padding(innerPadding),
     ) {
       composable(Screen.ImageColorPicker.route) {
         ImageColorPickerScreen()
