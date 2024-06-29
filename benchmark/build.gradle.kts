@@ -3,8 +3,16 @@ import com.github.skydoves.colorpicker.compose.Configuration
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
   id(libs.plugins.android.test.get().pluginId)
-  id(libs.plugins.kotlin.android.get().pluginId)
+  id(libs.plugins.kotlin.multiplatform.get().pluginId)
   id(libs.plugins.baseline.profile.get().pluginId)
+}
+
+kotlin {
+  applyDefaultHierarchyTemplate()
+  androidTarget()
+  iosX64()
+  iosArm64()
+  iosSimulatorArm64()
 }
 
 android {
@@ -14,10 +22,6 @@ android {
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
-  }
-
-  kotlinOptions {
-    jvmTarget = libs.versions.jvmTarget.get()
   }
 
   defaultConfig {
@@ -35,6 +39,17 @@ android {
       systemImageSource = "aosp"
     }
   }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
+  compilerOptions {
+    jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+  }
+}
+
+tasks.withType<JavaCompile>().configureEach {
+  this.targetCompatibility = libs.versions.jvmTarget.get()
+  this.sourceCompatibility = libs.versions.jvmTarget.get()
 }
 
 // This is the plugin configuration. Everything is optional. Defaults are in the
