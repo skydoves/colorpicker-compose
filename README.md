@@ -58,6 +58,7 @@ sourceSets {
         implementation("com.github.skydoves:colorpicker-compose:$version")
     }
 }
+```
 
 ## Usage
 
