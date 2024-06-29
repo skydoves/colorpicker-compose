@@ -8,7 +8,7 @@ plugins {
   id(libs.plugins.jetbrains.compose.get().pluginId)
   id(libs.plugins.compose.compiler.get().pluginId)
   id(libs.plugins.nexus.plugin.get().pluginId)
-  // TODO: id(libs.plugins.baseline.profile.get().pluginId)
+  id(libs.plugins.baseline.profile.get().pluginId)
 }
 
 apply(from = "${rootDir}/scripts/publish-module.gradle.kts")
@@ -48,6 +48,8 @@ kotlin {
       }
     }
   }
+
+  explicitApi()
 }
 
 android {
@@ -66,10 +68,9 @@ android {
     abortOnError = false
   }
 
-// TODO:
-//  dependencies {
-//    baselineProfile(project(":benchmark"))
-//  }
+  baselineProfile {
+    baselineProfileOutputDir = "../../src/androidMain"
+  }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
@@ -88,10 +89,3 @@ tasks.withType<JavaCompile>().configureEach {
   this.targetCompatibility = libs.versions.jvmTarget.get()
   this.sourceCompatibility = libs.versions.jvmTarget.get()
 }
-
-// TODO:
-//baselineProfile {
-//  filter {
-//    include("com.github.skydoves.colorpicker.compose.**")
-//  }
-//}

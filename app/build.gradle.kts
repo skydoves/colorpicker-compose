@@ -6,7 +6,7 @@ plugins {
   id(libs.plugins.kotlin.multiplatform.get().pluginId)
   id(libs.plugins.jetbrains.compose.get().pluginId)
   id(libs.plugins.compose.compiler.get().pluginId)
-  // TODO: id(libs.plugins.baseline.profile.get().pluginId)
+  id(libs.plugins.baseline.profile.get().pluginId)
 }
 
 kotlin {
@@ -34,7 +34,6 @@ kotlin {
       implementation(compose.components.uiToolingPreview)
       implementation(compose.material)
       implementation(compose.components.resources)
-
       implementation(libs.androidx.compose.navigation)
 
       implementation(project(":colorpicker-compose"))
@@ -92,10 +91,9 @@ android {
     }
   }
 
-// TODO:
-//  dependencies {
-//    baselineProfile(project(":benchmark"))
-//  }
+  dependencies {
+    baselineProfile(project(":benchmark"))
+  }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
