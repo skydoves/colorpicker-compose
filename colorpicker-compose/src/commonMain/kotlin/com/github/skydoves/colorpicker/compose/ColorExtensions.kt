@@ -27,7 +27,7 @@ internal val Color.hexCode: String
     return a.hex + r.hex + g.hex + b.hex
   }
 
-private inline val Int.hex get() = this.toString(16).padStart(2, '0')
+private val Int.hex get() = this.toString(16).padStart(2, '0')
 
 internal fun Color.toHSV(): Triple<Float, Float, Float> {
   val cmax = maxOf(red, green, blue)
@@ -50,8 +50,8 @@ internal fun Color.toHSV(): Triple<Float, Float, Float> {
 }
 
 /** Converts an HS(V) color to a coordinate on the hue/saturation circle. */
-internal inline fun hsvToCoord(h: Float, s: Float, center: Offset) =
+internal fun hsvToCoord(h: Float, s: Float, center: Offset) =
   Offset.fromAngle(hueToAngle(h), s * center.minCoordinate) + center
 
-internal inline fun angleToHue(angle: Float) = (-angle.toDegrees() + 360f) % 360f
-internal inline fun hueToAngle(hue: Float) = -hue.toRadians()
+internal fun angleToHue(angle: Float) = (-angle.toDegrees() + 360f) % 360f
+internal fun hueToAngle(hue: Float) = -hue.toRadians()

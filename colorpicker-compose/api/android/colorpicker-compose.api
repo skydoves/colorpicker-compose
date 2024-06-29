@@ -50,6 +50,8 @@ public final class com/github/skydoves/colorpicker/compose/ColorPickerController
 	public final fun selectCenter (Z)V
 	public final fun setAlpha (FZ)V
 	public final fun setBrightness (FZ)V
+	public final fun setDebounceDuration (J)V
+	public static synthetic fun setDebounceDuration$default (Lcom/github/skydoves/colorpicker/compose/ColorPickerController;JILjava/lang/Object;)V
 	public final fun setEnabled (Z)V
 	public final fun setPaletteImageBitmap (Landroidx/compose/ui/graphics/ImageBitmap;)V
 	public final fun setWheelAlpha (F)V

@@ -66,7 +66,7 @@ internal fun ColorPicker(
 
   DisposableEffect(key1 = controller) {
     controller.coroutineScope.launch(Dispatchers.Main) {
-      controller.getColorFlow().collect { onColorChanged(it) } // TODO: debounce parameter
+      controller.getColorFlow().collect { onColorChanged(it) }
     }
     onDispose { controller.releaseBitmap() }
   }

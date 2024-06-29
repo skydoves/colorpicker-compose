@@ -30,12 +30,12 @@ internal fun ImageBitmap.getPixel(x: Int, y: Int): Color {
   return Color(buffer[0])
 }
 
-internal inline fun ImageBitmap.getPixel(point: IntOffset): Color =
+internal fun ImageBitmap.getPixel(point: IntOffset): Color =
   getPixel(point.x, point.y)
 
-internal inline val ImageBitmap.size get() = IntSize(width, height)
+internal val ImageBitmap.size get() = IntSize(width, height)
 
-internal inline fun ImageBitmap.Companion.fromDrawing(size: IntSize, draw: Canvas.() -> Unit) =
+internal fun ImageBitmap.Companion.fromDrawing(size: IntSize, draw: Canvas.() -> Unit) =
   ImageBitmap(size.width, size.height, ImageBitmapConfig.Argb8888).also { Canvas(it).draw() }
 
 internal fun ImageBitmap.Companion.fromPaint(paint: Paint, size: IntSize) =

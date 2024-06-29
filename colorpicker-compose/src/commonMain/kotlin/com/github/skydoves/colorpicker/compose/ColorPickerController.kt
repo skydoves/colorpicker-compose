@@ -102,6 +102,9 @@ constructor(
   /** An [ImageBitmap] to be drawn on the canvas as a wheel. */
   public var wheelBitmap: ImageBitmap? = null
 
+  /** A debounce duration for observing color changes. */
+  private var debounceDuration: Long? = null
+
   /** Radius to draw default wheel. */
   public var wheelRadius: Dp = 12.dp
     set(value) {
@@ -153,7 +156,7 @@ constructor(
 
   @OptIn(FlowPreview::class)
   public fun getColorFlow(debounceDuration: Long = 0): Flow<ColorEnvelope> =
-    _colorFlow.filterNotNull().debounce(debounceDuration)
+    _colorFlow.filterNotNull().debounce(this.debounceDuration ?: debounceDuration)
 
   // Function that takes a coordinate and obtains a color
   // Also returns an adjusted coordinate if appropriate
@@ -260,6 +263,11 @@ constructor(
     if (setBrightness(brightness)) {
       notifyColorChanged(fromUser)
     }
+  }
+
+  /** Sets the debounce duration that allows you to observe color changes with a given duration. */
+  public fun setDebounceDuration(duration: Long = 0) {
+    this.debounceDuration = duration
   }
 
   /** Notify color changes to the color picker and other subcomponents. */
