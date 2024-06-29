@@ -42,7 +42,7 @@ public final class com/github/skydoves/colorpickercomposedemo/MainScreenKt {
 }
 
 public final class com/github/skydoves/colorpickercomposedemo/PhotoPickerIconKt {
-	public static final fun PhotoPickerIcon (Landroidx/compose/foundation/layout/ColumnScope;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;Landroidx/compose/runtime/Composer;I)V
+	public static final fun PhotoPickerIcon (Landroidx/compose/foundation/layout/ColumnScope;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;I)V
 }
 
 public abstract class com/github/skydoves/colorpickercomposedemo/Screen {

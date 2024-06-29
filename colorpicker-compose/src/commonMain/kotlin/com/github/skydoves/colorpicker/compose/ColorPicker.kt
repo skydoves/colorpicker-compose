@@ -58,14 +58,13 @@ internal fun ColorPicker(
   drawOnPosSelected: (DrawScope.() -> Unit)? = null,
   drawDefaultWheelIndicator: Boolean = wheelImageBitmap == null && drawOnPosSelected == null,
   onColorChanged: (colorEnvelope: ColorEnvelope) -> Unit = {},
-
   sizeChanged: (IntSize) -> Unit = { _ -> },
   setup: ColorPickerController.() -> Unit,
   draw: Canvas.(size: Size) -> Unit,
 ) {
   var initialized by remember { mutableStateOf(false) }
 
-  DisposableEffect(controller) {
+  DisposableEffect(key1 = controller) {
     controller.coroutineScope.launch(Dispatchers.Main) {
       controller.getColorFlow().collect { onColorChanged(it) } // TODO: debounce parameter
     }
@@ -105,11 +104,11 @@ internal fun ColorPicker(
 
       // draw wheel bitmap on the canvas.
       canvas.drawWheel(
-        controller.selectedPoint.value,
-        controller.wheelBitmap,
-        drawDefaultWheelIndicator,
-        controller.wheelRadius.toPx(),
-        controller.wheelPaint,
+        point = controller.selectedPoint.value,
+        wheelBitmap = controller.wheelBitmap,
+        drawDefaultWheelIndicator = drawDefaultWheelIndicator,
+        wheelRadiusPx = controller.wheelRadius.toPx(),
+        wheelPaint = controller.wheelPaint,
       )
 
       drawOnPosSelected?.let { it() }

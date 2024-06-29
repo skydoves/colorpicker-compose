@@ -34,6 +34,7 @@ public final class com/github/skydoves/colorpicker/compose/ColorPickerController
 	public final fun getColorFlow (J)Lkotlinx/coroutines/flow/Flow;
 	public static synthetic fun getColorFlow$default (Lcom/github/skydoves/colorpicker/compose/ColorPickerController;JILjava/lang/Object;)Lkotlinx/coroutines/flow/Flow;
 	public final fun getEnabled ()Z
+	public final fun getPaletteBitmap ()Lkotlinx/coroutines/flow/StateFlow;
 	public final fun getSelectedColor ()Landroidx/compose/runtime/State;
 	public final fun getSelectedPoint ()Landroidx/compose/runtime/State;
 	public final fun getWheelAlpha ()F
@@ -50,6 +51,7 @@ public final class com/github/skydoves/colorpicker/compose/ColorPickerController
 	public final fun setAlpha (FZ)V
 	public final fun setBrightness (FZ)V
 	public final fun setEnabled (Z)V
+	public final fun setPaletteImageBitmap (Landroidx/compose/ui/graphics/ImageBitmap;)V
 	public final fun setWheelAlpha (F)V
 	public final fun setWheelBitmap (Landroidx/compose/ui/graphics/ImageBitmap;)V
 	public final fun setWheelColor-8_81llA (J)V

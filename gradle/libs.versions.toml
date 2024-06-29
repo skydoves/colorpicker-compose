@@ -9,7 +9,7 @@ jvmTarget = "11"
 androidxActivity = "1.9.0"
 androidxTest = "1.5.2"
 androidxNavigation = "2.7.0-alpha07"
-photoPicker = "1.0.0-alpha06"
+imagePicker = "0.5.2"
 baselineProfiles = "1.3.1"
 macroBenchmark = "1.2.4"
 uiAutomator = "2.3.0"
@@ -37,7 +37,7 @@ baseline-profile = { id = "androidx.baselineprofile", version.ref = "androidxMac
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
 androidx-compose-navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidxNavigation" }
-photo-picker = { group = "com.google.modernstorage", name = "modernstorage-photopicker", version.ref = "photoPicker" }
+image-picker = { group = "io.github.onseok", name = "peekaboo-image-picker", version.ref = "imagePicker" }
 
 # unit test
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTest" }

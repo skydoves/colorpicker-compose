@@ -18,6 +18,8 @@ package com.github.skydoves.colorpicker.compose
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -64,10 +66,29 @@ public fun ImageColorPicker(
     return
   }
 
-  val width = remember { paletteImageBitmap.width }
-  val height = remember { paletteImageBitmap.height }
+  val controllerBitmap: ImageBitmap? by controller.paletteBitmap.collectAsState(
+    initial = paletteImageBitmap,
+  )
+  val imageBitmap = controllerBitmap ?: paletteImageBitmap
+
+  val width = remember(imageBitmap) { imageBitmap.width }
+  val height = remember(imageBitmap) { imageBitmap.height }
   var offset by remember { mutableStateOf(Offset.Zero) }
   var scale by remember { mutableStateOf(1f) }
+
+  LaunchedEffect(key1 = imageBitmap) {
+    controller.setup { point ->
+      val origPoint = (point - offset) / scale
+      val imPoint = Offset(
+        origPoint.x.coerceIn(0f, width - 1f),
+        origPoint.y.coerceIn(0f, height - 1f),
+      )
+      // TODO: transparent pixel handling
+      val px = imageBitmap.getPixel(imPoint.roundToInt())
+      val newPoint = imPoint * scale + offset
+      px to newPoint
+    }
+  }
 
   ColorPicker(
     modifier = modifier,
@@ -76,11 +97,15 @@ public fun ImageColorPicker(
     drawOnPosSelected = drawOnPosSelected,
     drawDefaultWheelIndicator = drawDefaultWheelIndicator,
     onColorChanged = onColorChanged,
-
     sizeChanged = { size ->
       val metrics = when (paletteContentScale) {
-        PaletteContentScale.FIT -> { getMetricsForFit(paletteImageBitmap.size, size) }
-        PaletteContentScale.CROP -> { getMetricsForCrop(paletteImageBitmap.size, size) }
+        PaletteContentScale.FIT -> {
+          getMetricsForFit(imageBitmap.size, size)
+        }
+
+        PaletteContentScale.CROP -> {
+          getMetricsForCrop(imageBitmap.size, size)
+        }
       }
       scale = metrics.first
       offset = metrics.second
@@ -93,16 +118,16 @@ public fun ImageColorPicker(
           origPoint.y.coerceIn(0f, height - 1f),
         )
         // TODO: transparent pixel handling
-        val px = paletteImageBitmap.getPixel(imPoint.roundToInt())
+        val px = imageBitmap.getPixel(imPoint.roundToInt())
         val newPoint = imPoint * scale + offset
         px to newPoint
       }
     },
     draw = {
       drawImageRect(
-        paletteImageBitmap,
+        image = imageBitmap,
         dstOffset = offset.roundToInt(),
-        dstSize = paletteImageBitmap.size * scale,
+        dstSize = imageBitmap.size * scale,
         paint = emptyPaint,
       )
     },
