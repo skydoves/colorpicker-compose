@@ -15,10 +15,12 @@
  */
 package com.github.skydoves.colorpickercomposedemo
 
-//import android.graphics.ImageDecoder
-//import android.os.Build
-//import android.provider.MediaStore
-//import androidx.activity.compose.rememberLauncherForActivityResult
+// import android.graphics.ImageDecoder
+// import android.os.Build
+// import android.provider.MediaStore
+// import androidx.activity.compose.rememberLauncherForActivityResult
+// import androidx.compose.ui.graphics.asImageBitmap
+// import androidx.compose.ui.res.vectorResource
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -28,13 +30,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-//import androidx.compose.ui.graphics.asImageBitmap
-//import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import colorpickercomposedemo.app.generated.resources.*
+import colorpickercomposedemo.app.generated.resources.Res
+import colorpickercomposedemo.app.generated.resources.ic_gallery
 import com.github.skydoves.colorpicker.compose.ColorPickerController
 import org.jetbrains.compose.resources.vectorResource
-//import com.google.modernstorage.photopicker.PhotoPicker
+
+// import com.google.modernstorage.photopicker.PhotoPicker
 
 @Composable
 fun ColumnScope.PhotoPickerIcon(
@@ -64,7 +66,7 @@ fun ColumnScope.PhotoPickerIcon(
         .size(42.dp)
         .clickable {
           // Launch the picker with only one image selectable
-          //photoPicker.launch(PhotoPicker.Args(PhotoPicker.Type.IMAGES_ONLY, 1))
+          // photoPicker.launch(PhotoPicker.Args(PhotoPicker.Type.IMAGES_ONLY, 1))
         },
       imageVector = vectorResource(Res.drawable.ic_gallery),
       contentDescription = null,

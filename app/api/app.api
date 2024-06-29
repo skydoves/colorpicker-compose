@@ -10,8 +10,10 @@ public final class com/github/skydoves/colorpickercomposedemo/BuildConfig {
 public final class com/github/skydoves/colorpickercomposedemo/ComposableSingletons$MainActivityKt {
 	public static final field INSTANCE Lcom/github/skydoves/colorpickercomposedemo/ComposableSingletons$MainActivityKt;
 	public static field lambda-1 Lkotlin/jvm/functions/Function2;
+	public static field lambda-2 Lkotlin/jvm/functions/Function2;
 	public fun <init> ()V
 	public final fun getLambda-1$app_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda-2$app_release ()Lkotlin/jvm/functions/Function2;
 }
 
 public final class com/github/skydoves/colorpickercomposedemo/ComposableSingletons$MainScreenKt {
@@ -45,8 +47,8 @@ public final class com/github/skydoves/colorpickercomposedemo/PhotoPickerIconKt 
 
 public abstract class com/github/skydoves/colorpickercomposedemo/Screen {
 	public static final field $stable I
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun getDrawable ()I
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lorg/jetbrains/compose/resources/DrawableResource;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getDrawable ()Lorg/jetbrains/compose/resources/DrawableResource;
 	public final fun getName ()Ljava/lang/String;
 	public final fun getRoute ()Ljava/lang/String;
 }

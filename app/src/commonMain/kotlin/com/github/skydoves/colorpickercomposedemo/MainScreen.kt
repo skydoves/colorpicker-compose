@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -43,7 +42,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import colorpickercomposedemo.app.generated.resources.*
+import colorpickercomposedemo.app.generated.resources.Res
+import colorpickercomposedemo.app.generated.resources.app_name
+import colorpickercomposedemo.app.generated.resources.image_24px
+import colorpickercomposedemo.app.generated.resources.palette_24px
 import com.github.skydoves.colorpickercomposedemo.screens.HsvColorPickerColoredSelectorScreen
 import com.github.skydoves.colorpickercomposedemo.screens.ImageColorPickerScreen
 import org.jetbrains.compose.resources.DrawableResource
