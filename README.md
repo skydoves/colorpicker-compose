@@ -62,9 +62,10 @@ sourceSets {
 
 ### Kotlin Multiplatform Support Maps
 
-|                OS                 | Support |
+|             Platform              | Support |
 |:---------------------------------:|:-------:|
 |              Android              |    ✅    |
+|              Desktop              |    ✅    |
 | iOSX64/iOSArm64/iosSimulatorArm64 |    ✅    |
 |        macosX64/macosArm64        |    ✅    |
 |             js/WasmJs             |    ✅    |
