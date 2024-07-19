@@ -1,4 +1,5 @@
 import com.github.skydoves.colorpicker.compose.Configuration
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
@@ -39,6 +40,11 @@ kotlin {
     browser()
     nodejs()
   }
+  @OptIn(ExperimentalWasmDsl::class)
+  wasmJs {
+    binaries.library()
+  }
+
   @Suppress("OPT_IN_USAGE")
   applyHierarchyTemplate {
     common {
@@ -61,6 +67,7 @@ kotlin {
             }
           }
           withJs()
+          withWasmJs()
         }
       }
     }
