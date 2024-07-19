@@ -37,6 +37,9 @@ proguard/
 # Android Studio captures folder
 captures/
 
+# wasm
+kotlin-js-store/
+
 # Intellij
 *.iml
 .idea/workspace.xml
