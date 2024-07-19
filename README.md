@@ -31,7 +31,7 @@ If you're using Version Catalog, you can configure the dependency by adding it t
 ```toml
 [versions]
 #...
-colorpicker = "1.1.1"
+colorpicker = "1.1.2"
 
 [libraries]
 #...
@@ -43,7 +43,7 @@ Add the dependency below to your **module**'s `build.gradle.kts` file:
 
 ```gradle
 dependencies {
-    implementation("com.github.skydoves:colorpicker-compose:1.1.1")
+    implementation("com.github.skydoves:colorpicker-compose:1.1.2")
     
     // if you're using Version Catalog
     implementation(libs.compose.colorpicker)
@@ -59,6 +59,15 @@ sourceSets {
     }
 }
 ```
+
+### Kotlin Multiplatform Support Maps
+
+|                OS                 | Support |
+|:---------------------------------:|:-------:|
+|              Android              |    ✅    |
+| iOSX64/iOSArm64/iosSimulatorArm64 |    ✅    |
+|        macosX64/macosArm64        |    ✅    |
+|             js/WasmJs             |    ✅    |
 
 ## Usage
 
