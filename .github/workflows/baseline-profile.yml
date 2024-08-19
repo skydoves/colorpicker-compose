@@ -35,20 +35,22 @@ jobs:
     steps:
 
       # Checks your code out on the machine
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
       # Sets java up
-      - uses: actions/setup-java@v3
+      - name: Setup JDK
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 21
 
       # Sets gradle up
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2.7.0
+        uses: gradle/actions/setup-gradle@v4
 
       # Grants execute permission to gradle (safety step)
-      - name: Grant Permissions to gradlew
+      - name: Grant Execute Permission for gradlew
         run: chmod +x gradlew
 
       # This allows us to build most of what we need without the emulator running
@@ -66,7 +68,7 @@ jobs:
 
       # Create Pull Request
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v6
         with:
           commit-message: "Generate baseline profiles"
           title: "Generate baseline profiles"
