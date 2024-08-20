@@ -8,57 +8,56 @@ on:
 
 jobs:
   lint:
-    name: Spotless check
+    name: Spotless Check
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v3.1.0
-      - name: Set up JDK
-        uses: actions/setup-java@v3.5.1
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
         with:
-          distribution: adopt
-          java-version: 17
-      - name: spotless
+          distribution: temurin
+          java-version: 21
+
+      - name: Spotless
         run: ./gradlew spotlessCheck
 
   api_check:
-    name: API check
+    name: API Check
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v3.1.0
-      - name: Set up JDK
-        uses: actions/setup-java@v3.5.1
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
         with:
-          distribution: adopt
-          java-version: 17
-      - name: API check
+          distribution: temurin
+          java-version: 21
+
+      - name: API Check
         run: ./gradlew apiCheck
 
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.1.0
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - name: set up JDK
-        uses: actions/setup-java@v3.5.1
+      - name: Setup JDK
+        uses: actions/setup-java@v4
         with:
-          distribution: adopt
-          java-version: 17
+          distribution: temurin
+          java-version: 21
 
-      - name: Cache Gradle and wrapper
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - name: Make Gradle executable
-        run: chmod +x ./gradlew
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
 
-      - name: Build with Gradle
+      - name: Grant Execute Permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build With Gradle
         run: |
           ./gradlew --scan --stacktrace \
               assemble -x :benchmark:pixel6api31Setup -x :benchmark:pixel6api31NonMinifiedReleaseAndroidTest -x :benchmark:collectNonMinifiedReleaseBaselineProfile
