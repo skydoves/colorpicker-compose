@@ -21,6 +21,8 @@ Also, it supports brightness and alpha slider, which can adjust your ARGB factor
 <img src="preview/preview2.gif" width="270"/>
 </p>
 
+![kmp](https://github.com/user-attachments/assets/f81c43df-7172-4f44-8e11-898445551806)
+
 ## Download
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.skydoves/colorpicker-compose.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.skydoves%22%20AND%20a:%22colorpicker-compose%22)
 
