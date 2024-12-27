@@ -2,7 +2,7 @@
 agp = "8.7.3"
 dokka = "2.0.0"
 nexusPlugin = "0.30.0"
-kotlin = "2.0.21"
+kotlin = "2.1.0"
 kotlinBinaryCompatibility = "0.17.0"
 compose-plugin = "1.7.3"
 jvmTarget = "11"
