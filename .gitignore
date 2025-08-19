@@ -8,9 +8,8 @@
 # Java class files
 *.class
 
-# Kotlin class files
-./.kotlin
-/.kotlin
+# Kotlin
+.kotlin
 
 # Generated files
 bin/
@@ -18,9 +17,10 @@ gen/
 out/
 
 # Gradle files
-/.idea
 .gradle/
 build/
+.cxx/
+
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -37,20 +37,15 @@ proguard/
 # Android Studio captures folder
 captures/
 
-# wasm
-kotlin-js-store/
-
 # Intellij
 *.iml
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/gradle.xml
-.idea/dictionaries
-.idea/libraries
+/.idea/*
+!.idea/codeInsightSettings.xml
 app/.idea/
 
-# Mac
+# DS_Store
 *.DS_Store
+**/DS_Store
 
 # Keystore files
 *.jks
@@ -63,5 +58,3 @@ google-services.json
 
 # Temporary API docs
 docs/api
-
-*.gpg
