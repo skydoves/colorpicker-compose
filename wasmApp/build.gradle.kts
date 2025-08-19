@@ -1,7 +1,5 @@
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
   id(libs.plugins.kotlin.multiplatform.get().pluginId)
   id(libs.plugins.jetbrains.compose.get().pluginId)
@@ -9,9 +7,7 @@ plugins {
 }
 
 kotlin {
-  @OptIn(ExperimentalWasmDsl::class)
   wasmJs {
-    moduleName = "wasm-demo"
     browser {
       commonWebpackConfig {
         outputFileName = "composeApp.js"

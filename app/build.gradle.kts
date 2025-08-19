@@ -1,6 +1,5 @@
 import com.github.skydoves.colorpicker.compose.Configuration
 
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
   id(libs.plugins.android.application.get().pluginId)
   id(libs.plugins.kotlin.multiplatform.get().pluginId)
