@@ -36,7 +36,7 @@ jobs:
 
       # Checks your code out on the machine
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # Sets java up
       - name: Setup JDK
