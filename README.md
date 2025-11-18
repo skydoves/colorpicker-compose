@@ -33,7 +33,7 @@ If you're using Version Catalog, you can configure the dependency by adding it t
 ```toml
 [versions]
 #...
-colorpicker = "1.1.2"
+colorpicker = "1.1.3"
 
 [libraries]
 #...
@@ -45,7 +45,7 @@ Add the dependency below to your **module**'s `build.gradle.kts` file:
 
 ```gradle
 dependencies {
-    implementation("com.github.skydoves:colorpicker-compose:1.1.2")
+    implementation("com.github.skydoves:colorpicker-compose:1.1.3")
     
     // if you're using Version Catalog
     implementation(libs.compose.colorpicker)
