@@ -15,7 +15,7 @@ macroBenchmark = "1.4.1"
 uiAutomator = "2.3.0"
 spotless = "6.21.0"
 junit = "1.2.1"
-espresso-core = "3.6.1"
+espresso-core = "3.7.0"
 androidxMacroBenchmark = "1.4.1"
 
 [plugins]
