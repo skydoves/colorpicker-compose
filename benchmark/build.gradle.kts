@@ -11,12 +11,8 @@ android {
   compileSdk = Configuration.compileSdk
 
   compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-  }
-
-  kotlinOptions {
-    jvmTarget = libs.versions.jvmTarget.get()
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
   }
 
   defaultConfig {
@@ -54,4 +50,10 @@ dependencies {
   implementation(libs.androidx.test.uiautomator)
   implementation(libs.androidx.benchmark.macro)
   implementation(libs.androidx.profileinstaller)
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
+  compilerOptions {
+    jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+  }
 }
