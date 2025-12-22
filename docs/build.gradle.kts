@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:OptIn(ExperimentalWasmDsl::class)
+
 import com.github.skydoves.colorpicker.compose.Configuration
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
   id(libs.plugins.kotlin.multiplatform.get().pluginId)

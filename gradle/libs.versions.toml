@@ -2,11 +2,11 @@
 agp = "8.13.2"
 dokka = "2.1.0"
 nexusPlugin = "0.35.0"
-kotlin = "2.2.21"
+kotlin = "2.3.0"
 kotlinBinaryCompatibility = "0.18.1"
 compose-plugin = "1.9.3"
-jvmTarget = "11"
-androidxActivity = "1.12.1"
+jvmTarget = "17"
+androidxActivity = "1.12.2"
 androidxTest = "1.7.0"
 androidxNavigation = "2.9.1"
 imagePicker = "0.5.2"
@@ -14,13 +14,14 @@ baselineProfiles = "1.4.1"
 macroBenchmark = "1.4.1"
 uiAutomator = "2.3.0"
 spotless = "6.21.0"
-junit = "1.2.1"
-espresso-core = "3.6.1"
+junit = "1.3.0"
+espresso-core = "3.7.0"
 androidxMacroBenchmark = "1.4.1"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+kmp-android-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-test = { id = "com.android.test", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
