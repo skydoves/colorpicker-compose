@@ -25,6 +25,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 @Immutable
+data class CodeHighlightColors(
+  val keyword: Color,
+  val string: Color,
+  val number: Color,
+  val comment: Color,
+  val annotation: Color,
+  val type: Color,
+  val property: Color,
+  val plain: Color,
+)
+
+@Immutable
 data class DocsColors(
   val primary: Color,
   val onPrimary: Color,
@@ -38,6 +50,7 @@ data class DocsColors(
   val sidebarActive: Color,
   val divider: Color,
   val codeBackground: Color,
+  val codeHighlight: CodeHighlightColors,
   val success: Color,
   val warning: Color,
   val error: Color,
@@ -67,6 +80,16 @@ private fun darkColors(primary: Color) = DocsColors(
   sidebarActive = primary.copy(alpha = 0.15f),
   divider = Color(0xFF333333),
   codeBackground = Color(0xFF1A1A2E),
+  codeHighlight = CodeHighlightColors(
+    keyword = Color(0xFFCC7832),
+    string = Color(0xFF6A8759),
+    number = Color(0xFF6897BB),
+    comment = Color(0xFF808080),
+    annotation = Color(0xFFBBB529),
+    type = Color(0xFFA9B7C6),
+    property = Color(0xFF9876AA),
+    plain = Color(0xFFA9B7C6),
+  ),
   success = Color(0xFF4CAF50),
   warning = Color(0xFFFFC107),
   error = Color(0xFFEF5350),
@@ -85,6 +108,16 @@ private fun lightColors(primary: Color) = DocsColors(
   sidebarActive = primary.copy(alpha = 0.15f),
   divider = Color(0xFFE0E0E0),
   codeBackground = Color(0xFFF5F5F5),
+  codeHighlight = CodeHighlightColors(
+    keyword = Color(0xFF0000FF),
+    string = Color(0xFF067D17),
+    number = Color(0xFF1750EB),
+    comment = Color(0xFF8C8C8C),
+    annotation = Color(0xFFBBB529),
+    type = Color(0xFF000000),
+    property = Color(0xFF871094),
+    plain = Color(0xFF000000),
+  ),
   success = Color(0xFF4CAF50),
   warning = Color(0xFFFF9800),
   error = Color(0xFFF44336),

@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import docs.component.CodeBlock
+import docs.component.CodeLanguage
 import docs.config.BuildConfig
 import docs.theme.DocsTheme
 
@@ -80,7 +81,7 @@ fun InstallationScreen() {
       append("version.ref = \"colorpicker\" }")
     }
 
-    CodeBlock(code = versionCatalogCode)
+    CodeBlock(code = versionCatalogCode, language = CodeLanguage.TOML)
 
     Spacer(modifier = Modifier.height(32.dp))
 
