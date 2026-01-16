@@ -1,5 +1,5 @@
 [versions]
-agp = "8.13.2"
+agp = "9.0.0"
 dokka = "2.1.0"
 nexusPlugin = "0.35.0"
 kotlin = "2.3.0"
