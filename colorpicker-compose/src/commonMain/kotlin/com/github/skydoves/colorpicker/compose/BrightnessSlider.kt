@@ -55,6 +55,8 @@ public fun BrightnessSlider(
     alpha = wheelAlpha
   },
   initialColor: Color? = null,
+  onStart: () -> Unit = {},
+  onFinish: () -> Unit = {},
 ) {
   SideEffect {
     controller.isAttachedBrightnessSlider = true
@@ -74,7 +76,16 @@ public fun BrightnessSlider(
     initialColor = initialColor,
     getValue = { brightness.value },
     setValue = ColorPickerController::setBrightness,
+    onStart = onStart,
+    onFinish = onFinish,
     computeInitial = { maxOf(it.red, it.green, it.blue) },
-    getGradientColors = { listOf(Color.Black, pureSelectedColor.value) },
+    getGradientColors = {
+      val h = pureSelectedColor.value.toHSV().first
+      val s = if (controller.isAttachedSaturationSlider) saturation.value else 1f
+      listOf(
+        Color.Black,
+        Color.hsv(h, s, 1f),
+      )
+    },
   )
 }

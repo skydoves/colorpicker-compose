@@ -38,6 +38,8 @@ import kotlin.math.min
  * @param drawOnPosSelected to draw anything on the canvas when [ColorPickerController.selectedPoint] changes
  * @param drawDefaultWheelIndicator should the indicator be drawn on the canvas. Defaults to false if either [wheelImageBitmap] or [drawOnPosSelected] are not null.
  * @param onColorChanged Color changed listener.
+ * @param onStart Callback invoked when user interaction with the picker starts.
+ * @param onFinish Callback invoked when user interaction with the picker ends.
  * @param initialColor [Color] of the initial state. This property works for [HsvColorPicker] and
  * it will be selected on center if you give null value.
  */
@@ -49,6 +51,8 @@ public fun HsvColorPicker(
   drawOnPosSelected: (DrawScope.() -> Unit)? = null,
   drawDefaultWheelIndicator: Boolean = wheelImageBitmap == null && drawOnPosSelected == null,
   onColorChanged: (colorEnvelope: ColorEnvelope) -> Unit = {},
+  onStart: () -> Unit = {},
+  onFinish: () -> Unit = {},
   initialColor: Color? = null,
 ) {
   var size by remember { mutableStateOf(IntSize.Zero) }
@@ -62,6 +66,8 @@ public fun HsvColorPicker(
     drawOnPosSelected = drawOnPosSelected,
     drawDefaultWheelIndicator = drawDefaultWheelIndicator,
     onColorChanged = onColorChanged,
+    onStart = onStart,
+    onFinish = onFinish,
     sizeChanged = {
       size = it
       radius = size.radius

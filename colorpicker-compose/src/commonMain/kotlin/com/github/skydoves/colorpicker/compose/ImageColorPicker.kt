@@ -56,6 +56,8 @@ public fun ImageColorPicker(
   paletteContentScale: PaletteContentScale = PaletteContentScale.FIT,
   previewImagePainter: Painter? = null,
   onColorChanged: (colorEnvelope: ColorEnvelope) -> Unit = {},
+  onStart: () -> Unit = {},
+  onFinish: () -> Unit = {},
 ) {
   if (LocalInspectionMode.current && previewImagePainter != null) {
     Image(
@@ -97,6 +99,8 @@ public fun ImageColorPicker(
     drawOnPosSelected = drawOnPosSelected,
     drawDefaultWheelIndicator = drawDefaultWheelIndicator,
     onColorChanged = onColorChanged,
+    onStart = onStart,
+    onFinish = onFinish,
     sizeChanged = { size ->
       val metrics = when (paletteContentScale) {
         PaletteContentScale.FIT -> {

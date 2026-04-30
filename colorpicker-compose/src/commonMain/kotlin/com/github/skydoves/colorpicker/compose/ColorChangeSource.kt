@@ -15,21 +15,19 @@
  */
 package com.github.skydoves.colorpicker.compose
 
-import androidx.compose.runtime.Immutable
-import androidx.compose.ui.graphics.Color
-
 /**
- * Data transfer object that includes updated color factors.
- *
- * @param color ARGB color value.
- * @param hexCode Color hex code, which represents [color] value.
- * @param fromUser Represents this event is triggered by user or not.
- * @param source Represents type of event.
+ * Source of a color change event from [ColorPickerController].
+ * Allows consumers to react differently based on interaction type.
+ * Part of [ColorEnvelope], it occurs in: [Slider] [ColorPicker]
  */
-@Immutable
-public data class ColorEnvelope(
-  val color: Color,
-  val hexCode: String,
-  val fromUser: Boolean,
-  val source: ColorChangeSource = ColorChangeSource.Programmatic,
-)
+public enum class ColorChangeSource {
+
+  /** Discrete tap gesture → final selection. */
+  Tap,
+
+  /** Drag gesture → continuous updates (e.g., live preview). */
+  Drag,
+
+  /** Programmatic update. No user interaction. */
+  Programmatic,
+}

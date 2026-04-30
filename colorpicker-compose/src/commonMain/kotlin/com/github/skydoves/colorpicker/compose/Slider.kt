@@ -62,6 +62,10 @@ import androidx.compose.ui.unit.dp
  * @param drawBackground optional function to draw anything on the canvas
  * @param getValue function to get the current value from the controller
  * @param setValue function to set the current value on the controller
+ * @param onColorChanged Callback invoked when value changes.
+ * Provides [ColorChangeSource] the update trigger source.
+ * @param onStart Callback invoked when user interaction with the slider starts.
+ * @param onFinish Callback invoked when user interaction with the slider ends.
  * @param computeInitial function to compute the initial value from the initial color
  * @param getGradientColors function to get the gradient colors from the controller
  */
@@ -83,11 +87,15 @@ internal fun Slider(
   initialColor: Color? = null,
   drawBackground: Canvas.(IntSize) -> Unit = {},
   getValue: ColorPickerController.() -> Float,
-  setValue: ColorPickerController.(Float, fromUser: Boolean) -> Unit,
+  setValue: ColorPickerController.(Float, fromUser: Boolean, source: ColorChangeSource) -> Unit,
+  onColorChanged: (ColorChangeSource, Float) -> Unit = { _, _ -> },
+  onStart: () -> Unit = {},
+  onFinish: () -> Unit = {},
   computeInitial: (Color) -> Float,
   getGradientColors: ColorPickerController.() -> List<Color>,
 ) {
   val density = LocalDensity.current
+  val debounceDuration = controller.debounceDuration
   var background: ImageBitmap? = null
   val borderPaint = Paint().apply {
     style = PaintingStyle.Stroke
@@ -101,9 +109,10 @@ internal fun Slider(
 
   var isInitialized by remember { mutableStateOf(false) }
 
-  fun setValue(wheelPoint: Float) {
+  fun setValue(wheelPoint: Float, source: ColorChangeSource) {
     val position = background?.width?.toFloat()?.let { wheelPoint / it } ?: 0f
-    controller.setValue(position.coerceIn(0f, 1f), true)
+    controller.setValue(position.coerceIn(0f, 1f), true, source)
+    onColorChanged.invoke(source, position)
   }
 
   Canvas(
@@ -119,9 +128,21 @@ internal fun Slider(
         }
       }
       .pointerInput(Unit) {
-        detectHorizontalDragGestures { change, _ -> setValue(change.position.x) }
+        detectTapGestures(
+          onTap = { offset ->
+            setValue(offset.x, ColorChangeSource.Tap)
+          },
+        )
       }
-      .pointerInput(Unit) { detectTapGestures { offset -> setValue(offset.x) } },
+      .pointerInput(key1 = controller, key2 = debounceDuration) {
+        detectHorizontalDragGestures(
+          onDragStart = { onStart() },
+          onDragEnd = { onFinish() },
+          onDragCancel = { onFinish() },
+        ) { change, _ ->
+          setValue(change.position.x, ColorChangeSource.Drag)
+        }
+      },
   ) {
     drawIntoCanvas { canvas ->
       background?.let {
@@ -155,7 +176,7 @@ internal fun Slider(
 
       if (initialColor != null && !isInitialized) {
         isInitialized = true
-        controller.setValue(computeInitial(initialColor), false)
+        controller.setValue(computeInitial(initialColor), false, ColorChangeSource.Programmatic)
       }
     }
   }

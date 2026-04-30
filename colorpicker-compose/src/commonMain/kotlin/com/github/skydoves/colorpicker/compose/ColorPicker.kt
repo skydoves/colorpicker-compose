@@ -58,6 +58,8 @@ internal fun ColorPicker(
   drawOnPosSelected: (DrawScope.() -> Unit)? = null,
   drawDefaultWheelIndicator: Boolean = wheelImageBitmap == null && drawOnPosSelected == null,
   onColorChanged: (colorEnvelope: ColorEnvelope) -> Unit = {},
+  onStart: () -> Unit = {},
+  onFinish: () -> Unit = {},
   sizeChanged: (IntSize) -> Unit = { _ -> },
   setup: ColorPickerController.() -> Unit,
   draw: Canvas.(size: Size) -> Unit,
@@ -66,12 +68,15 @@ internal fun ColorPicker(
 
   val debounceDuration = controller.debounceDuration
   DisposableEffect(key1 = controller, key2 = debounceDuration) {
-    controller.coroutineScope.launch(Dispatchers.Main) {
+    val job = controller.coroutineScope.launch(Dispatchers.Main) {
       controller.getColorFlow(debounceDuration ?: 0).collect {
         onColorChanged(it)
       }
     }
-    onDispose { controller.releaseBitmap() }
+    onDispose {
+      job.cancel()
+      controller.releaseBitmap()
+    }
   }
 
   Canvas(
@@ -88,13 +93,27 @@ internal fun ColorPicker(
         }
       }
       .pointerInput(Unit) {
-        detectTapGestures { offset ->
-          controller.selectByCoordinate(offset, true)
-        }
+        detectTapGestures(
+          onTap = { offset ->
+            controller.selectByCoordinate(
+              point = offset,
+              fromUser = true,
+              source = ColorChangeSource.Tap,
+            )
+          },
+        )
       }
-      .pointerInput(Unit) {
-        detectDragGestures { change, _ ->
-          controller.selectByCoordinate(change.position, true)
+      .pointerInput(key1 = controller, key2 = debounceDuration) {
+        detectDragGestures(
+          onDragStart = { onStart() },
+          onDragEnd = { onFinish() },
+          onDragCancel = { onFinish() },
+        ) { change, _ ->
+          controller.selectByCoordinate(
+            point = change.position,
+            fromUser = true,
+            source = ColorChangeSource.Drag,
+          )
         }
       },
   ) {
