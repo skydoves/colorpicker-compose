@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
@@ -6,6 +7,7 @@ plugins {
   id(libs.plugins.compose.compiler.get().pluginId)
 }
 
+@OptIn(ExperimentalWasmDsl::class)
 kotlin {
   wasmJs {
     outputModuleName = "wasm-demo"
@@ -25,12 +27,12 @@ kotlin {
 
   sourceSets {
     commonMain.dependencies {
-      implementation(compose.runtime)
-      implementation(compose.foundation)
-      implementation(compose.ui)
-      implementation(compose.components.uiToolingPreview)
-      implementation(compose.material)
-      implementation(compose.components.resources)
+      implementation(libs.compose.runtime)
+      implementation(libs.compose.foundation)
+      implementation(libs.compose.ui)
+      implementation(libs.compose.ui.tooling.preview)
+      implementation(libs.compose.material)
+      implementation(libs.compose.components.resources)
 
       implementation(project(":colorpicker-compose"))
     }

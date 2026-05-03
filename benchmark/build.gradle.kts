@@ -15,10 +15,6 @@ android {
     targetCompatibility = JavaVersion.VERSION_11
   }
 
-  kotlinOptions {
-    jvmTarget = libs.versions.jvmTarget.get()
-  }
-
   defaultConfig {
     minSdk = 24
     targetSdk = Configuration.targetSdk
@@ -27,12 +23,18 @@ android {
 
   targetProjectPath = ":app"
 
-  testOptions.managedDevices.devices {
+  testOptions.managedDevices.allDevices {
     maybeCreate<com.android.build.api.dsl.ManagedVirtualDevice>("pixel6api31").apply {
       device = "Pixel 6"
       apiLevel = 31
       systemImageSource = "aosp"
     }
+  }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
+  compilerOptions {
+    jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
   }
 }
 

@@ -1,14 +1,14 @@
 [versions]
-agp = "8.13.1"
-dokka = "2.1.0"
-nexusPlugin = "0.35.0"
-kotlin = "2.2.21"
+agp = "8.13.2"
+dokka = "2.2.0"
+nexusPlugin = "0.36.0"
+kotlin = "2.3.21"
 kotlinBinaryCompatibility = "0.18.1"
-compose-plugin = "1.9.3"
+compose-plugin = "1.10.3"
 jvmTarget = "11"
-androidxActivity = "1.11.0"
+androidxActivity = "1.13.0"
 androidxTest = "1.7.0"
-androidxNavigation = "2.9.1"
+androidxNavigation = "2.9.2"
 imagePicker = "0.5.2"
 baselineProfiles = "1.4.1"
 macroBenchmark = "1.4.1"
@@ -38,6 +38,13 @@ baseline-profile = { id = "androidx.baselineprofile", version.ref = "androidxMac
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
 androidx-compose-navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidxNavigation" }
 image-picker = { group = "io.github.onseok", name = "peekaboo-image-picker", version.ref = "imagePicker" }
+
+compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-plugin" }
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-plugin" }
+compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-plugin" }
+compose-ui-tooling-preview = { module = "org.jetbrains.compose.components:components-ui-tooling-preview", version.ref = "compose-plugin" }
+compose-material = { module = "org.jetbrains.compose.material:material", version.ref = "compose-plugin" }
+compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-plugin" }
 
 # unit test
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTest" }
