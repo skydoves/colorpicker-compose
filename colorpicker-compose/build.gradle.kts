@@ -29,12 +29,15 @@ mavenPublishing {
   }
 }
 
+@OptIn(ExperimentalWasmDsl::class)
 kotlin {
   androidTarget { publishLibraryVariants("release") }
   jvm("desktop")
+  @Suppress("DEPRECATION")
   iosX64()
   iosArm64()
   iosSimulatorArm64()
+  @Suppress("DEPRECATION")
   macosX64()
   macosArm64()
   js(IR) {
@@ -74,14 +77,14 @@ kotlin {
     }
   }
 
-  task("testClasses")
+  tasks.register("testClasses")
 
   sourceSets {
     val commonMain by getting {
       dependencies {
-        implementation(compose.runtime)
-        implementation(compose.foundation)
-        implementation(compose.ui)
+        implementation(libs.compose.runtime)
+        implementation(libs.compose.foundation)
+        implementation(libs.compose.ui)
       }
     }
   }
