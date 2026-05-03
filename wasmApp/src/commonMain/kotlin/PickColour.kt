@@ -39,6 +39,8 @@ import com.github.skydoves.colorpicker.compose.AlphaTile
 import com.github.skydoves.colorpicker.compose.BrightnessSlider
 import com.github.skydoves.colorpicker.compose.ColorEnvelope
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
+import com.github.skydoves.colorpicker.compose.HueSlider
+import com.github.skydoves.colorpicker.compose.SaturationSlider
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 
 @Composable
@@ -79,6 +81,24 @@ fun PickColour() {
     Spacer(Modifier.height(8.dp))
 
     BrightnessSlider(
+      modifier = Modifier
+        .height(35.dp)
+        .width(400.dp),
+      controller = controller,
+    )
+
+    Spacer(Modifier.height(8.dp))
+
+    HueSlider(
+      modifier = Modifier
+        .height(35.dp)
+        .width(400.dp),
+      controller = controller,
+    )
+
+    Spacer(Modifier.height(8.dp))
+
+    SaturationSlider(
       modifier = Modifier
         .height(35.dp)
         .width(400.dp),

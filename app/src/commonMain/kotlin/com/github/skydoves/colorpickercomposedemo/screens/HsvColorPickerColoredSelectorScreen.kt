@@ -44,7 +44,10 @@ import androidx.compose.ui.unit.sp
 import com.github.skydoves.colorpicker.compose.AlphaSlider
 import com.github.skydoves.colorpicker.compose.AlphaTile
 import com.github.skydoves.colorpicker.compose.BrightnessSlider
+import com.github.skydoves.colorpicker.compose.ColorChangeSource
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
+import com.github.skydoves.colorpicker.compose.HueSlider
+import com.github.skydoves.colorpicker.compose.SaturationSlider
 import com.github.skydoves.colorpicker.compose.drawColorIndicator
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -57,6 +60,8 @@ fun HsvColorPickerColoredSelectorScreen() {
   val controller = rememberColorPickerController()
   var hexCode by remember { mutableStateOf("") }
   var textColor by remember { mutableStateOf(Color.Transparent) }
+  var lastSource by remember { mutableStateOf(ColorChangeSource.Programmatic) }
+  var isInteracting by remember { mutableStateOf(false) }
 
   Column {
     Spacer(modifier = Modifier.weight(1f))
@@ -92,7 +97,10 @@ fun HsvColorPickerColoredSelectorScreen() {
         onColorChanged = { colorEnvelope ->
           hexCode = colorEnvelope.hexCode
           textColor = colorEnvelope.color
+          lastSource = colorEnvelope.source
         },
+        onStart = { isInteracting = true },
+        onFinish = { isInteracting = false },
         initialColor = Color.Red,
       )
     }
@@ -118,11 +126,35 @@ fun HsvColorPickerColoredSelectorScreen() {
       controller = controller,
     )
 
+    HueSlider(
+      modifier = Modifier
+        .fillMaxWidth()
+        .padding(10.dp)
+        .height(35.dp)
+        .align(Alignment.CenterHorizontally),
+      controller = controller,
+    )
+
+    SaturationSlider(
+      modifier = Modifier
+        .fillMaxWidth()
+        .padding(10.dp)
+        .height(35.dp)
+        .align(Alignment.CenterHorizontally),
+      controller = controller,
+    )
+
     Text(
       text = "#$hexCode",
       color = textColor,
       fontSize = 16.sp,
       fontWeight = FontWeight.Bold,
+      modifier = Modifier.align(Alignment.CenterHorizontally),
+    )
+
+    Text(
+      text = "source: $lastSource ${if (isInteracting) "(touching)" else ""}",
+      fontSize = 12.sp,
       modifier = Modifier.align(Alignment.CenterHorizontally),
     )
     AlphaTile(
