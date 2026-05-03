@@ -11,7 +11,7 @@
 
 <p align="center">
 🎨 Kotlin Multiplatform color picker library that allows you to get colors from any images like gallery pictures by tapping on the desired color. 
-Also, it supports brightness and alpha slider, which can adjust your ARGB factors.
+Also, it ships with alpha, brightness, hue, and saturation sliders to adjust ARGB and HSV factors, plus gesture lifecycle callbacks for fine-grained interaction handling.
 </p>
 
 ## Preview
@@ -33,7 +33,7 @@ If you're using Version Catalog, you can configure the dependency by adding it t
 ```toml
 [versions]
 #...
-colorpicker = "1.1.3"
+colorpicker = "1.1.4"
 
 [libraries]
 #...
@@ -45,7 +45,7 @@ Add the dependency below to your **module**'s `build.gradle.kts` file:
 
 ```gradle
 dependencies {
-    implementation("com.github.skydoves:colorpicker-compose:1.1.3")
+    implementation("com.github.skydoves:colorpicker-compose:1.1.4")
     
     // if you're using Version Catalog
     implementation(libs.compose.colorpicker)
@@ -157,13 +157,17 @@ HsvColorPicker(
     controller = controller,
     onColorChanged = { colorEnvelope: ColorEnvelope ->
         // do something
-    }
+    },
+    onStart = { /* user touched the picker */ },
+    onFinish = { /* user lifted finger */ },
 )
 ```
 
 To initialize the color picker with a specific color, pass the color to the `initialColor` argument. Initial color is white by default.
 
 > **Note**: If you use `HsvColorPicker`, you can not set the palette and content scale with the `setPaletteImageBitmap` and `setPaletteContentScale` functions.
+
+The `onStart` / `onFinish` callbacks are also available on `ImageColorPicker`, `AlphaSlider`, `BrightnessSlider`, `HueSlider`, and `SaturationSlider`. Use them to bracket gesture-driven work — for example to show a press indicator, snapshot state when the gesture begins, or commit/throttle work when it ends.
 
 ### ColorEnvelope
 
@@ -175,6 +179,21 @@ onColorChanged = { colorEnvelope: ColorEnvelope ->
     val color: Color = colorEnvelope.color // ARGB color value.
     val hexCode: String = colorEnvelope.hexCode // Color hex code, which represents color value.
     val fromUser: Boolean = colorEnvelope.fromUser // Represents this event is triggered by user or not.
+    val source: ColorChangeSource = colorEnvelope.source // What kind of interaction produced this update.
+}
+```
+
+#### ColorChangeSource
+
+`ColorChangeSource` describes how the color update was produced, so consumers can react differently to discrete taps, continuous drags, and programmatic updates:
+
+```kotlin
+onColorChanged = { envelope ->
+    when (envelope.source) {
+        ColorChangeSource.Tap -> commitColor(envelope.color)          // final selection
+        ColorChangeSource.Drag -> previewColor(envelope.color)        // continuous live preview
+        ColorChangeSource.Programmatic -> Unit                        // initial setup or controller calls
+    }
 }
 ```
 
@@ -297,6 +316,50 @@ BrightnessSlider(
     wheelPaint = Paint().apply { color = wheelColor },
     wheelImageBitmap = ImageBitmap.imageResource(R.drawable.wheel),
     ..
+)
+```
+
+### HueSlider
+
+**HueSlider** allows you to adjust the hue component of the selected color along the full HSV color wheel.
+Like the other sliders, **HueSlider** is tied to the `ColorPickerController`, and the value changes will be assembled with the selected color factors.
+You can implement **HueSlider** as the following example:
+
+```kotlin
+HueSlider(
+    modifier = Modifier
+        .fillMaxWidth()
+        .padding(10.dp)
+        .height(35.dp),
+    controller = controller,
+)
+```
+
+Optionally, observe hue changes directly. The callback delivers the originating [ColorChangeSource] together with the hue value in the `[0f..360f]` range:
+
+```kotlin
+HueSlider(
+    controller = controller,
+    onColorChanged = { source, hue ->
+        // hue: 0f..360f
+    },
+    onStart = { /* user grabbed the slider */ },
+    onFinish = { /* user released the slider */ },
+)
+```
+
+### SaturationSlider
+
+**SaturationSlider** allows you to adjust the saturation component of the selected color (from `0f` to `1f`).
+Combine it with `HueSlider` and `BrightnessSlider` to drive the full HSV space without the radial picker.
+
+```kotlin
+SaturationSlider(
+    modifier = Modifier
+        .fillMaxWidth()
+        .padding(10.dp)
+        .height(35.dp),
+    controller = controller,
 )
 ```
 
