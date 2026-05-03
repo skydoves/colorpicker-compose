@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalWasmDsl::class)
+
 import com.github.skydoves.colorpicker.compose.Configuration
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
@@ -126,7 +128,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
   compilerOptions {
-    jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+    jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
   }
 }
 

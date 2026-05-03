@@ -36,18 +36,18 @@ jobs:
 
       # Checks your code out on the machine
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # Sets java up
       - name: Setup JDK
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
 
       # Sets gradle up
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
 
       # Grants execute permission to gradle (safety step)
       - name: Grant Execute Permission for gradlew
@@ -68,7 +68,7 @@ jobs:
 
       # Create Pull Request
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           commit-message: "Generate baseline profiles"
           title: "Generate baseline profiles"

@@ -21,32 +21,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
- * AlphaSlider allows you to adjust the alpha value of the selected color from color pickers.
+ * SaturationSlider allows you to adjust the saturation component of the selected color from color pickers.
  *
  * @param modifier [Modifier] to decorate the internal Canvas.
- * @param controller Allows you to control and interacts with color pickers and all relevant subcomponents.
+ * @param controller Allows you to control and interact with color pickers and all relevant subcomponents.
  * @param borderRadius Radius of the border.
  * @param borderSize [Dp] size of the border.
  * @param borderColor [Color] of the border.
- * @param wheelImageBitmap [ImageBitmap] to draw the wheel.
+ * @param wheelImageBitmap Optional [ImageBitmap] to draw the wheel instead of a default circle.
  * @param wheelRadius Radius of the wheel.
- * @param wheelColor [Color] of th wheel.
- * @param wheelPaint [Paint] to draw the wheel.
- * @param tileOddColor Color of the odd tiles.
- * @param tileEvenColor Color of the even tiles.
- * @param tileSize DP size of tiles.
- * @param initialColor [Color] of the initial state. This property works for [HsvColorPicker] and
+ * @param wheelColor [Color] of the wheel.
+ * @param wheelAlpha Alpha value applied to the wheel.
+ * @param wheelPaint [Paint] used to draw the wheel.
+ * @param initialColor [Color] of the initial state. If null, the slider uses the controller's current color.
  * @param onStart Callback invoked when user interaction with the slider starts.
  * @param onFinish Callback invoked when user interaction with the slider ends.
- * it will be selected on rightmost of slider if you give null value.
  */
 @Composable
-public fun AlphaSlider(
+public fun SaturationSlider(
   modifier: Modifier = Modifier,
   controller: ColorPickerController,
   borderRadius: Dp = 6.dp,
@@ -60,22 +56,12 @@ public fun AlphaSlider(
     color = wheelColor
     alpha = wheelAlpha
   },
-  tileOddColor: Color = defaultTileOddColor,
-  tileEvenColor: Color = defaultTileEvenColor,
-  tileSize: Dp = 12.dp,
   initialColor: Color? = null,
   onStart: () -> Unit = {},
   onFinish: () -> Unit = {},
 ) {
-  val density = LocalDensity.current
-  val paint = alphaTilePaint(
-    with(density) { tileSize.toPx() },
-    tileOddColor,
-    tileEvenColor,
-  )
-
   SideEffect {
-    controller.isAttachedAlphaSlider = true
+    controller.isAttachedSaturationSlider = true
   }
 
   Slider(
@@ -90,17 +76,19 @@ public fun AlphaSlider(
     wheelAlpha = wheelAlpha,
     wheelPaint = wheelPaint,
     initialColor = initialColor,
-    drawBackground = {
-      drawRoundRect(it, borderRadius.value, paint)
-    },
-    getValue = { alpha.value },
-    setValue = ColorPickerController::setAlpha,
+    drawBackground = {},
+    getValue = { saturation.value },
+    setValue = ColorPickerController::setSaturation,
     onStart = onStart,
     onFinish = onFinish,
-    computeInitial = { it.alpha },
+    computeInitial = { it.toHSV().second },
     getGradientColors = {
-      val color = pureSelectedColor.value
-      listOf(color.copy(alpha = 0f), color.copy(alpha = 1f))
+      val h = pureSelectedColor.value.toHSV().first
+      val v = if (controller.isAttachedBrightnessSlider) brightness.value else 1f
+      listOf(
+        Color.hsv(h, 0f, v),
+        Color.hsv(h, 1f, v),
+      )
     },
   )
 }

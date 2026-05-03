@@ -95,6 +95,9 @@ constructor(
   /** Brightness value to be applied with the selected color. */
   internal var brightness: MutableState<Float> = mutableFloatStateOf(1.0f)
 
+  /** Saturation value to be applied with the selected color. */
+  internal var saturation: MutableState<Float> = mutableFloatStateOf(1.0f)
+
   /** An [ImageBitmap] to be drawn on the canvas as a palette. */
   private var _paletteBitmap: MutableStateFlow<ImageBitmap?> = MutableStateFlow(null)
   public val paletteBitmap: StateFlow<ImageBitmap?> = _paletteBitmap
@@ -156,6 +159,9 @@ constructor(
   /** Indicates if the brightness slider has been attached. */
   internal var isAttachedBrightnessSlider: Boolean = false
 
+  /** Whether a SaturationSlider is attached. */
+  internal var isAttachedSaturationSlider: Boolean = false
+
   internal var reviseTick = mutableIntStateOf(0)
 
   private var _colorFlow = MutableStateFlow<ColorEnvelope?>(null)
@@ -201,10 +207,14 @@ constructor(
    * @param point coordinate to extract a pixel color.
    * @param fromUser Represents this event is triggered by user or not.
    */
-  public fun selectByCoordinate(point: Offset, fromUser: Boolean) {
+  public fun selectByCoordinate(
+    point: Offset,
+    fromUser: Boolean,
+    source: ColorChangeSource = ColorChangeSource.Programmatic,
+  ) {
     if (selectByCoordinate(point)) {
       // notify color changes to the listeners.
-      notifyColorChanged(fromUser)
+      notifyColorChanged(fromUser, source)
     }
   }
 
@@ -258,23 +268,56 @@ constructor(
   }
 
   /** Combine the alpha value to the selected pure color. */
-  public fun setAlpha(alpha: Float, fromUser: Boolean) {
+  public fun setAlpha(
+    alpha: Float,
+    fromUser: Boolean,
+    source: ColorChangeSource = ColorChangeSource.Programmatic,
+  ) {
     if (setAlpha(alpha)) {
-      notifyColorChanged(fromUser)
+      notifyColorChanged(fromUser, source)
+    }
+  }
+
+  /** Combine the hue value to the selected pure color. */
+  public fun setHue(
+    hue: Float,
+    fromUser: Boolean,
+    source: ColorChangeSource = ColorChangeSource.Programmatic,
+  ) {
+    if (setHue(hue)) {
+      notifyColorChanged(fromUser, source)
     }
   }
 
   /** Combine the brightness value to the selected pure color. */
-  public fun setBrightness(brightness: Float, fromUser: Boolean) {
+  public fun setBrightness(
+    brightness: Float,
+    fromUser: Boolean,
+    source: ColorChangeSource = ColorChangeSource.Programmatic,
+  ) {
     if (setBrightness(brightness)) {
-      notifyColorChanged(fromUser)
+      notifyColorChanged(fromUser, source)
+    }
+  }
+
+  /** Combine the saturation value to the selected pure color. */
+  public fun setSaturation(
+    saturation: Float,
+    fromUser: Boolean,
+    source: ColorChangeSource = ColorChangeSource.Programmatic,
+  ) {
+    if (setSaturation(saturation)) {
+      notifyColorChanged(fromUser, source)
     }
   }
 
   /** Notify color changes to the color picker and other subcomponents. */
-  private fun notifyColorChanged(fromUser: Boolean) {
+  private fun notifyColorChanged(
+    fromUser: Boolean,
+    source: ColorChangeSource = ColorChangeSource.Programmatic,
+  ) {
     val color = _selectedColor.value
-    _colorFlow.value = ColorEnvelope(color, color.hexCode, fromUser)
+    _colorFlow.value = ColorEnvelope(color, color.hexCode, fromUser, source)
   }
 
   /**
@@ -305,6 +348,16 @@ constructor(
     return true
   }
 
+  private fun setHue(hue: Float): Boolean {
+    if (!enabled) {
+      return false
+    }
+    val color = Color.hsv(hue * 360f, 1f, 1f)
+    _selectedColor.value = applyHSVFactors(color)
+    pureSelectedColor.value = color
+    return true
+  }
+
   /** Combine the brightness value to the selected pure color. */
   private fun setBrightness(brightness: Float): Boolean {
     if (!enabled || this.brightness.value == brightness) {
@@ -312,15 +365,28 @@ constructor(
     }
     this.brightness.value = brightness
     val (h, s, _) = pureSelectedColor.value.toHSV()
-    _selectedColor.value = Color.hsv(h, s, brightness, alpha.value)
+    val actualS = if (isAttachedSaturationSlider) saturation.value else s
+    _selectedColor.value = Color.hsv(h, actualS, brightness, alpha.value)
+    return true
+  }
+
+  private fun setSaturation(saturation: Float): Boolean {
+    if (!enabled || this.saturation.value == saturation) {
+      return false
+    }
+    this.saturation.value = saturation
+    val (h, _, v) = pureSelectedColor.value.toHSV()
+    val actualV = if (isAttachedBrightnessSlider) brightness.value else v
+    _selectedColor.value = Color.hsv(h, saturation, actualV, alpha.value)
     return true
   }
 
   /** Return a [Color] that is applied with HSV color factors to the [color]. */
   private fun applyHSVFactors(color: Color): Color {
     val (h, s, v) = color.toHSV()
+    val actualS = if (isAttachedSaturationSlider) saturation.value else s
     val actualV = if (isAttachedBrightnessSlider) brightness.value else v
-    return Color.hsv(h, s, actualV, if (isAttachedAlphaSlider) alpha.value else 1f)
+    return Color.hsv(h, actualS, actualV, if (isAttachedAlphaSlider) alpha.value else 1f)
   }
 
   /** Set an [ImageBitmap] to draw on the canvas as a palette. */

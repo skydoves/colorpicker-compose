@@ -13,23 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.skydoves.colorpicker.compose
+package docs
 
-import androidx.compose.runtime.Immutable
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.window.ComposeViewport
+import kotlinx.browser.document
 
-/**
- * Data transfer object that includes updated color factors.
- *
- * @param color ARGB color value.
- * @param hexCode Color hex code, which represents [color] value.
- * @param fromUser Represents this event is triggered by user or not.
- * @param source Represents type of event.
- */
-@Immutable
-public data class ColorEnvelope(
-  val color: Color,
-  val hexCode: String,
-  val fromUser: Boolean,
-  val source: ColorChangeSource = ColorChangeSource.Programmatic,
-)
+@OptIn(ExperimentalComposeUiApi::class)
+fun main() {
+  val body = document.body ?: return
+  ComposeViewport(body) {
+    DocsApp()
+  }
+}
