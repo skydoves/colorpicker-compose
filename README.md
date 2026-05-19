@@ -64,13 +64,13 @@ sourceSets {
 
 ### Kotlin Multiplatform Support Maps
 
-|             Platform              | Support |
-|:---------------------------------:|:-------:|
-|              Android              |    ✅    |
-|              Desktop              |    ✅    |
-| iOSX64/iOSArm64/iosSimulatorArm64 |    ✅    |
-|        macosX64/macosArm64        |    ✅    |
-|             js/WasmJs             |    ✅    |
+|          Platform          | Support |
+|:--------------------------:|:-------:|
+|          Android           |    ✅    |
+|          Desktop           |    ✅    |
+| iOSArm64/iosSimulatorArm64 |    ✅    |
+|         macosArm64         |    ✅    |
+|         js/WasmJs          |    ✅    |
 
 ## Usage
 

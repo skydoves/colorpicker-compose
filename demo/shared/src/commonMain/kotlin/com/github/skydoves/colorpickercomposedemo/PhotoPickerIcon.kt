@@ -27,8 +27,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
-import colorpickercomposedemo.app.generated.resources.Res
-import colorpickercomposedemo.app.generated.resources.ic_gallery
+import colorpickercomposedemo.demo.shared.generated.resources.Res
+import colorpickercomposedemo.demo.shared.generated.resources.ic_gallery
 import com.preat.peekaboo.image.picker.SelectionMode
 import com.preat.peekaboo.image.picker.rememberImagePickerLauncher
 import com.preat.peekaboo.image.picker.toImageBitmap

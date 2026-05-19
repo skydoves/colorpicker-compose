@@ -19,9 +19,9 @@ import com.github.skydoves.colorpicker.compose.Configuration
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
-  id(libs.plugins.kotlin.multiplatform.get().pluginId)
-  id(libs.plugins.jetbrains.compose.get().pluginId)
-  id(libs.plugins.compose.compiler.get().pluginId)
+  alias(libs.plugins.kotlin.multiplatform)
+  alias(libs.plugins.jetbrains.compose)
+  alias(libs.plugins.compose.compiler)
 }
 
 // Generate BuildConfig with version information from Configuration
@@ -58,7 +58,7 @@ kotlin {
 
   sourceSets {
     commonMain.dependencies {
-      implementation(compose.components.resources)
+      implementation(libs.compose.components.resources)
     }
 
     wasmJsMain {
@@ -67,11 +67,11 @@ kotlin {
       dependencies {
         implementation(project(":colorpicker-compose"))
 
-        implementation(compose.runtime)
-        implementation(compose.foundation)
-        implementation(compose.ui)
-        implementation(compose.material3)
-        implementation(compose.materialIconsExtended)
+        implementation(libs.compose.runtime)
+        implementation(libs.compose.foundation)
+        implementation(libs.compose.ui)
+        implementation(libs.compose.material3)
+        implementation(libs.compose.material.icons.extended)
       }
     }
   }
