@@ -34,6 +34,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import colorpickercomposedemo.demo.shared.generated.resources.Res
@@ -47,7 +48,6 @@ import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 import com.github.skydoves.colorpickercomposedemo.PhotoPickerIcon
 import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.compose.resources.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 
 @Preview
 @Composable
