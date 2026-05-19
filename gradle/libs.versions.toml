@@ -4,7 +4,7 @@ dokka = "2.2.0"
 nexusPlugin = "0.36.0"
 kotlin = "2.3.21"
 kotlinBinaryCompatibility = "0.18.1"
-compose-plugin = "1.10.3"
+compose-plugin = "1.11.0"
 # Compose Multiplatform ships these on independent release tracks (CMP plugin no longer pins them).
 composeMaterial3 = "1.9.0"
 composeMaterialIconsExtended = "1.7.3"
