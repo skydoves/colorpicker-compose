@@ -4,7 +4,7 @@ import com.github.skydoves.colorpicker.compose.Configuration
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
-  id(libs.plugins.android.library.get().pluginId)
+  id(libs.plugins.kmp.android.library.get().pluginId)
   id(libs.plugins.kotlin.multiplatform.get().pluginId)
   id(libs.plugins.kotlin.serialization.get().pluginId)
   id(libs.plugins.jetbrains.compose.get().pluginId)
@@ -31,14 +31,26 @@ mavenPublishing {
 
 @OptIn(ExperimentalWasmDsl::class)
 kotlin {
-  androidTarget { publishLibraryVariants("release") }
+  androidLibrary {
+    namespace = "com.github.skydoves.colorpicker.compose"
+    compileSdk = Configuration.compileSdk
+    minSdk = Configuration.minSdk
+
+    compilations.configureEach {
+      compileTaskProvider.configure {
+        compilerOptions {
+          jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+        }
+      }
+    }
+
+    lint {
+      abortOnError = false
+    }
+  }
   jvm("desktop")
-  @Suppress("DEPRECATION")
-  iosX64()
   iosArm64()
   iosSimulatorArm64()
-  @Suppress("DEPRECATION")
-  macosX64()
   macosArm64()
   js(IR) {
     browser()
@@ -61,12 +73,10 @@ kotlin {
         group("darwin") {
           group("apple") {
             group("ios") {
-              withIosX64()
               withIosArm64()
               withIosSimulatorArm64()
             }
             group("macos") {
-              withMacosX64()
               withMacosArm64()
             }
           }
@@ -90,23 +100,6 @@ kotlin {
   }
 
   explicitApi()
-}
-
-android {
-  compileSdk = Configuration.compileSdk
-  namespace = "com.github.skydoves.colorpicker.compose"
-  defaultConfig {
-    minSdk = Configuration.minSdk
-  }
-
-  compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-  }
-
-  lint {
-    abortOnError = false
-  }
 }
 
 dependencies {

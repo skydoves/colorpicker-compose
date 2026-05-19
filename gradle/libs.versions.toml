@@ -5,6 +5,9 @@ nexusPlugin = "0.36.0"
 kotlin = "2.3.21"
 kotlinBinaryCompatibility = "0.18.1"
 compose-plugin = "1.10.3"
+# Compose Multiplatform ships these on independent release tracks (CMP plugin no longer pins them).
+composeMaterial3 = "1.9.0"
+composeMaterialIconsExtended = "1.7.3"
 jvmTarget = "17"
 androidxActivity = "1.13.0"
 androidxTest = "1.7.0"
@@ -45,6 +48,8 @@ compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", v
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-plugin" }
 compose-ui-tooling-preview = { module = "org.jetbrains.compose.components:components-ui-tooling-preview", version.ref = "compose-plugin" }
 compose-material = { module = "org.jetbrains.compose.material:material", version.ref = "compose-plugin" }
+compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "composeMaterial3" }
+compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "composeMaterialIconsExtended" }
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-plugin" }
 
 # unit test

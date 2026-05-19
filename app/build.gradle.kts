@@ -13,7 +13,6 @@ kotlin {
   androidTarget()
 
   listOf(
-    iosX64(),
     iosArm64(),
     iosSimulatorArm64()
   ).forEach {
@@ -23,16 +22,16 @@ kotlin {
     }
   }
 
-  task("testClasses")
+  tasks.register("testClasses")
 
   sourceSets {
     commonMain.dependencies {
-      implementation(compose.runtime)
-      implementation(compose.foundation)
-      implementation(compose.ui)
-      implementation(compose.components.uiToolingPreview)
-      implementation(compose.material)
-      implementation(compose.components.resources)
+      implementation(libs.compose.runtime)
+      implementation(libs.compose.foundation)
+      implementation(libs.compose.ui)
+      implementation(libs.compose.ui.tooling.preview)
+      implementation(libs.compose.material)
+      implementation(libs.compose.components.resources)
 
       implementation(libs.androidx.compose.navigation)
       implementation(libs.image.picker)
