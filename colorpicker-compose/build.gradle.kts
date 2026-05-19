@@ -2,15 +2,16 @@
 
 import com.github.skydoves.colorpicker.compose.Configuration
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 
 plugins {
-  id(libs.plugins.kmp.android.library.get().pluginId)
-  id(libs.plugins.kotlin.multiplatform.get().pluginId)
-  id(libs.plugins.kotlin.serialization.get().pluginId)
-  id(libs.plugins.jetbrains.compose.get().pluginId)
-  id(libs.plugins.compose.compiler.get().pluginId)
-  id(libs.plugins.nexus.plugin.get().pluginId)
-  id(libs.plugins.baseline.profile.get().pluginId)
+  alias(libs.plugins.kmp.android.library)
+  alias(libs.plugins.kotlin.multiplatform)
+  alias(libs.plugins.kotlin.serialization)
+  alias(libs.plugins.jetbrains.compose)
+  alias(libs.plugins.compose.compiler)
+  alias(libs.plugins.nexus.plugin)
+  alias(libs.plugins.baseline.profile)
 }
 
 apply(from = "${rootDir}/scripts/publish-module.gradle.kts")
@@ -31,7 +32,7 @@ mavenPublishing {
 
 @OptIn(ExperimentalWasmDsl::class)
 kotlin {
-  androidLibrary {
+  android {
     namespace = "com.github.skydoves.colorpicker.compose"
     compileSdk = Configuration.compileSdk
     minSdk = Configuration.minSdk
@@ -65,7 +66,10 @@ kotlin {
   applyHierarchyTemplate {
     common {
       group("jvm") {
-        withAndroidTarget()
+        // The `com.android.kotlin.multiplatform.library` plugin registers its target as
+        // platformType=androidJvm, which `withAndroidTarget()` (matches legacy KotlinAndroidTarget)
+        // does not pick up. Match by platform type instead.
+        withCompilations { it.target.platformType == KotlinPlatformType.androidJvm }
         withJvm()
       }
       group("skia") {

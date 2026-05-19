@@ -1,9 +1,8 @@
 import com.github.skydoves.colorpicker.compose.Configuration
 
 plugins {
-  id(libs.plugins.android.test.get().pluginId)
-  id(libs.plugins.kotlin.android.get().pluginId)
-  id(libs.plugins.baseline.profile.get().pluginId)
+  alias(libs.plugins.android.test)
+  alias(libs.plugins.baseline.profile)
 }
 
 android {
@@ -21,7 +20,7 @@ android {
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
 
-  targetProjectPath = ":app"
+  targetProjectPath = ":demo:androidApp"
 
   testOptions.managedDevices.allDevices {
     maybeCreate<com.android.build.api.dsl.ManagedVirtualDevice>("pixel6api31").apply {

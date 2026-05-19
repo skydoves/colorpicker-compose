@@ -36,8 +36,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import colorpickercomposedemo.app.generated.resources.Res
-import colorpickercomposedemo.app.generated.resources.palettebar
+import colorpickercomposedemo.demo.shared.generated.resources.Res
+import colorpickercomposedemo.demo.shared.generated.resources.palettebar
 import com.github.skydoves.colorpicker.compose.AlphaSlider
 import com.github.skydoves.colorpicker.compose.AlphaTile
 import com.github.skydoves.colorpicker.compose.BrightnessSlider
