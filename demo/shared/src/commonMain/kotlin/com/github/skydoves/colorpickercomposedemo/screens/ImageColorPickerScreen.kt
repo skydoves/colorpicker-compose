@@ -47,7 +47,7 @@ import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 import com.github.skydoves.colorpickercomposedemo.PhotoPickerIcon
 import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @Preview
 @Composable

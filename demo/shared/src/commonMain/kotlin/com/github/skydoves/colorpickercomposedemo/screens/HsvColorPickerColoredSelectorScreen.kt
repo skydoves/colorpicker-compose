@@ -50,7 +50,7 @@ import com.github.skydoves.colorpicker.compose.HueSlider
 import com.github.skydoves.colorpicker.compose.SaturationSlider
 import com.github.skydoves.colorpicker.compose.drawColorIndicator
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterialApi::class)
 @Preview

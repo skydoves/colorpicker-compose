@@ -59,6 +59,12 @@ kotlin {
   }
 }
 
+dependencies {
+  // The new com.android.kotlin.multiplatform.library plugin has no build variants,
+  // so debugImplementation isn't available — use the unified android runtime classpath.
+  androidRuntimeClasspath(libs.compose.ui.tooling)
+}
+
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
   compilerOptions {
     jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
