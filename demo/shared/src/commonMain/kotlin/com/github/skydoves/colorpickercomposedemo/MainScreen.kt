@@ -42,10 +42,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import colorpickercomposedemo.app.generated.resources.Res
-import colorpickercomposedemo.app.generated.resources.app_name
-import colorpickercomposedemo.app.generated.resources.image_24px
-import colorpickercomposedemo.app.generated.resources.palette_24px
+import colorpickercomposedemo.demo.shared.generated.resources.Res
+import colorpickercomposedemo.demo.shared.generated.resources.app_name
+import colorpickercomposedemo.demo.shared.generated.resources.image_24px
+import colorpickercomposedemo.demo.shared.generated.resources.palette_24px
 import com.github.skydoves.colorpickercomposedemo.screens.HsvColorPickerColoredSelectorScreen
 import com.github.skydoves.colorpickercomposedemo.screens.ImageColorPickerScreen
 import org.jetbrains.compose.resources.DrawableResource

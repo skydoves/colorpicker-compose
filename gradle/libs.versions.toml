@@ -4,27 +4,25 @@ dokka = "2.2.0"
 nexusPlugin = "0.36.0"
 kotlin = "2.3.21"
 kotlinBinaryCompatibility = "0.18.1"
-compose-plugin = "1.10.3"
+compose-plugin = "1.11.0"
+# Compose Multiplatform ships these on independent release tracks (CMP plugin no longer pins them).
+composeMaterial3 = "1.9.0"
+composeMaterialIconsExtended = "1.7.3"
 jvmTarget = "17"
 androidxActivity = "1.13.0"
 androidxTest = "1.7.0"
 androidxNavigation = "2.9.2"
 imagePicker = "0.5.2"
-baselineProfiles = "1.4.1"
-macroBenchmark = "1.4.1"
+profileInstaller = "1.4.1"
 uiAutomator = "2.3.0"
 spotless = "6.21.0"
-junit = "1.3.0"
-espresso-core = "3.7.0"
-androidxMacroBenchmark = "1.4.1"
+androidxMacroBenchmark = "1.5.0-alpha06"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-android-library = { id = "com.android.library", version.ref = "agp" }
+android-test = { id = "com.android.test", version.ref = "agp" }
 kmp-android-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-android-test = { id = "com.android.test", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 
@@ -43,14 +41,15 @@ image-picker = { group = "io.github.onseok", name = "peekaboo-image-picker", ver
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-plugin" }
 compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-plugin" }
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-plugin" }
-compose-ui-tooling-preview = { module = "org.jetbrains.compose.components:components-ui-tooling-preview", version.ref = "compose-plugin" }
+compose-ui-tooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "compose-plugin" }
+compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-plugin" }
 compose-material = { module = "org.jetbrains.compose.material:material", version.ref = "compose-plugin" }
+compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "composeMaterial3" }
+compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "composeMaterialIconsExtended" }
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-plugin" }
 
 # unit test
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTest" }
-androidx-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "baselineProfiles" }
-androidx-benchmark-macro = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "macroBenchmark" }
+androidx-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "profileInstaller" }
+androidx-benchmark-macro = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "androidxMacroBenchmark" }
 androidx-test-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "uiAutomator" }
-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
