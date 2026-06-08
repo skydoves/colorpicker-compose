@@ -28,7 +28,9 @@ subprojects {
       ktlint().editorConfigOverride(
         mapOf(
           "indent_size" to "2",
-          "continuation_indent_size" to "2"
+          "continuation_indent_size" to "2",
+          // Composable functions conventionally use PascalCase; exempt them from function-naming.
+          "ktlint_function_naming_ignore_when_annotated_with" to "Composable"
         )
       )
       licenseHeaderFile(rootProject.file("spotless/copyright.kt"))

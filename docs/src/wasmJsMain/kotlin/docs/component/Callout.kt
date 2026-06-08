@@ -42,11 +42,7 @@ enum class CalloutType {
 }
 
 @Composable
-fun Callout(
-  text: String,
-  type: CalloutType = CalloutType.Info,
-  modifier: Modifier = Modifier,
-) {
+fun Callout(text: String, type: CalloutType = CalloutType.Info, modifier: Modifier = Modifier) {
   val backgroundColor = when (type) {
     CalloutType.Info -> DocsTheme.colors.primary.copy(alpha = 0.1f)
     CalloutType.Warning -> DocsTheme.colors.warning.copy(alpha = 0.1f)

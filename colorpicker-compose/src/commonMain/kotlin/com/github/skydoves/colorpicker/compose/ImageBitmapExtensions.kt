@@ -30,8 +30,7 @@ internal fun ImageBitmap.getPixel(x: Int, y: Int): Color {
   return Color(buffer[0])
 }
 
-internal fun ImageBitmap.getPixel(point: IntOffset): Color =
-  getPixel(point.x, point.y)
+internal fun ImageBitmap.getPixel(point: IntOffset): Color = getPixel(point.x, point.y)
 
 internal val ImageBitmap.size get() = IntSize(width, height)
 

@@ -154,10 +154,7 @@ fun PlatformSupportScreen() {
 }
 
 @Composable
-private fun SourceSetNode(
-  name: String,
-  level: Int,
-) {
+private fun SourceSetNode(name: String, level: Int) {
   Row(
     verticalAlignment = Alignment.CenterVertically,
   ) {
@@ -181,11 +178,7 @@ private fun SourceSetNode(
 }
 
 @Composable
-private fun PlatformRow(
-  platform: String,
-  targets: String,
-  supported: Boolean,
-) {
+private fun PlatformRow(platform: String, targets: String, supported: Boolean) {
   Card(
     modifier = Modifier.fillMaxWidth(),
     colors = CardDefaults.cardColors(containerColor = DocsTheme.colors.surface),
