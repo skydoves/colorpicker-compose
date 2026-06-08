@@ -13,10 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import androidx.compose.ui.window.ComposeUIViewController
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.application
 import com.github.skydoves.colorpickercomposedemo.MainScreen
+import io.github.vinceglb.filekit.FileKit
 
-// Entry point consumed by iosApp.xcodeproj (Swift: MainViewControllerKt.MainViewController()),
-// so the PascalCase name is required and not subject to the function-naming convention.
-@Suppress("ktlint:standard:function-naming")
-fun MainViewController() = ComposeUIViewController { MainScreen() }
+fun main() {
+  // Required so the image picker's native file dialog works on desktop.
+  FileKit.init("ColorPickerComposeDemo")
+  application {
+    Window(
+      onCloseRequest = ::exitApplication,
+      title = "ColorPicker Compose",
+    ) {
+      MainScreen()
+    }
+  }
+}

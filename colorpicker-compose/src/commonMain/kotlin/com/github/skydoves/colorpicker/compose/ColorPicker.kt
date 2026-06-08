@@ -23,6 +23,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -36,7 +37,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.toSize
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
@@ -67,8 +67,9 @@ internal fun ColorPicker(
   var initialized by remember { mutableStateOf(false) }
 
   val debounceDuration = controller.debounceDuration
+  val coroutineScope = rememberCoroutineScope()
   DisposableEffect(key1 = controller, key2 = debounceDuration) {
-    val job = controller.coroutineScope.launch(Dispatchers.Main) {
+    val job = coroutineScope.launch {
       controller.getColorFlow(debounceDuration ?: 0).collect {
         onColorChanged(it)
       }

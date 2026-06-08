@@ -27,29 +27,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
-import colorpickercomposedemo.demo.shared.generated.resources.Res
-import colorpickercomposedemo.demo.shared.generated.resources.ic_gallery
-import com.preat.peekaboo.image.picker.SelectionMode
-import com.preat.peekaboo.image.picker.rememberImagePickerLauncher
-import com.preat.peekaboo.image.picker.toImageBitmap
+import com.github.skydoves.colorpickercomposedemo.shared.Res
+import com.github.skydoves.colorpickercomposedemo.shared.ic_gallery
+import io.github.vinceglb.filekit.PlatformFile
+import io.github.vinceglb.filekit.dialogs.FileKitType
+import io.github.vinceglb.filekit.dialogs.compose.rememberFilePickerLauncher
+import io.github.vinceglb.filekit.readBytes
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.jetbrains.compose.resources.vectorResource
 
 @Composable
-fun ColumnScope.PhotoPickerIcon(
-  onImageSelected: (ImageBitmap?) -> Unit,
-) {
+fun ColumnScope.PhotoPickerIcon(onImageSelected: (ImageBitmap?) -> Unit) {
   val scope = rememberCoroutineScope()
 
-  val singleImagePicker = rememberImagePickerLauncher(
-    selectionMode = SelectionMode.Single,
-    scope = scope,
-    onResult = { byteArrays ->
-      byteArrays.firstOrNull()?.let {
-        val imageBitmap = it.toImageBitmap()
-        onImageSelected.invoke(imageBitmap)
-      }
-    },
-  )
+  val singleImagePicker = rememberFilePickerLauncher(
+    type = FileKitType.Image,
+  ) { file: PlatformFile? ->
+    file ?: return@rememberFilePickerLauncher
+    scope.launch {
+      val imageBitmap = file.readBytes().decodeToImageBitmap()
+      onImageSelected.invoke(imageBitmap)
+    }
+  }
 
   Box(
     modifier = Modifier

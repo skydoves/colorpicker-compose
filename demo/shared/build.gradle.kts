@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:OptIn(ExperimentalWasmDsl::class)
+
 import com.github.skydoves.colorpicker.compose.Configuration
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
   alias(libs.plugins.kmp.android.library)
@@ -42,6 +45,12 @@ kotlin {
     }
   }
 
+  wasmJs {
+    browser()
+  }
+
+  jvm()
+
   sourceSets {
     commonMain.dependencies {
       implementation(libs.compose.runtime)
@@ -52,11 +61,15 @@ kotlin {
       implementation(libs.compose.components.resources)
 
       implementation(libs.androidx.compose.navigation)
-      implementation(libs.image.picker)
+      implementation(libs.filekit.dialogs.compose)
 
       api(project(":colorpicker-compose"))
     }
   }
+}
+
+compose.resources {
+  packageOfResClass = "com.github.skydoves.colorpickercomposedemo.shared"
 }
 
 dependencies {

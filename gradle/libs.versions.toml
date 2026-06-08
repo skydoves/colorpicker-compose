@@ -12,7 +12,7 @@ jvmTarget = "17"
 androidxActivity = "1.13.0"
 androidxTest = "1.7.0"
 androidxNavigation = "2.9.2"
-imagePicker = "0.5.2"
+filekit = "0.14.1"
 profileInstaller = "1.4.1"
 uiAutomator = "2.3.0"
 spotless = "8.6.0"
@@ -36,7 +36,7 @@ baseline-profile = { id = "androidx.baselineprofile", version.ref = "androidxMac
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
 androidx-compose-navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidxNavigation" }
-image-picker = { group = "io.github.onseok", name = "peekaboo-image-picker", version.ref = "imagePicker" }
+filekit-dialogs-compose = { module = "io.github.vinceglb:filekit-dialogs-compose", version.ref = "filekit" }
 
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-plugin" }
 compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-plugin" }
