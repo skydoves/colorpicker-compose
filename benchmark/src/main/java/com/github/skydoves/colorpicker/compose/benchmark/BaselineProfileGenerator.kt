@@ -32,22 +32,21 @@ class BaselineProfileGenerator {
   val baselineProfileRule = BaselineProfileRule()
 
   @Test
-  fun startup() =
-    baselineProfileRule.collect(
-      packageName = packageName,
-      stableIterations = 2,
-      maxIterations = 8,
-      includeInStartupProfile = true,
-    ) {
-      pressHome()
-      // This block defines the app's critical user journey. Here we are interested in
-      // optimizing for app startup. But you can also navigate and scroll
-      // through your most important UI.
-      startActivityAndWait()
-      device.waitForIdle()
+  fun startup() = baselineProfileRule.collect(
+    packageName = PACKAGE_NAME,
+    stableIterations = 2,
+    maxIterations = 8,
+    includeInStartupProfile = true,
+  ) {
+    pressHome()
+    // This block defines the app's critical user journey. Here we are interested in
+    // optimizing for app startup. But you can also navigate and scroll
+    // through your most important UI.
+    startActivityAndWait()
+    device.waitForIdle()
 
-      device.testColorPickerDemoScenario() || return@collect
-    }
+    device.testColorPickerDemoScenario() || return@collect
+  }
 }
 
 private fun UiDevice.testColorPickerDemoScenario(): Boolean {
@@ -66,4 +65,4 @@ private fun UiDevice.waitForObject(selector: BySelector, timeout: Long = 5_000):
   error("Object with selector [$selector] not found")
 }
 
-private const val packageName = "com.github.skydoves.colorpickercomposedemo"
+private const val PACKAGE_NAME = "com.github.skydoves.colorpickercomposedemo"

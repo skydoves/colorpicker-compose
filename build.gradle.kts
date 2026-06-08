@@ -13,9 +13,9 @@ plugins {
   alias(libs.plugins.kotlin.binary.compatibility)
 }
 
-// Only the published library is API-stable. Demo, benchmark, and docs modules are not.
+// Only the published library is API-stable. Demo, benchmark, wasmApp, desktopApp, and docs modules are not.
 apiValidation {
-  ignoredProjects.addAll(listOf("androidApp", "shared", "benchmark", "wasmApp", "docs"))
+  ignoredProjects.addAll(listOf("androidApp", "shared", "benchmark", "wasmApp", "desktopApp", "docs"))
 }
 
 subprojects {
@@ -28,7 +28,9 @@ subprojects {
       ktlint().editorConfigOverride(
         mapOf(
           "indent_size" to "2",
-          "continuation_indent_size" to "2"
+          "continuation_indent_size" to "2",
+          // Composable functions conventionally use PascalCase; exempt them from function-naming.
+          "ktlint_function_naming_ignore_when_annotated_with" to "Composable"
         )
       )
       licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
