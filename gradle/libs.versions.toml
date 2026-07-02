@@ -14,7 +14,7 @@ androidxTest = "1.7.0"
 androidxNavigation = "2.9.2"
 imagePicker = "0.5.2"
 profileInstaller = "1.4.1"
-uiAutomator = "2.3.0"
+uiAutomator = "2.4.0"
 spotless = "6.21.0"
 androidxMacroBenchmark = "1.5.0-alpha06"
 
