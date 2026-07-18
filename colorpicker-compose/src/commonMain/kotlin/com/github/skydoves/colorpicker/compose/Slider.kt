@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 
 /**
- * Slider allows you to adjust the a value of the selected color from color pickers.
+ * Slider allows you to adjust the value of the selected color from color pickers.
  * See [AlphaSlider] and [BrightnessSlider] for concrete versions.
  *
  * @param modifier [Modifier] to decorate the internal Canvas.
@@ -54,7 +54,7 @@ import androidx.compose.ui.unit.dp
  * @param borderColor [Color] of the border.
  * @param wheelImageBitmap [ImageBitmap] to draw the wheel.
  * @param wheelRadius Radius of the wheel.
- * @param wheelColor [Color] of th wheel.
+ * @param wheelColor [Color] of the wheel.
  * @param wheelPaint [Paint] to draw the wheel.
  * @param initialColor [Color] of the initial state. This property works for [HsvColorPicker] and
  * it will be selected on rightmost of slider if you give null value.
