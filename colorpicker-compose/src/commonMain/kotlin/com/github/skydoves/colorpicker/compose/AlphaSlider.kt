@@ -35,15 +35,15 @@ import androidx.compose.ui.unit.dp
  * @param borderColor [Color] of the border.
  * @param wheelImageBitmap [ImageBitmap] to draw the wheel.
  * @param wheelRadius Radius of the wheel.
- * @param wheelColor [Color] of th wheel.
+ * @param wheelColor [Color] of the wheel.
  * @param wheelPaint [Paint] to draw the wheel.
  * @param tileOddColor Color of the odd tiles.
  * @param tileEvenColor Color of the even tiles.
  * @param tileSize DP size of tiles.
  * @param initialColor [Color] of the initial state. This property works for [HsvColorPicker] and
+ * it will be selected on rightmost of slider if you give null value.
  * @param onStart Callback invoked when user interaction with the slider starts.
  * @param onFinish Callback invoked when user interaction with the slider ends.
- * it will be selected on rightmost of slider if you give null value.
  */
 @Composable
 public fun AlphaSlider(

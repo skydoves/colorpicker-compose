@@ -112,7 +112,7 @@ ImageColorPicker(
 )
 ```
 
-With the [modernstorage](https://github.com/google/modernstorage)'s [Photo Picker](https://google.github.io/modernstorage/photopicker/), you can set an desired image as the palette like the below:
+With the [modernstorage](https://github.com/google/modernstorage)'s [Photo Picker](https://google.github.io/modernstorage/photopicker/), you can set a desired image as the palette like the below:
 
 ```kotlin
 val context = LocalContext.current
@@ -255,7 +255,7 @@ AlphaSlider(
 )
 ```
 
-You can customize the border of the sider with the following parameters:
+You can customize the border of the slider with the following parameters:
 
 ```kotlin
 AlphaSlider(
@@ -266,7 +266,7 @@ AlphaSlider(
 )
 ```
 
-You can customize the wheel of the sider with the following parameters:
+You can customize the wheel of the slider with the following parameters:
 
 ```kotlin
 AlphaSlider(
@@ -307,7 +307,7 @@ BrightnessSlider(
 )
 ```
 
-You can customize the wheel of the sider with the following parameters:
+You can customize the wheel of the slider with the following parameters:
 
 ```kotlin
 BrightnessSlider(

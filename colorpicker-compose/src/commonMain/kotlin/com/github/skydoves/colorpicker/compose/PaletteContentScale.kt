@@ -25,7 +25,7 @@ public enum class PaletteContentScale {
   FIT,
 
   /**
-   * Crop ths source the corresponding dimension of the target size.
+   * Crop the source the corresponding dimension of the target size.
    * so that if the dimensions (width and height) source is bigger than the target size,
    * it will be cut off from the center.
    */
