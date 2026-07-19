@@ -127,10 +127,10 @@ fun ApiControllerScreen() {
     Spacer(modifier = Modifier.height(16.dp))
 
     CodeBlock(
-      code = """controller.setWheelRadius(40.dp)
-controller.setWheelColor(Color.Blue)
-controller.setWheelAlpha(0.5f)
-controller.setWheelImageBitmap(imageBitmap)""",
+      code = """controller.wheelRadius = 40.dp
+controller.wheelColor = Color.Blue
+controller.wheelAlpha = 0.5f
+controller.wheelBitmap = imageBitmap""",
     )
 
     Spacer(modifier = Modifier.height(32.dp))
