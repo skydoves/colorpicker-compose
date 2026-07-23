@@ -134,11 +134,16 @@ As you can see the above, you can set the palette with the `setPaletteImageBitma
 
 #### PaletteContentScale
 
-You can adjust your palette's image scale with the `setPaletteContentScale` function of the controller as the below:
+You can adjust your palette's image scale with the `paletteContentScale` parameter of `ImageColorPicker` as the below:
 
 ```kotlin
-controller.setPaletteContentScale(PaletteContentScale.FIT) // scale the image to fit width and height.
-controller.setPaletteContentScale(PaletteContentScale.CROP) // center crop the image.
+ImageColorPicker(
+    modifier = Modifier.fillMaxSize(),
+    controller = controller,
+    paletteImageBitmap = ImageBitmap.imageResource(R.drawable.palettebar),
+    paletteContentScale = PaletteContentScale.FIT, // scale the image to fit width and height.
+    // paletteContentScale = PaletteContentScale.CROP, // center crop the image.
+)
 ```
 
 <img src="preview/preview2.gif" width="270" align="right">
@@ -206,10 +211,10 @@ onColorChanged = { envelope ->
 You can customize the wheel with the following functions:
 
 ```kotlin
-.setWheelRadius(40.dp) // set the radius size of the wheel.
-.setWheelColor(Color.Blue) // set the color of the wheel.
-.setWheelAlpha(0.5f) // set the transparency of the wheel.
-.setWheelImageBitmap(imageBitmap) // set the wheel image with your custom ImageBitmap.
+controller.wheelRadius = 40.dp // set the radius size of the wheel.
+controller.wheelColor = Color.Blue // set the color of the wheel.
+controller.wheelAlpha = 0.5f // set the transparency of the wheel.
+controller.wheelBitmap = imageBitmap // set the wheel image with your custom ImageBitmap.
 ```
 
 #### Select Points
