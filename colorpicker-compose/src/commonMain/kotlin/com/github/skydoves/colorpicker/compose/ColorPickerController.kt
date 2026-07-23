@@ -155,12 +155,54 @@ constructor(
 
   /** Indicates if the alpha slider has been attached. */
   internal var isAttachedAlphaSlider: Boolean = false
+    set(value) {
+      if (field != value) {
+        field = value
+        if (!value) {
+          alpha.value = 1.0f
+        }
+        recalculateColorDueToAttachmentChange()
+      }
+    }
 
   /** Indicates if the brightness slider has been attached. */
   internal var isAttachedBrightnessSlider: Boolean = false
+    set(value) {
+      if (field != value) {
+        field = value
+        if (!value) {
+          val (_, _, v) = pureSelectedColor.value.toHSV()
+          brightness.value = v
+        }
+        recalculateColorDueToAttachmentChange()
+      }
+    }
 
   /** Whether a SaturationSlider is attached. */
   internal var isAttachedSaturationSlider: Boolean = false
+    set(value) {
+      if (field != value) {
+        field = value
+        if (!value) {
+          val (_, s, _) = pureSelectedColor.value.toHSV()
+          saturation.value = s
+        }
+        recalculateColorDueToAttachmentChange()
+      }
+    }
+
+  /**
+   * Forcibly recalculates the current color when dynamically added
+   * or removing sliders from the composition tree.
+   */
+  private fun recalculateColorDueToAttachmentChange() {
+    if (!enabled) return
+    val newColor = applyHSVFactors(pureSelectedColor.value)
+    if (_selectedColor.value != newColor) {
+      _selectedColor.value = newColor
+      notifyColorChanged(fromUser = false, source = ColorChangeSource.Programmatic)
+    }
+  }
 
   internal var reviseTick = mutableIntStateOf(0)
 
