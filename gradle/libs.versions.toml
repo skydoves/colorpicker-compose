@@ -16,7 +16,7 @@ imagePicker = "0.5.2"
 profileInstaller = "1.4.1"
 uiAutomator = "2.4.0"
 spotless = "6.21.0"
-androidxMacroBenchmark = "1.5.0-alpha07"
+androidxMacroBenchmark = "1.5.0-rc01"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
