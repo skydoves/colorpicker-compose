@@ -24,6 +24,8 @@ sealed class DocsRoute(val path: String, val title: String) {
   data object ApiImageColorPicker : DocsRoute("/api/image-color-picker", "ImageColorPicker")
   data object ApiAlphaSlider : DocsRoute("/api/alpha-slider", "AlphaSlider")
   data object ApiBrightnessSlider : DocsRoute("/api/brightness-slider", "BrightnessSlider")
+  data object ApiHueSlider : DocsRoute("/api/hue-slider", "HueSlider")
+  data object ApiSaturationSlider : DocsRoute("/api/saturation-slider", "SaturationSlider")
   data object ApiAlphaTile : DocsRoute("/api/alpha-tile", "AlphaTile")
   data object ApiController : DocsRoute("/api/controller", "ColorPickerController")
   data object Playground : DocsRoute("/playground", "Playground")
@@ -35,6 +37,8 @@ sealed class DocsRoute(val path: String, val title: String) {
       ApiImageColorPicker,
       ApiAlphaSlider,
       ApiBrightnessSlider,
+      ApiHueSlider,
+      ApiSaturationSlider,
       ApiAlphaTile,
       ApiController,
     )

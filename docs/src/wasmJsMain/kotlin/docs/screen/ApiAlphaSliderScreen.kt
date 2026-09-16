@@ -140,6 +140,72 @@ fun ApiAlphaSliderScreen() {
       type = "Dp",
       description = "Size of each tile in the transparency pattern",
     )
+    ParameterItem(
+      name = "wheelAlpha",
+      type = "Float",
+      description = "Alpha applied to the wheel indicator",
+    )
+    ParameterItem(
+      name = "wheelPaint",
+      type = "Paint",
+      description = "Paint used to draw the wheel indicator",
+    )
+    ParameterItem(
+      name = "initialColor",
+      type = "Color?",
+      description = "Color the slider starts from, or the controller's current color when null",
+    )
+    ParameterItem(
+      name = "orientation",
+      type = "SliderOrientation",
+      description = "Horizontal by default, or Vertical to run bottom to top",
+    )
+    ParameterItem(
+      name = "onColorChanged",
+      type = "(ColorEnvelope) -> Unit",
+      description = "Invoked with the color the controller ends up on, so the slider " +
+        "works without a picker",
+    )
+    ParameterItem(
+      name = "onStart",
+      type = "() -> Unit",
+      description = "Invoked when the user starts interacting with the slider",
+    )
+    ParameterItem(
+      name = "onFinish",
+      type = "() -> Unit",
+      description = "Invoked when the user stops interacting with the slider",
+    )
+
+    Spacer(modifier = Modifier.height(32.dp))
+
+    // Orientation
+    Text(
+      text = "Orientation",
+      style = DocsTheme.typography.h2,
+      color = DocsTheme.colors.onBackground,
+    )
+
+    Spacer(modifier = Modifier.height(16.dp))
+
+    Text(
+      text = "Sliders run left to right by default. Pass orientation to stand one up instead, " +
+        "and it fills the height it is given with the lowest value at the bottom.",
+      style = DocsTheme.typography.body,
+      color = DocsTheme.colors.onSurface,
+    )
+
+    Spacer(modifier = Modifier.height(16.dp))
+
+    CodeBlock(
+      code = """AlphaSlider(
+    modifier = Modifier
+        .width(35.dp)
+        .height(300.dp),
+    controller = controller,
+    orientation = SliderOrientation.Vertical,
+)""",
+    )
 
     Spacer(modifier = Modifier.height(32.dp))
 
