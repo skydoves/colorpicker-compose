@@ -145,11 +145,13 @@ fun ApiImageColorPickerScreen() {
     Spacer(modifier = Modifier.height(16.dp))
 
     CodeBlock(
-      code = """// Scale to fit within bounds
-controller.setPaletteContentScale(PaletteContentScale.FIT)
-
-// Center crop the image
-controller.setPaletteContentScale(PaletteContentScale.CROP)""",
+      code = """ImageColorPicker(
+    modifier = Modifier.fillMaxSize(),
+    controller = controller,
+    paletteImageBitmap = paletteImageBitmap,
+    paletteContentScale = PaletteContentScale.FIT, // scale to fit within bounds
+    // paletteContentScale = PaletteContentScale.CROP, // center crop the image
+)""",
     )
 
     Spacer(modifier = Modifier.height(32.dp))
