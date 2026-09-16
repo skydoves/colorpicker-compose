@@ -110,19 +110,45 @@ fun ApiImageColorPickerScreen() {
       description = "How to scale the palette image (FIT or CROP)",
     )
     ParameterItem(
-      name = "wheelRadius",
-      type = "Dp",
-      description = "Radius of the selector wheel indicator",
+      name = "wheelImageBitmap",
+      type = "ImageBitmap?",
+      description = "Custom image drawn in place of the default indicator",
     )
     ParameterItem(
-      name = "wheelColor",
-      type = "Color",
-      description = "Color of the wheel indicator",
+      name = "drawOnPosSelected",
+      type = "(DrawScope.() -> Unit)?",
+      description = "Draws anything you like at the selected position",
+    )
+    ParameterItem(
+      name = "drawDefaultWheelIndicator",
+      type = "Boolean",
+      description = "Whether to draw the built in indicator, off by default once you " +
+        "pass a wheel image or a draw block",
+    )
+    ParameterItem(
+      name = "previewImagePainter",
+      type = "Painter?",
+      description = "Shown instead of the palette in an Android Studio preview",
     )
     ParameterItem(
       name = "onColorChanged",
       type = "(ColorEnvelope) -> Unit",
-      description = "Callback invoked when color changes",
+      description = "Invoked for every step of a gesture",
+    )
+    ParameterItem(
+      name = "onColorPickingFinished",
+      type = "(ColorEnvelope) -> Unit",
+      description = "Invoked once when a tap lands or a drag ends",
+    )
+    ParameterItem(
+      name = "onStart",
+      type = "() -> Unit",
+      description = "Invoked when the user starts interacting with the picker",
+    )
+    ParameterItem(
+      name = "onFinish",
+      type = "() -> Unit",
+      description = "Invoked when the user stops interacting with the picker",
     )
 
     Spacer(modifier = Modifier.height(32.dp))

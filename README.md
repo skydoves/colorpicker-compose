@@ -11,7 +11,7 @@
 
 <p align="center">
 🎨 Kotlin Multiplatform color picker library that allows you to get colors from any images like gallery pictures by tapping on the desired color. 
-Also, it ships with alpha, brightness, hue, and saturation sliders to adjust ARGB and HSV factors, plus gesture lifecycle callbacks for fine-grained interaction handling.
+Also, it ships with alpha, brightness, hue, and saturation sliders that run horizontally or vertically to adjust ARGB and HSV factors, plus gesture lifecycle callbacks for fine-grained interaction handling.
 </p>
 
 ## Preview
@@ -33,7 +33,7 @@ If you're using Version Catalog, you can configure the dependency by adding it t
 ```toml
 [versions]
 #...
-colorpicker = "1.2.0"
+colorpicker = "1.3.0"
 
 [libraries]
 #...
@@ -45,7 +45,7 @@ Add the dependency below to your **module**'s `build.gradle.kts` file:
 
 ```gradle
 dependencies {
-    implementation("com.github.skydoves:colorpicker-compose:1.2.0")
+    implementation("com.github.skydoves:colorpicker-compose:1.3.0")
     
     // if you're using Version Catalog
     implementation(libs.compose.colorpicker)
@@ -145,6 +145,10 @@ ImageColorPicker(
     // paletteContentScale = PaletteContentScale.CROP, // center crop the image.
 )
 ```
+
+`FIT` leaves bands beside the palette when the image and the canvas have different shapes, and an
+image can carry transparent pixels. Neither has a color to offer, so a tap there leaves the
+selection where it was instead of reporting the nearest edge pixel.
 
 <img src="preview/preview2.gif" width="270" align="right">
 

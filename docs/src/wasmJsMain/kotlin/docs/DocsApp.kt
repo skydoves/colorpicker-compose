@@ -33,7 +33,9 @@ import docs.screen.ApiAlphaTileScreen
 import docs.screen.ApiBrightnessSliderScreen
 import docs.screen.ApiControllerScreen
 import docs.screen.ApiHsvColorPickerScreen
+import docs.screen.ApiHueSliderScreen
 import docs.screen.ApiImageColorPickerScreen
+import docs.screen.ApiSaturationSliderScreen
 import docs.screen.GettingStartedScreen
 import docs.screen.HomeScreen
 import docs.screen.InstallationScreen
@@ -70,6 +72,8 @@ fun DocsApp() {
           DocsRoute.ApiImageColorPicker -> ApiImageColorPickerScreen()
           DocsRoute.ApiAlphaSlider -> ApiAlphaSliderScreen()
           DocsRoute.ApiBrightnessSlider -> ApiBrightnessSliderScreen()
+          DocsRoute.ApiHueSlider -> ApiHueSliderScreen()
+          DocsRoute.ApiSaturationSlider -> ApiSaturationSliderScreen()
           DocsRoute.ApiAlphaTile -> ApiAlphaTileScreen()
           DocsRoute.ApiController -> ApiControllerScreen()
           DocsRoute.Playground -> PlaygroundScreen()

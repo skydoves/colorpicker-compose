@@ -94,6 +94,11 @@ fun ApiAlphaTileScreen() {
       description = "Controller that provides the current color",
     )
     ParameterItem(
+      name = "selectedColor",
+      type = "Color",
+      description = "Color shown over the tiles when no controller is given",
+    )
+    ParameterItem(
       name = "tileOddColor",
       type = "Color",
       description = "Color of odd tiles in the checkered pattern (default: White)",

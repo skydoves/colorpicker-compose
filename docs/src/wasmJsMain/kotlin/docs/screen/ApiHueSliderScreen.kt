@@ -30,7 +30,7 @@ import docs.component.CodeBlock
 import docs.theme.DocsTheme
 
 @Composable
-fun ApiBrightnessSliderScreen() {
+fun ApiHueSliderScreen() {
   Column(
     modifier = Modifier
       .fillMaxSize()
@@ -38,7 +38,7 @@ fun ApiBrightnessSliderScreen() {
       .padding(32.dp),
   ) {
     Text(
-      text = "BrightnessSlider",
+      text = "HueSlider",
       style = DocsTheme.typography.h1,
       color = DocsTheme.colors.onBackground,
     )
@@ -46,9 +46,10 @@ fun ApiBrightnessSliderScreen() {
     Spacer(modifier = Modifier.height(16.dp))
 
     Text(
-      text = "A slider component that allows users to adjust the brightness (value) " +
-        "of the selected color. The slider displays a gradient from black to the " +
-        "current color at full brightness.",
+      text = "A slider component that allows users to adjust the hue component of the " +
+        "selected color. The slider displays the full hue wheel as a gradient, running " +
+        "red, yellow, green, cyan, blue, magenta, and back around to red, so every hue " +
+        "is reachable in a single drag.",
       style = DocsTheme.typography.body,
       color = DocsTheme.colors.onSurfaceVariant,
     )
@@ -65,7 +66,7 @@ fun ApiBrightnessSliderScreen() {
     Spacer(modifier = Modifier.height(16.dp))
 
     CodeBlock(
-      code = """BrightnessSlider(
+      code = """HueSlider(
     modifier = Modifier
         .fillMaxWidth()
         .padding(10.dp)
@@ -88,108 +89,86 @@ fun ApiBrightnessSliderScreen() {
     ParameterItem(
       name = "modifier",
       type = "Modifier",
-      description = "Modifier to be applied to the slider",
+      description = "Modifier to be applied to the slider (default: Modifier)",
     )
     ParameterItem(
       name = "controller",
       type = "ColorPickerController",
-      description = "Controller that manages the color picker state",
+      description = "Controller that manages the color picker state (required)",
     )
     ParameterItem(
       name = "borderRadius",
       type = "Dp",
-      description = "Corner radius of the slider border",
+      description = "Corner radius of the slider border (default: 6.dp)",
     )
     ParameterItem(
       name = "borderSize",
       type = "Dp",
-      description = "Thickness of the slider border",
+      description = "Thickness of the slider border (default: 5.dp)",
     )
     ParameterItem(
       name = "borderColor",
       type = "Color",
-      description = "Color of the slider border",
-    )
-    ParameterItem(
-      name = "wheelRadius",
-      type = "Dp",
-      description = "Radius of the slider wheel indicator",
-    )
-    ParameterItem(
-      name = "wheelColor",
-      type = "Color",
-      description = "Color of the wheel indicator",
+      description = "Color of the slider border (default: Color.LightGray)",
     )
     ParameterItem(
       name = "wheelImageBitmap",
       type = "ImageBitmap?",
-      description = "Custom image for the wheel indicator",
+      description = "Custom image drawn instead of the default circular wheel (default: null)",
+    )
+    ParameterItem(
+      name = "wheelRadius",
+      type = "Dp",
+      description = "Radius of the slider wheel indicator (default: 12.dp)",
+    )
+    ParameterItem(
+      name = "wheelColor",
+      type = "Color",
+      description = "Color of the wheel indicator (default: Color.White)",
     )
     ParameterItem(
       name = "wheelAlpha",
       type = "Float",
-      description = "Alpha applied to the wheel indicator",
+      description = "Alpha value applied to the wheel indicator (default: 1.0f)",
     )
     ParameterItem(
       name = "wheelPaint",
       type = "Paint",
-      description = "Paint used to draw the wheel indicator",
+      description = "Paint used to draw the wheel indicator " +
+        "(default: a Paint built from wheelColor and wheelAlpha)",
     )
     ParameterItem(
       name = "initialColor",
       type = "Color?",
-      description = "Color the slider starts from, or the controller's current color when null",
+      description = "Color the slider starts on. When null, the slider follows the " +
+        "controller's current color (default: null)",
     )
     ParameterItem(
       name = "orientation",
       type = "SliderOrientation",
-      description = "Horizontal by default, or Vertical to run bottom to top",
+      description = "Whether the slider runs left to right (Horizontal) or bottom to top " +
+        "(Vertical). A horizontal slider fills the width it is given, a vertical one fills " +
+        "the height (default: SliderOrientation.Horizontal)",
     )
     ParameterItem(
       name = "onColorChanged",
-      type = "(ColorEnvelope) -> Unit",
-      description = "Invoked with the color the controller ends up on, so the slider " +
-        "works without a picker",
+      type = "(ColorChangeSource, Float) -> Unit",
+      description = "Callback invoked when the hue changes. It receives the " +
+        "ColorChangeSource (Tap, Drag, or Programmatic) and the position along the slider " +
+        "as a Float in 0f..1f. That Float is a normalized position, NOT degrees, so " +
+        "multiply it by 360f when you need the hue angle (default: no-op)",
     )
     ParameterItem(
       name = "onStart",
       type = "() -> Unit",
-      description = "Invoked when the user starts interacting with the slider",
+      description = "Callback invoked when user interaction with the slider starts " +
+        "(default: no-op)",
     )
     ParameterItem(
       name = "onFinish",
       type = "() -> Unit",
-      description = "Invoked when the user stops interacting with the slider",
-    )
-
-    Spacer(modifier = Modifier.height(32.dp))
-
-    // Orientation
-    Text(
-      text = "Orientation",
-      style = DocsTheme.typography.h2,
-      color = DocsTheme.colors.onBackground,
-    )
-
-    Spacer(modifier = Modifier.height(16.dp))
-
-    Text(
-      text = "Sliders run left to right by default. Pass orientation to stand one up instead, " +
-        "and it fills the height it is given with the lowest value at the bottom.",
-      style = DocsTheme.typography.body,
-      color = DocsTheme.colors.onSurface,
-    )
-
-    Spacer(modifier = Modifier.height(16.dp))
-
-    CodeBlock(
-      code = """BrightnessSlider(
-    modifier = Modifier
-        .width(35.dp)
-        .height(300.dp),
-    controller = controller,
-    orientation = SliderOrientation.Vertical,
-)""",
+      description = "Callback invoked when user interaction with the slider ends " +
+        "(default: no-op)",
     )
 
     Spacer(modifier = Modifier.height(32.dp))
@@ -212,7 +191,7 @@ fun ApiBrightnessSliderScreen() {
     Spacer(modifier = Modifier.height(16.dp))
 
     CodeBlock(
-      code = """BrightnessSlider(
+      code = """HueSlider(
     modifier = Modifier
         .fillMaxWidth()
         .height(35.dp),
@@ -222,6 +201,55 @@ fun ApiBrightnessSliderScreen() {
     borderColor = Color.LightGray,
     wheelRadius = 30.dp,
     wheelColor = Color.White,
+    wheelAlpha = 1.0f,
+)""",
+    )
+
+    Spacer(modifier = Modifier.height(24.dp))
+
+    Text(
+      text = "Set orientation to SliderOrientation.Vertical to run the slider bottom to " +
+        "top instead. A vertical slider fills the height it is given, so give it a height " +
+        "and a width:",
+      style = DocsTheme.typography.body,
+      color = DocsTheme.colors.onSurface,
+    )
+
+    Spacer(modifier = Modifier.height(16.dp))
+
+    CodeBlock(
+      code = """HueSlider(
+    modifier = Modifier
+        .height(250.dp)
+        .width(35.dp),
+    controller = controller,
+    orientation = SliderOrientation.Vertical,
+)""",
+    )
+
+    Spacer(modifier = Modifier.height(24.dp))
+
+    Text(
+      text = "Observe the hue while the user drags. The Float reports the position along " +
+        "the slider in 0f..1f, so convert it to degrees yourself if that is what you need:",
+      style = DocsTheme.typography.body,
+      color = DocsTheme.colors.onSurface,
+    )
+
+    Spacer(modifier = Modifier.height(16.dp))
+
+    CodeBlock(
+      code = """HueSlider(
+    modifier = Modifier
+        .fillMaxWidth()
+        .height(35.dp),
+    controller = controller,
+    onColorChanged = { source: ColorChangeSource, position: Float ->
+        // position is 0f..1f along the slider, not degrees
+        val hueDegrees = position * 360f
+    },
+    onStart = { isDragging = true },
+    onFinish = { isDragging = false },
 )""",
     )
 

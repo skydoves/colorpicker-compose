@@ -101,33 +101,44 @@ fun ApiHsvColorPickerScreen() {
     )
     ParameterItem(
       name = "initialColor",
-      type = "Color",
-      description = "Initial color to be selected (default: White)",
-    )
-    ParameterItem(
-      name = "wheelRadius",
-      type = "Dp",
-      description = "Radius of the selector wheel indicator",
-    )
-    ParameterItem(
-      name = "wheelColor",
-      type = "Color",
-      description = "Color of the wheel indicator",
-    )
-    ParameterItem(
-      name = "wheelAlpha",
-      type = "Float",
-      description = "Alpha value of the wheel indicator",
+      type = "Color?",
+      description = "Color selected on the first layout pass, or the center of the wheel when null",
     )
     ParameterItem(
       name = "wheelImageBitmap",
       type = "ImageBitmap?",
-      description = "Custom image for the wheel indicator",
+      description = "Custom image drawn in place of the default indicator",
+    )
+    ParameterItem(
+      name = "drawOnPosSelected",
+      type = "(DrawScope.() -> Unit)?",
+      description = "Draws anything you like at the selected position",
+    )
+    ParameterItem(
+      name = "drawDefaultWheelIndicator",
+      type = "Boolean",
+      description = "Whether to draw the built in indicator, off by default once you " +
+        "pass a wheel image or a draw block",
     )
     ParameterItem(
       name = "onColorChanged",
       type = "(ColorEnvelope) -> Unit",
-      description = "Callback invoked when color changes",
+      description = "Invoked for every step of a gesture",
+    )
+    ParameterItem(
+      name = "onColorPickingFinished",
+      type = "(ColorEnvelope) -> Unit",
+      description = "Invoked once when a tap lands or a drag ends",
+    )
+    ParameterItem(
+      name = "onStart",
+      type = "() -> Unit",
+      description = "Invoked when the user starts interacting with the picker",
+    )
+    ParameterItem(
+      name = "onFinish",
+      type = "() -> Unit",
+      description = "Invoked when the user stops interacting with the picker",
     )
 
     Spacer(modifier = Modifier.height(32.dp))
@@ -155,6 +166,39 @@ fun ApiHsvColorPickerScreen() {
     controller = controller,
     initialColor = Color.Red, // Start with red selected
     onColorChanged = { /* ... */ }
+)""",
+    )
+
+    Spacer(modifier = Modifier.height(32.dp))
+
+    Text(
+      text = "Knowing when a pick is finished",
+      style = DocsTheme.typography.h2,
+      color = DocsTheme.colors.onBackground,
+    )
+
+    Spacer(modifier = Modifier.height(16.dp))
+
+    Text(
+      text = "onColorChanged fires for every step of a drag, which is more often than you want " +
+        "for saving a choice or logging one. onColorPickingFinished fires once, when the " +
+        "gesture is over.",
+      style = DocsTheme.typography.body,
+      color = DocsTheme.colors.onSurface,
+    )
+
+    Spacer(modifier = Modifier.height(16.dp))
+
+    CodeBlock(
+      code = """HsvColorPicker(
+    modifier = Modifier.fillMaxWidth().height(450.dp),
+    controller = controller,
+    onColorChanged = { colorEnvelope: ColorEnvelope ->
+        preview(colorEnvelope.color) // every step of the drag
+    },
+    onColorPickingFinished = { colorEnvelope: ColorEnvelope ->
+        save(colorEnvelope.color) // once, when the finger lifts
+    },
 )""",
     )
 
