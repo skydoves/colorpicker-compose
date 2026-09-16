@@ -16,7 +16,7 @@
 package com.github.skydoves.colorpicker.compose
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -65,8 +65,9 @@ public fun SaturationSlider(
   onStart: () -> Unit = {},
   onFinish: () -> Unit = {},
 ) {
-  SideEffect {
-    controller.isAttachedSaturationSlider = true
+  DisposableEffect(controller) {
+    controller.attachSaturationSlider()
+    onDispose { controller.detachSaturationSlider() }
   }
 
   Slider(
