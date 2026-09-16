@@ -257,11 +257,7 @@ private fun FeatureCard(
 }
 
 @Composable
-private fun ComponentItem(
-  name: String,
-  description: String,
-  onClick: () -> Unit,
-) {
+private fun ComponentItem(name: String, description: String, onClick: () -> Unit) {
   Card(
     modifier = Modifier
       .fillMaxWidth()

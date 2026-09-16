@@ -16,4 +16,6 @@
 import androidx.compose.ui.window.ComposeUIViewController
 import com.github.skydoves.colorpickercomposedemo.MainScreen
 
+// Named after the type it builds, which is how iOS expects to find it.
+@Suppress("ktlint:standard:function-naming")
 fun MainViewController() = ComposeUIViewController { MainScreen() }

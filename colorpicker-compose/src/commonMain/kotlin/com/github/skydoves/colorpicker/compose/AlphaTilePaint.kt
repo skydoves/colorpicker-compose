@@ -32,11 +32,7 @@ import androidx.compose.ui.graphics.TileMode
  * @param tileOddColor Color of the odd tiles.
  * @param tileEvenColor Color of the even tiles.
  */
-internal fun alphaTilePaint(
-  tileSize: Float,
-  tileOddColor: Color,
-  tileEvenColor: Color,
-): Paint {
+internal fun alphaTilePaint(tileSize: Float, tileOddColor: Color, tileEvenColor: Color): Paint {
   val size = tileSize.toInt()
   val imageBitmap = ImageBitmap(size * 2, size * 2, ImageBitmapConfig.Argb8888)
   val canvas = Canvas(imageBitmap)

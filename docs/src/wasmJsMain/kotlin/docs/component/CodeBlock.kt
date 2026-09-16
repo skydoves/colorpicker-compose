@@ -75,8 +75,8 @@ fun CodeBlock(
   }
 }
 
-private fun highlightKotlin(code: String, colors: CodeHighlightColors): AnnotatedString {
-  return buildAnnotatedString {
+private fun highlightKotlin(code: String, colors: CodeHighlightColors): AnnotatedString =
+  buildAnnotatedString {
     val keywords = setOf(
       "fun", "val", "var", "class", "object", "interface", "enum", "sealed",
       "if", "else", "when", "for", "while", "do", "return", "break", "continue",
@@ -98,6 +98,7 @@ private fun highlightKotlin(code: String, colors: CodeHighlightColors): Annotate
           }
           i = end
         }
+
         // Single-line comment
         code.startsWith("//", i) -> {
           val end = code.indexOf('\n', i).let { if (it == -1) code.length else it }
@@ -106,6 +107,7 @@ private fun highlightKotlin(code: String, colors: CodeHighlightColors): Annotate
           }
           i = end
         }
+
         // Triple-quoted string
         code.startsWith("\"\"\"", i) -> {
           val end = code.indexOf("\"\"\"", i + 3).let { if (it == -1) code.length else it + 3 }
@@ -114,6 +116,7 @@ private fun highlightKotlin(code: String, colors: CodeHighlightColors): Annotate
           }
           i = end
         }
+
         // String
         code[i] == '"' -> {
           val end = findStringEnd(code, i + 1, '"')
@@ -122,6 +125,7 @@ private fun highlightKotlin(code: String, colors: CodeHighlightColors): Annotate
           }
           i = end
         }
+
         // Char
         code[i] == '\'' -> {
           val end = findStringEnd(code, i + 1, '\'')
@@ -130,6 +134,7 @@ private fun highlightKotlin(code: String, colors: CodeHighlightColors): Annotate
           }
           i = end
         }
+
         // Annotation
         code[i] == '@' -> {
           val end = findIdentifierEnd(code, i + 1)
@@ -138,6 +143,7 @@ private fun highlightKotlin(code: String, colors: CodeHighlightColors): Annotate
           }
           i = end
         }
+
         // Number
         code[i].isDigit() || (code[i] == '.' && i + 1 < code.length && code[i + 1].isDigit()) -> {
           val end = findNumberEnd(code, i)
@@ -146,6 +152,7 @@ private fun highlightKotlin(code: String, colors: CodeHighlightColors): Annotate
           }
           i = end
         }
+
         // Identifier or keyword
         code[i].isLetter() || code[i] == '_' -> {
           val end = findIdentifierEnd(code, i)
@@ -157,6 +164,7 @@ private fun highlightKotlin(code: String, colors: CodeHighlightColors): Annotate
           }
           i = end
         }
+
         // Other characters
         else -> {
           withStyle(SpanStyle(color = colors.plain)) {
@@ -167,10 +175,9 @@ private fun highlightKotlin(code: String, colors: CodeHighlightColors): Annotate
       }
     }
   }
-}
 
-private fun highlightGroovy(code: String, colors: CodeHighlightColors): AnnotatedString {
-  return buildAnnotatedString {
+private fun highlightGroovy(code: String, colors: CodeHighlightColors): AnnotatedString =
+  buildAnnotatedString {
     val keywords = setOf(
       "def", "class", "interface", "enum", "if", "else", "for", "while", "do",
       "switch", "case", "default", "break", "continue", "return", "try", "catch",
@@ -190,6 +197,7 @@ private fun highlightGroovy(code: String, colors: CodeHighlightColors): Annotate
           }
           i = end
         }
+
         // Single-line comment
         code.startsWith("//", i) -> {
           val end = code.indexOf('\n', i).let { if (it == -1) code.length else it }
@@ -198,6 +206,7 @@ private fun highlightGroovy(code: String, colors: CodeHighlightColors): Annotate
           }
           i = end
         }
+
         // String (double quote)
         code[i] == '"' -> {
           val end = findStringEnd(code, i + 1, '"')
@@ -206,6 +215,7 @@ private fun highlightGroovy(code: String, colors: CodeHighlightColors): Annotate
           }
           i = end
         }
+
         // String (single quote)
         code[i] == '\'' -> {
           val end = findStringEnd(code, i + 1, '\'')
@@ -214,6 +224,7 @@ private fun highlightGroovy(code: String, colors: CodeHighlightColors): Annotate
           }
           i = end
         }
+
         // Number
         code[i].isDigit() -> {
           val end = findNumberEnd(code, i)
@@ -222,6 +233,7 @@ private fun highlightGroovy(code: String, colors: CodeHighlightColors): Annotate
           }
           i = end
         }
+
         // Identifier or keyword
         code[i].isLetter() || code[i] == '_' -> {
           val end = findIdentifierEnd(code, i)
@@ -233,6 +245,7 @@ private fun highlightGroovy(code: String, colors: CodeHighlightColors): Annotate
           }
           i = end
         }
+
         // Other characters
         else -> {
           withStyle(SpanStyle(color = colors.plain)) {
@@ -243,10 +256,9 @@ private fun highlightGroovy(code: String, colors: CodeHighlightColors): Annotate
       }
     }
   }
-}
 
-private fun highlightToml(code: String, colors: CodeHighlightColors): AnnotatedString {
-  return buildAnnotatedString {
+private fun highlightToml(code: String, colors: CodeHighlightColors): AnnotatedString =
+  buildAnnotatedString {
     var i = 0
     while (i < code.length) {
       when {
@@ -258,6 +270,7 @@ private fun highlightToml(code: String, colors: CodeHighlightColors): AnnotatedS
           }
           i = end
         }
+
         // Section header [section]
         code[i] == '[' -> {
           val end = code.indexOf(']', i).let { if (it == -1) code.length else it + 1 }
@@ -266,6 +279,7 @@ private fun highlightToml(code: String, colors: CodeHighlightColors): AnnotatedS
           }
           i = end
         }
+
         // String
         code[i] == '"' -> {
           val end = findStringEnd(code, i + 1, '"')
@@ -274,6 +288,7 @@ private fun highlightToml(code: String, colors: CodeHighlightColors): AnnotatedS
           }
           i = end
         }
+
         // Number
         code[i].isDigit() -> {
           val end = findNumberEnd(code, i)
@@ -282,6 +297,7 @@ private fun highlightToml(code: String, colors: CodeHighlightColors): AnnotatedS
           }
           i = end
         }
+
         // Key (identifier before =)
         code[i].isLetter() || code[i] == '_' || code[i] == '-' -> {
           val end = findTomlKeyEnd(code, i)
@@ -294,6 +310,7 @@ private fun highlightToml(code: String, colors: CodeHighlightColors): AnnotatedS
           }
           i = end
         }
+
         // Other characters
         else -> {
           withStyle(SpanStyle(color = colors.plain)) {
@@ -304,7 +321,6 @@ private fun highlightToml(code: String, colors: CodeHighlightColors): AnnotatedS
       }
     }
   }
-}
 
 private fun findStringEnd(code: String, start: Int, quote: Char): Int {
   var i = start
@@ -335,8 +351,7 @@ private fun findTomlKeyEnd(code: String, start: Int): Int {
   return i
 }
 
-private fun Char.isHexDigit(): Boolean =
-  this.isDigit() || this in 'a'..'f' || this in 'A'..'F'
+private fun Char.isHexDigit(): Boolean = this.isDigit() || this in 'a'..'f' || this in 'A'..'F'
 
 private fun findNumberEnd(code: String, start: Int): Int {
   var i = start
@@ -346,19 +361,23 @@ private fun findNumberEnd(code: String, start: Int): Int {
   while (i < code.length) {
     when {
       code[i].isDigit() -> i++
+
       code[i] == '.' && !hasDecimal && !hasExponent -> {
         hasDecimal = true
         i++
       }
+
       (code[i] == 'e' || code[i] == 'E') && !hasExponent -> {
         hasExponent = true
         i++
         if (i < code.length && (code[i] == '+' || code[i] == '-')) i++
       }
+
       code[i] == 'f' || code[i] == 'F' || code[i] == 'L' || code[i] == 'd' || code[i] == 'D' -> {
         i++
         break
       }
+
       code[i] == 'x' || code[i] == 'X' -> {
         i++
         while (i < code.length && code[i].isHexDigit()) {
@@ -366,6 +385,7 @@ private fun findNumberEnd(code: String, start: Int): Int {
         }
         break
       }
+
       else -> break
     }
   }

@@ -35,9 +35,7 @@ import com.preat.peekaboo.image.picker.toImageBitmap
 import org.jetbrains.compose.resources.vectorResource
 
 @Composable
-fun ColumnScope.PhotoPickerIcon(
-  onImageSelected: (ImageBitmap?) -> Unit,
-) {
+fun ColumnScope.PhotoPickerIcon(onImageSelected: (ImageBitmap?) -> Unit) {
   val scope = rememberCoroutineScope()
 
   val singleImagePicker = rememberImagePickerLauncher(
