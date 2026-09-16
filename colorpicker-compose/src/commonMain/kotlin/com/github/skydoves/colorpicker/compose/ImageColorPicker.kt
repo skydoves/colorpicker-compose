@@ -32,9 +32,13 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.IntSize
+import kotlin.math.floor
 
 /**
  * ImageColorPicker allows you to get colors from any images by tapping on the desired color.
+ *
+ * A palette that does not fill its canvas leaves bands beside it, and an image can carry
+ * transparent pixels. Neither has a color to offer, so a tap there leaves the selection as it is.
  *
  * @param modifier [Modifier] to decorate the internal Canvas.
  * @param controller Allows you to control and interacts with color pickers and all relevant subcomponents.
@@ -79,15 +83,17 @@ public fun ImageColorPicker(
   var offset by remember { mutableStateOf(Offset.Zero) }
   var scale by remember { mutableStateOf(1f) }
 
-  val paletteColorAt: (Offset) -> Pair<Color, Offset> = { point ->
+  val paletteColorAt: (Offset) -> Pair<Color, Offset>? = { point ->
     val origPoint = (point - offset) / scale
-    val imPoint = Offset(
-      origPoint.x.coerceIn(0f, width - 1f),
-      origPoint.y.coerceIn(0f, height - 1f),
-    )
-    // TODO: transparent pixel handling
-    val px = imageBitmap.getPixel(imPoint.roundToInt())
-    px to (imPoint * scale + offset)
+    val x = floor(origPoint.x).toInt()
+    val y = floor(origPoint.y).toInt()
+    when {
+      // A palette that does not fill its canvas leaves bands beside it. Those used to report the
+      // nearest edge pixel, so a tap well outside the image still came back with a color.
+      x !in 0 until width || y !in 0 until height -> null
+
+      else -> imageBitmap.getPixel(x, y).takeIf { it.alpha != 0f }?.let { it to point }
+    }
   }
 
   LaunchedEffect(key1 = imageBitmap) {
