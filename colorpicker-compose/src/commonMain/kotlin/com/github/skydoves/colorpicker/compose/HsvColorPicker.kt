@@ -37,7 +37,9 @@ import kotlin.math.min
  * @param wheelImageBitmap [ImageBitmap] to draw the wheel.
  * @param drawOnPosSelected to draw anything on the canvas when [ColorPickerController.selectedPoint] changes
  * @param drawDefaultWheelIndicator should the indicator be drawn on the canvas. Defaults to false if either [wheelImageBitmap] or [drawOnPosSelected] are not null.
- * @param onColorChanged Color changed listener.
+ * @param onColorChanged Color changed listener. Fires for every step of a gesture.
+ * @param onColorPickingFinished Invoked once when the user lifts their finger, with the color the
+ * pick settled on. Use it for work that should not run on every step, such as saving the choice.
  * @param onStart Callback invoked when user interaction with the picker starts.
  * @param onFinish Callback invoked when user interaction with the picker ends.
  * @param initialColor [Color] of the initial state. This property works for [HsvColorPicker] and
@@ -51,6 +53,7 @@ public fun HsvColorPicker(
   drawOnPosSelected: (DrawScope.() -> Unit)? = null,
   drawDefaultWheelIndicator: Boolean = wheelImageBitmap == null && drawOnPosSelected == null,
   onColorChanged: (colorEnvelope: ColorEnvelope) -> Unit = {},
+  onColorPickingFinished: (colorEnvelope: ColorEnvelope) -> Unit = {},
   onStart: () -> Unit = {},
   onFinish: () -> Unit = {},
   initialColor: Color? = null,
@@ -66,6 +69,7 @@ public fun HsvColorPicker(
     drawOnPosSelected = drawOnPosSelected,
     drawDefaultWheelIndicator = drawDefaultWheelIndicator,
     onColorChanged = onColorChanged,
+    onColorPickingFinished = onColorPickingFinished,
     onStart = onStart,
     onFinish = onFinish,
     sizeChanged = {

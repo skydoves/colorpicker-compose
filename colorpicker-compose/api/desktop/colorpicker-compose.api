@@ -89,7 +89,7 @@ public final class com/github/skydoves/colorpicker/compose/DrawScopeExtensionsKt
 }
 
 public final class com/github/skydoves/colorpicker/compose/HsvColorPickerKt {
-	public static final fun HsvColorPicker-vD7qDfE (Landroidx/compose/ui/Modifier;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/jvm/functions/Function1;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/graphics/Color;Landroidx/compose/runtime/Composer;II)V
+	public static final fun HsvColorPicker-MHSKBV4 (Landroidx/compose/ui/Modifier;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/jvm/functions/Function1;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/graphics/Color;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class com/github/skydoves/colorpicker/compose/HueSliderKt {
@@ -97,7 +97,7 @@ public final class com/github/skydoves/colorpicker/compose/HueSliderKt {
 }
 
 public final class com/github/skydoves/colorpicker/compose/ImageColorPickerKt {
-	public static final fun ImageColorPicker (Landroidx/compose/ui/Modifier;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;Landroidx/compose/ui/graphics/ImageBitmap;Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/jvm/functions/Function1;ZLcom/github/skydoves/colorpicker/compose/PaletteContentScale;Landroidx/compose/ui/graphics/painter/Painter;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;III)V
+	public static final fun ImageColorPicker (Landroidx/compose/ui/Modifier;Lcom/github/skydoves/colorpicker/compose/ColorPickerController;Landroidx/compose/ui/graphics/ImageBitmap;Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/jvm/functions/Function1;ZLcom/github/skydoves/colorpicker/compose/PaletteContentScale;Landroidx/compose/ui/graphics/painter/Painter;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;III)V
 }
 
 public final class com/github/skydoves/colorpicker/compose/PaletteContentScale : java/lang/Enum {

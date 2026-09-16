@@ -48,7 +48,9 @@ import kotlin.math.floor
  * @param drawDefaultWheelIndicator should the indicator be drawn on the canvas. Defaults to false if either [wheelImageBitmap] or [drawOnPosSelected] are not null.
  * @param paletteContentScale Represents a rule to apply to scale a source rectangle to be inscribed into a destination.
  * @param previewImagePainter Display an image instead of the palette on the inspection preview mode on Android Studio.
- * @param onColorChanged Color changed listener.
+ * @param onColorChanged Color changed listener. Fires for every step of a gesture.
+ * @param onColorPickingFinished Invoked once when the user lifts their finger, with the color the
+ * pick settled on. Use it for work that should not run on every step, such as saving the choice.
  */
 @Composable
 public fun ImageColorPicker(
@@ -61,6 +63,7 @@ public fun ImageColorPicker(
   paletteContentScale: PaletteContentScale = PaletteContentScale.FIT,
   previewImagePainter: Painter? = null,
   onColorChanged: (colorEnvelope: ColorEnvelope) -> Unit = {},
+  onColorPickingFinished: (colorEnvelope: ColorEnvelope) -> Unit = {},
   onStart: () -> Unit = {},
   onFinish: () -> Unit = {},
 ) {
@@ -107,6 +110,7 @@ public fun ImageColorPicker(
     drawOnPosSelected = drawOnPosSelected,
     drawDefaultWheelIndicator = drawDefaultWheelIndicator,
     onColorChanged = onColorChanged,
+    onColorPickingFinished = onColorPickingFinished,
     onStart = onStart,
     onFinish = onFinish,
     sizeChanged = { size ->

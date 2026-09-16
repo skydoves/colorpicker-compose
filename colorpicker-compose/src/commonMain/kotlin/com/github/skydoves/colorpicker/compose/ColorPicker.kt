@@ -50,6 +50,7 @@ import kotlinx.coroutines.launch
  * @param drawOnPosSelected to draw anything on the canvas when [ColorPickerController.selectedPoint] changes
  * @param drawDefaultWheelIndicator should the indicator be drawn on the canvas. Defaults to false if either [wheelImageBitmap] or [drawOnPosSelected] are not null.
  * @param onColorChanged Color changed listener.
+ * @param onColorPickingFinished Invoked once when a gesture ends, with the color it settled on.
  */
 @Composable
 internal fun ColorPicker(
@@ -59,6 +60,7 @@ internal fun ColorPicker(
   drawOnPosSelected: (DrawScope.() -> Unit)? = null,
   drawDefaultWheelIndicator: Boolean = wheelImageBitmap == null && drawOnPosSelected == null,
   onColorChanged: (colorEnvelope: ColorEnvelope) -> Unit = {},
+  onColorPickingFinished: (colorEnvelope: ColorEnvelope) -> Unit = {},
   onStart: () -> Unit = {},
   onFinish: () -> Unit = {},
   sizeChanged: (IntSize) -> Unit = { _ -> },
@@ -106,14 +108,22 @@ internal fun ColorPicker(
               fromUser = true,
               source = ColorChangeSource.Tap,
             )
+            // A tap is a whole gesture on its own, so it finishes as soon as it lands.
+            onColorPickingFinished(controller.currentEnvelope(ColorChangeSource.Tap))
           },
         )
       }
       .pointerInput(key1 = controller, key2 = debounceDuration) {
         detectDragGestures(
           onDragStart = { onStart() },
-          onDragEnd = { onFinish() },
-          onDragCancel = { onFinish() },
+          onDragEnd = {
+            onFinish()
+            onColorPickingFinished(controller.currentEnvelope(ColorChangeSource.Drag))
+          },
+          onDragCancel = {
+            onFinish()
+            onColorPickingFinished(controller.currentEnvelope(ColorChangeSource.Drag))
+          },
         ) { change, _ ->
           controller.selectByCoordinate(
             point = change.position,
