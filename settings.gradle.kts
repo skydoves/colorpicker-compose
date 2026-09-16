@@ -16,7 +16,8 @@ dependencyResolutionManagement {
 rootProject.name = "ColorPickerComposeDemo"
 include(":demo:androidApp")
 include(":demo:shared")
+include(":demo:wasmApp")
+include(":demo:desktopApp")
 include(":colorpicker-compose")
 include(":benchmark")
-include("wasmApp")
 include("docs")

@@ -26,14 +26,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.IntSize
+import kotlin.math.floor
 
 /**
  * ImageColorPicker allows you to get colors from any images by tapping on the desired color.
+ *
+ * A palette that does not fill its canvas leaves bands beside it, and an image can carry
+ * transparent pixels. Neither has a color to offer, so a tap there leaves the selection as it is.
  *
  * @param modifier [Modifier] to decorate the internal Canvas.
  * @param controller Allows you to control and interacts with color pickers and all relevant subcomponents.
@@ -43,7 +48,9 @@ import androidx.compose.ui.unit.IntSize
  * @param drawDefaultWheelIndicator should the indicator be drawn on the canvas. Defaults to false if either [wheelImageBitmap] or [drawOnPosSelected] are not null.
  * @param paletteContentScale Represents a rule to apply to scale a source rectangle to be inscribed into a destination.
  * @param previewImagePainter Display an image instead of the palette on the inspection preview mode on Android Studio.
- * @param onColorChanged Color changed listener.
+ * @param onColorChanged Color changed listener. Fires for every step of a gesture.
+ * @param onColorPickingFinished Invoked once when the user lifts their finger, with the color the
+ * pick settled on. Use it for work that should not run on every step, such as saving the choice.
  */
 @Composable
 public fun ImageColorPicker(
@@ -56,6 +63,7 @@ public fun ImageColorPicker(
   paletteContentScale: PaletteContentScale = PaletteContentScale.FIT,
   previewImagePainter: Painter? = null,
   onColorChanged: (colorEnvelope: ColorEnvelope) -> Unit = {},
+  onColorPickingFinished: (colorEnvelope: ColorEnvelope) -> Unit = {},
   onStart: () -> Unit = {},
   onFinish: () -> Unit = {},
 ) {
@@ -78,18 +86,21 @@ public fun ImageColorPicker(
   var offset by remember { mutableStateOf(Offset.Zero) }
   var scale by remember { mutableStateOf(1f) }
 
-  LaunchedEffect(key1 = imageBitmap) {
-    controller.setup { point ->
-      val origPoint = (point - offset) / scale
-      val imPoint = Offset(
-        origPoint.x.coerceIn(0f, width - 1f),
-        origPoint.y.coerceIn(0f, height - 1f),
-      )
-      // TODO: transparent pixel handling
-      val px = imageBitmap.getPixel(imPoint.roundToInt())
-      val newPoint = imPoint * scale + offset
-      px to newPoint
+  val paletteColorAt: (Offset) -> Pair<Color, Offset>? = { point ->
+    val origPoint = (point - offset) / scale
+    val x = floor(origPoint.x).toInt()
+    val y = floor(origPoint.y).toInt()
+    when {
+      // A palette that does not fill its canvas leaves bands beside it. Those used to report the
+      // nearest edge pixel, so a tap well outside the image still came back with a color.
+      x !in 0 until width || y !in 0 until height -> null
+
+      else -> imageBitmap.getPixel(x, y).takeIf { it.alpha != 0f }?.let { it to point }
     }
+  }
+
+  LaunchedEffect(key1 = imageBitmap) {
+    controller.setup(coordinateToColor = paletteColorAt)
   }
 
   ColorPicker(
@@ -99,6 +110,7 @@ public fun ImageColorPicker(
     drawOnPosSelected = drawOnPosSelected,
     drawDefaultWheelIndicator = drawDefaultWheelIndicator,
     onColorChanged = onColorChanged,
+    onColorPickingFinished = onColorPickingFinished,
     onStart = onStart,
     onFinish = onFinish,
     sizeChanged = { size ->
@@ -115,17 +127,7 @@ public fun ImageColorPicker(
       offset = metrics.second
     },
     setup = {
-      controller.setup { point ->
-        val origPoint = (point - offset) / scale
-        val imPoint = Offset(
-          origPoint.x.coerceIn(0f, width - 1f),
-          origPoint.y.coerceIn(0f, height - 1f),
-        )
-        // TODO: transparent pixel handling
-        val px = imageBitmap.getPixel(imPoint.roundToInt())
-        val newPoint = imPoint * scale + offset
-        px to newPoint
-      }
+      controller.setup(coordinateToColor = paletteColorAt)
     },
     draw = {
       drawImageRect(

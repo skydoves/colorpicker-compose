@@ -25,7 +25,6 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.center
@@ -34,10 +33,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -46,9 +42,8 @@ import kotlinx.coroutines.flow.filterNotNull
 
 /** Creates and remembers a [ColorPickerController] on the current composer. */
 @Composable
-public fun rememberColorPickerController(): ColorPickerController {
-  val scope = rememberCoroutineScope()
-  return remember { ColorPickerController(scope) }
+public fun rememberColorPickerController(): ColorPickerController = remember {
+  ColorPickerController()
 }
 
 /**
@@ -57,23 +52,31 @@ public fun rememberColorPickerController(): ColorPickerController {
  * with the [rememberColorPickerController] extension.
  */
 @Stable
-public class ColorPickerController
-@OptIn(DelicateCoroutinesApi::class)
-constructor(
-  internal val coroutineScope: CoroutineScope = GlobalScope,
-) {
+public class ColorPickerController {
   internal var canvasSize: Size = Size.Zero
     set(value) {
-      if (value == field) {
+      val previous = field
+      if (value == previous) {
         return
       }
-      val cur = _selectedPoint.value
-      _selectedPoint.value = Offset(
-        // TODO: check this for aspect ratio preservation
-        cur.x * value.width / field.width,
-        cur.y * value.height / field.height,
-      )
       field = value
+
+      // Nothing has been laid out yet, so there is no old point to carry over. Scaling by the zero
+      // size used to produce Offset(NaN, NaN), which reads as Offset.Unspecified, and the canvas
+      // threw as soon as it tried to draw the wheel there.
+      if (previous.width == 0f || previous.height == 0f) {
+        _selectedPoint.value = value.center
+        return
+      }
+
+      val current = _selectedPoint.value
+      val scaled = Offset(
+        current.x * value.width / previous.width,
+        current.y * value.height / previous.height,
+      )
+      // Scaling each axis on its own distorts anything round, so hand the point back to the picker
+      // and let it say where that actually lands on the new canvas.
+      _selectedPoint.value = coordToColor?.invoke(scaled)?.second ?: scaled
     }
 
   private val _selectedPoint: MutableState<Offset> = mutableStateOf(Offset.Zero)
@@ -102,10 +105,16 @@ constructor(
   private var _paletteBitmap: MutableStateFlow<ImageBitmap?> = MutableStateFlow(null)
   public val paletteBitmap: StateFlow<ImageBitmap?> = _paletteBitmap
 
-  /** An [ImageBitmap] to be drawn on the canvas as a wheel. */
-  public var wheelBitmap: ImageBitmap? = null
+  private val _wheelBitmap: MutableState<ImageBitmap?> = mutableStateOf(null)
 
-  internal val _debounceDuration: MutableState<Long?> = mutableStateOf(null)
+  /** An [ImageBitmap] to be drawn on the canvas as a wheel. */
+  public var wheelBitmap: ImageBitmap?
+    get() = _wheelBitmap.value
+    set(value) {
+      _wheelBitmap.value = value
+    }
+
+  private val _debounceDuration: MutableState<Long?> = mutableStateOf(null)
 
   /** A debounce duration for observing color changes. */
   public var debounceDuration: Long?
@@ -204,31 +213,52 @@ constructor(
     }
   }
 
-  internal var reviseTick = mutableIntStateOf(0)
+  internal val reviseTick = mutableIntStateOf(0)
 
-  private var _colorFlow = MutableStateFlow<ColorEnvelope?>(null)
+  private val colorEvents = MutableStateFlow<ColorEnvelope?>(null)
 
   @OptIn(FlowPreview::class)
   public fun getColorFlow(debounceDuration: Long = 0): Flow<ColorEnvelope> =
-    _colorFlow.filterNotNull().debounce(this.debounceDuration ?: debounceDuration)
+    colorEvents.filterNotNull().debounce(this.debounceDuration ?: debounceDuration)
 
   // Function that takes a coordinate and obtains a color
-  // Also returns an adjusted coordinate if appropriate
-  private var coordToColor: ((Offset) -> Pair<Color, Offset>)? = null
+  // Also returns an adjusted coordinate if appropriate, or null when the coordinate names nothing
+  // selectable, such as the band beside a letterboxed palette or a transparent pixel
+  private var coordToColor: ((Offset) -> Pair<Color, Offset>?)? = null
+
+  /** True once a picker has registered itself and the canvas has a size to work with. */
+  private val isReady: Boolean
+    get() = coordToColor != null && canvasSize != Size.Zero
+
+  /** Set on the first [setup] call, so later ones leave the current selection alone. */
+  private var isSetUp: Boolean = false
+
+  /** A color asked for before the picker was ready, replayed once [setup] runs. */
+  private var pendingColor: Color? = null
 
   /**
    * Setup the controller for use by a picker. The initial position is the
    * initial value selected by the picker. The coordinateToColor function
    * is used to get the color at a given coordinate. The function should
    * return the color at the coordinate and the adjusted coordinate if
-   * the coordinate was out of bounds.
+   * the coordinate was out of bounds, or null if the coordinate has no
+   * color to offer.
+   *
+   * A picker re-runs this whenever its palette changes, and a palette rebuilt inside the
+   * composition changes on every recomposition, so only the first call gets to move the selection.
    */
   internal fun setup(
     initialPosition: Offset = canvasSize.center,
-    coordinateToColor: (Offset) -> Pair<Color, Offset>,
+    coordinateToColor: (Offset) -> Pair<Color, Offset>?,
   ) {
     this.coordToColor = coordinateToColor
-    selectByCoordinate(initialPosition, fromUser = false)
+    val position = if (isSetUp) _selectedPoint.value else initialPosition
+    isSetUp = true
+    selectByCoordinate(position, fromUser = false)
+    pendingColor?.let { color ->
+      pendingColor = null
+      selectByColor(color, fromUser = false)
+    }
     reviseTick.intValue++
   }
 
@@ -301,6 +331,12 @@ constructor(
    * @param fromUser Represents this event is triggered by user or not.
    */
   public fun selectByHsv(h: Float, s: Float, v: Float, alpha: Float, fromUser: Boolean) {
+    // Callers reach for this from a LaunchedEffect, which runs before the picker has been laid out.
+    // Without a canvas there is no coordinate to map the color onto, so hold it until there is one.
+    if (!isReady) {
+      pendingColor = Color.hsv(h, s, v, alpha)
+      return
+    }
     var changed = selectByCoordinate(hsvToCoord(h, s, canvasSize.center))
     changed = setAlpha(alpha) || changed
     changed = setBrightness(v) || changed
@@ -353,13 +389,19 @@ constructor(
     }
   }
 
+  /** An envelope for the color showing right now, for reporting the end of a gesture. */
+  internal fun currentEnvelope(source: ColorChangeSource): ColorEnvelope {
+    val color = _selectedColor.value
+    return ColorEnvelope(color, color.hexCode, fromUser = true, source = source)
+  }
+
   /** Notify color changes to the color picker and other subcomponents. */
   private fun notifyColorChanged(
     fromUser: Boolean,
     source: ColorChangeSource = ColorChangeSource.Programmatic,
   ) {
     val color = _selectedColor.value
-    _colorFlow.value = ColorEnvelope(color, color.hexCode, fromUser, source)
+    colorEvents.value = ColorEnvelope(color, color.hexCode, fromUser, source)
   }
 
   /**
@@ -372,7 +414,7 @@ constructor(
   private fun selectByCoordinate(point: Offset): Boolean {
     val coordToColor = coordToColor
     if (!enabled || coordToColor == null) return false
-    val (color, newPoint) = coordToColor(point)
+    val (color, newPoint) = coordToColor(point) ?: return false
     _selectedPoint.value = newPoint
     if (pureSelectedColor.value == color) return false
     _selectedColor.value = applyHSVFactors(color)

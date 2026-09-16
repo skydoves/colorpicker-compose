@@ -31,10 +31,6 @@ public enum class PaletteContentScale {
    */
   CROP,
 
-  /**
-   * Scale the source with maintaining the source's aspect ratio
-   * so that if both dimensions (width and height) of the source is smaller than the target size,
-   * it will not be scaled.
-   */
-//    INSIDE,
+  // INSIDE would scale the source keeping its aspect ratio, so that a source smaller than the
+  // target in both dimensions is left alone. Not implemented yet.
 }

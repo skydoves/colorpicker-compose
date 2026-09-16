@@ -38,7 +38,8 @@ import androidx.compose.ui.unit.dp
  * @param wheelPaint [Paint] used to draw the wheel.
  * @param initialColor [Color] of the initial state. If null, the slider uses the controller's current color.
  * @param onColorChanged Callback invoked when the hue value changes.
- * Provides [ColorChangeSource] and the updated hue value in range [0f..360f].
+ * Provides [ColorChangeSource] and the new position along the slider, in range `0f..1f`.
+ * @param orientation Whether the slider runs left to right or bottom to top.
  * @param onStart Callback invoked when user interaction with the slider starts.
  * @param onFinish Callback invoked when user interaction with the slider ends.
  */
@@ -58,6 +59,7 @@ public fun HueSlider(
     alpha = wheelAlpha
   },
   initialColor: Color? = null,
+  orientation: SliderOrientation = SliderOrientation.Horizontal,
   onColorChanged: (ColorChangeSource, Float) -> Unit = { _, _ -> },
   onStart: () -> Unit = {},
   onFinish: () -> Unit = {},
@@ -74,9 +76,10 @@ public fun HueSlider(
     wheelAlpha = wheelAlpha,
     wheelPaint = wheelPaint,
     initialColor = initialColor,
+    orientation = orientation,
     getValue = { pureSelectedColor.value.toHSV().first / 360f },
     setValue = ColorPickerController::setHue,
-    onColorChanged = onColorChanged,
+    onValueChanged = onColorChanged,
     onStart = onStart,
     onFinish = onFinish,
     computeInitial = { it.toHSV().first / 360f },

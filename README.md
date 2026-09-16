@@ -169,6 +169,23 @@ To initialize the color picker with a specific color, pass the color to the `ini
 
 The `onStart` / `onFinish` callbacks are also available on `ImageColorPicker`, `AlphaSlider`, `BrightnessSlider`, `HueSlider`, and `SaturationSlider`. Use them to bracket gesture-driven work — for example to show a press indicator, snapshot state when the gesture begins, or commit/throttle work when it ends.
 
+#### onColorPickingFinished
+
+`onColorChanged` fires for every step of a drag, which is more often than you want for saving a choice or logging one. `onColorPickingFinished` fires once, when the gesture is over, and both `HsvColorPicker` and `ImageColorPicker` accept it:
+
+```kotlin
+HsvColorPicker(
+    modifier = Modifier.fillMaxWidth().height(450.dp),
+    controller = controller,
+    onColorChanged = { colorEnvelope: ColorEnvelope ->
+        preview(colorEnvelope.color) // every step of the drag
+    },
+    onColorPickingFinished = { colorEnvelope: ColorEnvelope ->
+        save(colorEnvelope.color) // once, when the finger lifts
+    },
+)
+```
+
 ### ColorEnvelope
 
 **ColorEnvelope** is a data transfer object that includes updated color factors. If you pass the **onColorChanged** lambda function to the `ImageColorPicker` or `HsvColorPicker`, the lambda receives **ColorEnvelope**.
@@ -286,6 +303,38 @@ AlphaSlider(
     tileEvenColor = Color.LightGray,
     tileSize = 30.dp,
     ..
+)
+```
+
+#### Vertical Sliders
+
+Every slider runs left to right by default. Pass `orientation` to stand one up instead, and it will
+fill the height it is given with the lowest value at the bottom:
+
+```kotlin
+BrightnessSlider(
+    modifier = Modifier
+        .width(35.dp)
+        .height(300.dp),
+    controller = controller,
+    orientation = SliderOrientation.Vertical,
+)
+```
+
+#### Sliders Without a Picker
+
+`AlphaSlider`, `BrightnessSlider` and `SaturationSlider` take an `onColorChanged` callback, so a
+slider works on its own when there is no palette to show. A lone `BrightnessSlider` picks greys:
+
+```kotlin
+BrightnessSlider(
+    modifier = Modifier
+        .fillMaxWidth()
+        .height(35.dp),
+    controller = controller,
+    onColorChanged = { colorEnvelope: ColorEnvelope ->
+        // a grey from black to white
+    },
 )
 ```
 

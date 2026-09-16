@@ -13,9 +13,9 @@ plugins {
   alias(libs.plugins.kotlin.binary.compatibility)
 }
 
-// Only the published library is API-stable. Demo, benchmark, and docs modules are not.
+// Only the published library is API-stable. Demo, benchmark, wasmApp, desktopApp, and docs modules are not.
 apiValidation {
-  ignoredProjects.addAll(listOf("androidApp", "shared", "benchmark", "wasmApp", "docs"))
+  ignoredProjects.addAll(listOf("androidApp", "shared", "benchmark", "wasmApp", "desktopApp", "docs"))
 }
 
 subprojects {
@@ -24,11 +24,13 @@ subprojects {
   configure<com.diffplug.gradle.spotless.SpotlessExtension> {
     kotlin {
       target("**/*.kt")
-      targetExclude("$buildDir/**/*.kt")
+      targetExclude("${layout.buildDirectory.get()}/**/*.kt")
       ktlint().editorConfigOverride(
         mapOf(
           "indent_size" to "2",
-          "continuation_indent_size" to "2"
+          "continuation_indent_size" to "2",
+          // Composables are named like types by convention, which the naming rule does not know.
+          "ktlint_function_naming_ignore_when_annotated_with" to "Composable"
         )
       )
       licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
