@@ -356,6 +356,12 @@ constructor(
     }
   }
 
+  /** An envelope for the color showing right now, for reporting the end of a gesture. */
+  internal fun currentEnvelope(source: ColorChangeSource): ColorEnvelope {
+    val color = _selectedColor.value
+    return ColorEnvelope(color, color.hexCode, fromUser = true, source = source)
+  }
+
   /** Notify color changes to the color picker and other subcomponents. */
   private fun notifyColorChanged(
     fromUser: Boolean,

@@ -169,6 +169,23 @@ To initialize the color picker with a specific color, pass the color to the `ini
 
 The `onStart` / `onFinish` callbacks are also available on `ImageColorPicker`, `AlphaSlider`, `BrightnessSlider`, `HueSlider`, and `SaturationSlider`. Use them to bracket gesture-driven work — for example to show a press indicator, snapshot state when the gesture begins, or commit/throttle work when it ends.
 
+#### onColorPickingFinished
+
+`onColorChanged` fires for every step of a drag, which is more often than you want for saving a choice or logging one. `onColorPickingFinished` fires once, when the gesture is over, and both `HsvColorPicker` and `ImageColorPicker` accept it:
+
+```kotlin
+HsvColorPicker(
+    modifier = Modifier.fillMaxWidth().height(450.dp),
+    controller = controller,
+    onColorChanged = { colorEnvelope: ColorEnvelope ->
+        preview(colorEnvelope.color) // every step of the drag
+    },
+    onColorPickingFinished = { colorEnvelope: ColorEnvelope ->
+        save(colorEnvelope.color) // once, when the finger lifts
+    },
+)
+```
+
 ### ColorEnvelope
 
 **ColorEnvelope** is a data transfer object that includes updated color factors. If you pass the **onColorChanged** lambda function to the `ImageColorPicker` or `HsvColorPicker`, the lambda receives **ColorEnvelope**.
