@@ -17,6 +17,7 @@ package com.github.skydoves.colorpicker.compose
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.geometry.isSpecified
 import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -220,12 +221,59 @@ class ColorPickerControllerTest {
   @Test
   fun growingTheCanvasKeepsTheSelectionInTheSameRelativeSpot() = runTest {
     val controller = ColorPickerController(backgroundScope)
-    controller.setupHsvPalette()
+    val palette = controller.setupHsvPalette()
     controller.selectByCoordinate(Offset(200f, 100f), fromUser = false)
 
-    controller.canvasSize = Size(400f, 400f)
+    palette.resize(Size(400f, 400f))
 
     assertOffsetEquals(Offset(400f, 200f), controller.selectedPoint.value)
+  }
+
+  @Test
+  fun aNonUniformResizeKeepsTheIndicatorOnTheWheel() = runTest {
+    val controller = ColorPickerController(backgroundScope)
+    val palette = controller.setupHsvPalette()
+    controller.selectByCoordinate(Offset(200f, 100f), fromUser = false)
+
+    palette.resize(Size(400f, 200f))
+
+    // Scaling each axis on its own would have parked it at (400, 100), well off a wheel that now
+    // has a radius of 100 around (200, 100).
+    assertOffsetEquals(Offset(300f, 100f), controller.selectedPoint.value)
+  }
+
+  @Test
+  fun theFirstCanvasSizeNeverLeavesAnUnspecifiedPoint() = runTest {
+    val controller = ColorPickerController(backgroundScope)
+
+    controller.canvasSize = Size(200f, 200f)
+
+    assertTrue(
+      controller.selectedPoint.value.isSpecified,
+      "the indicator sat at ${controller.selectedPoint.value}",
+    )
+  }
+
+  @Test
+  fun aSecondSetupLeavesTheCurrentSelectionAlone() = runTest {
+    val controller = ColorPickerController(backgroundScope)
+    val palette = controller.setupHsvPalette()
+    controller.selectByCoordinate(Offset(200f, 100f), fromUser = true)
+
+    palette.attach(Size(200f, 200f), initialColor = null)
+
+    assertColorEquals(Color.Red, controller.selectedColor.value)
+    assertOffsetEquals(Offset(200f, 100f), controller.selectedPoint.value)
+  }
+
+  @Test
+  fun aColorChosenBeforeSetupIsAppliedWhenThePickerArrives() = runTest {
+    val controller = ColorPickerController(backgroundScope)
+
+    controller.selectByColor(Color.Cyan, fromUser = false)
+    controller.setupHsvPalette()
+
+    assertColorEquals(Color.Cyan, controller.selectedColor.value)
   }
 
   @Test

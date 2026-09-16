@@ -24,30 +24,42 @@ import kotlin.math.min
 import kotlin.test.assertTrue
 
 /**
- * Wires [this] to the same hue/saturation mapping [HsvColorPicker] installs, without needing a
- * composition. Hue runs counter clockwise from the right of the canvas and saturation grows with
- * the distance from the center.
+ * The same hue/saturation mapping [HsvColorPicker] installs, without needing a composition. Hue
+ * runs counter clockwise from the right of the canvas and saturation grows with the distance from
+ * the center.
  */
+internal class HsvPalette(private val controller: ColorPickerController) {
+
+  private var center: Offset = Offset.Zero
+  private var radius: Float = 0f
+
+  /** Mirrors a layout pass: the picker takes its new geometry first, then the controller hears. */
+  fun resize(size: Size) {
+    center = size.center
+    radius = size.minDimension * 0.5f
+    controller.canvasSize = size
+  }
+
+  fun attach(size: Size, initialColor: Color?) {
+    resize(size)
+    val initialPosition = initialColor?.let {
+      val (h, s, _) = it.toHSV()
+      hsvToCoord(h, s, center)
+    } ?: center
+    controller.setup(initialPosition) { point ->
+      val vector = point - center
+      val angle = vector.angle()
+      val sat = min(vector.length() / radius, 1f)
+      Color.hsv(angleToHue(angle), sat, 1f) to Offset.fromAngle(angle, sat * radius) + center
+    }
+    initialColor?.let { controller.selectByColor(it, fromUser = false) }
+  }
+}
+
 internal fun ColorPickerController.setupHsvPalette(
   size: Size = Size(200f, 200f),
   initialColor: Color? = null,
-) {
-  canvasSize = size
-  val center = size.center
-  val radius = size.minDimension * 0.5f
-  val initialPosition = initialColor
-    ?.let {
-      val (h, s, _) = it.toHSV()
-      hsvToCoord(h, s, center)
-    }
-    ?: center
-  setup(initialPosition) { point ->
-    val vector = point - center
-    val angle = vector.angle()
-    val sat = min(vector.length() / radius, 1f)
-    Color.hsv(angleToHue(angle), sat, 1f) to Offset.fromAngle(angle, sat * radius) + center
-  }
-}
+): HsvPalette = HsvPalette(this).also { it.attach(size, initialColor) }
 
 /** Floats coming out of the hue/saturation round trip land a hair off, so compare with a margin. */
 internal fun assertColorEquals(expected: Color, actual: Color, tolerance: Float = 0.01f) {

@@ -20,6 +20,7 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,6 +67,12 @@ internal fun ColorPicker(
 ) {
   var initialized by remember { mutableStateOf(false) }
 
+  // The wheel used to be handed over once, on the first layout pass, so a caller that rebuilt it
+  // per frame kept seeing the very first one.
+  SideEffect {
+    controller.wheelBitmap = wheelImageBitmap
+  }
+
   val debounceDuration = controller.debounceDuration
   DisposableEffect(key1 = controller, key2 = debounceDuration) {
     val job = controller.coroutineScope.launch(Dispatchers.Main) {
@@ -86,7 +93,6 @@ internal fun ColorPicker(
           sizeChanged(size)
           controller.canvasSize = size.toSize()
           if (!initialized) {
-            controller.wheelBitmap = wheelImageBitmap
             controller.setup()
             initialized = true
           }
