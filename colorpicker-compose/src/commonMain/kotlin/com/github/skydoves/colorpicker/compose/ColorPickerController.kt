@@ -123,7 +123,7 @@ constructor(
       _wheelBitmap.value = value
     }
 
-  internal val _debounceDuration: MutableState<Long?> = mutableStateOf(null)
+  private val _debounceDuration: MutableState<Long?> = mutableStateOf(null)
 
   /** A debounce duration for observing color changes. */
   public var debounceDuration: Long?
@@ -182,11 +182,11 @@ constructor(
 
   internal var reviseTick = mutableIntStateOf(0)
 
-  private var _colorFlow = MutableStateFlow<ColorEnvelope?>(null)
+  private val colorEvents = MutableStateFlow<ColorEnvelope?>(null)
 
   @OptIn(FlowPreview::class)
   public fun getColorFlow(debounceDuration: Long = 0): Flow<ColorEnvelope> =
-    _colorFlow.filterNotNull().debounce(this.debounceDuration ?: debounceDuration)
+    colorEvents.filterNotNull().debounce(this.debounceDuration ?: debounceDuration)
 
   // Function that takes a coordinate and obtains a color
   // Also returns an adjusted coordinate if appropriate, or null when the coordinate names nothing
@@ -368,7 +368,7 @@ constructor(
     source: ColorChangeSource = ColorChangeSource.Programmatic,
   ) {
     val color = _selectedColor.value
-    _colorFlow.value = ColorEnvelope(color, color.hexCode, fromUser, source)
+    colorEvents.value = ColorEnvelope(color, color.hexCode, fromUser, source)
   }
 
   /**
