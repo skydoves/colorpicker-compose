@@ -38,6 +38,9 @@ import androidx.compose.ui.unit.dp
  * @param wheelAlpha Alpha value applied to the wheel.
  * @param wheelPaint [Paint] used to draw the wheel.
  * @param initialColor [Color] of the initial state. If null, the slider uses the controller's current color.
+ * @param orientation Whether the slider runs left to right or bottom to top.
+ * @param onColorChanged Callback invoked with the color the controller ends up on. Useful when the
+ * slider is used without a picker beside it.
  * @param onStart Callback invoked when user interaction with the slider starts.
  * @param onFinish Callback invoked when user interaction with the slider ends.
  */
@@ -57,6 +60,8 @@ public fun SaturationSlider(
     alpha = wheelAlpha
   },
   initialColor: Color? = null,
+  orientation: SliderOrientation = SliderOrientation.Horizontal,
+  onColorChanged: (colorEnvelope: ColorEnvelope) -> Unit = {},
   onStart: () -> Unit = {},
   onFinish: () -> Unit = {},
 ) {
@@ -76,6 +81,8 @@ public fun SaturationSlider(
     wheelAlpha = wheelAlpha,
     wheelPaint = wheelPaint,
     initialColor = initialColor,
+    orientation = orientation,
+    onColorChanged = onColorChanged,
     drawBackground = {},
     getValue = { saturation.value },
     setValue = ColorPickerController::setSaturation,

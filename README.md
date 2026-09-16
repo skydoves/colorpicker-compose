@@ -289,6 +289,38 @@ AlphaSlider(
 )
 ```
 
+#### Vertical Sliders
+
+Every slider runs left to right by default. Pass `orientation` to stand one up instead, and it will
+fill the height it is given with the lowest value at the bottom:
+
+```kotlin
+BrightnessSlider(
+    modifier = Modifier
+        .width(35.dp)
+        .height(300.dp),
+    controller = controller,
+    orientation = SliderOrientation.Vertical,
+)
+```
+
+#### Sliders Without a Picker
+
+`AlphaSlider`, `BrightnessSlider` and `SaturationSlider` take an `onColorChanged` callback, so a
+slider works on its own when there is no palette to show. A lone `BrightnessSlider` picks greys:
+
+```kotlin
+BrightnessSlider(
+    modifier = Modifier
+        .fillMaxWidth()
+        .height(35.dp),
+    controller = controller,
+    onColorChanged = { colorEnvelope: ColorEnvelope ->
+        // a grey from black to white
+    },
+)
+```
+
 <img src="preview/preview4.gif" width="270" align="right">
 
 ### BrightnessSlider
