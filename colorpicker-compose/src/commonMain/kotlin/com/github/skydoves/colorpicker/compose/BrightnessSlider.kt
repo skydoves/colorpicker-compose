@@ -38,6 +38,11 @@ import androidx.compose.ui.unit.dp
  * @param wheelPaint [Paint] to draw the wheel.
  * @param initialColor [Color] of the initial state. This property works for [HsvColorPicker] and
  * it will be selected on rightmost of slider if you give null value.
+ * @param orientation Whether the slider runs left to right or bottom to top.
+ * @param onColorChanged Callback invoked with the color the controller ends up on. Useful when the
+ * slider is used without a picker beside it, such as picking a grey.
+ * @param onStart Callback invoked when user interaction with the slider starts.
+ * @param onFinish Callback invoked when user interaction with the slider ends.
  */
 @Composable
 public fun BrightnessSlider(
@@ -55,6 +60,8 @@ public fun BrightnessSlider(
     alpha = wheelAlpha
   },
   initialColor: Color? = null,
+  orientation: SliderOrientation = SliderOrientation.Horizontal,
+  onColorChanged: (colorEnvelope: ColorEnvelope) -> Unit = {},
   onStart: () -> Unit = {},
   onFinish: () -> Unit = {},
 ) {
@@ -74,14 +81,18 @@ public fun BrightnessSlider(
     wheelAlpha = wheelAlpha,
     wheelPaint = wheelPaint,
     initialColor = initialColor,
+    orientation = orientation,
+    onColorChanged = onColorChanged,
     getValue = { brightness.value },
     setValue = ColorPickerController::setBrightness,
     onStart = onStart,
     onFinish = onFinish,
     computeInitial = { maxOf(it.red, it.green, it.blue) },
     getGradientColors = {
-      val h = pureSelectedColor.value.toHSV().first
-      val s = if (controller.isAttachedSaturationSlider) saturation.value else 1f
+      val (h, selectedSaturation, _) = pureSelectedColor.value.toHSV()
+      // Assuming full saturation painted a red ramp for a controller with nothing selected yet,
+      // which is what a standalone slider picking a grey looks like.
+      val s = if (controller.isAttachedSaturationSlider) saturation.value else selectedSaturation
       listOf(
         Color.Black,
         Color.hsv(h, s, 1f),
