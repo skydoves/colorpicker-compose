@@ -20,10 +20,10 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -37,7 +37,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.toSize
-import kotlinx.coroutines.launch
 
 /**
  * ColorPicker allows you to get colors from a palette by tapping on the desired color.
@@ -49,6 +48,7 @@ import kotlinx.coroutines.launch
  * @param drawOnPosSelected to draw anything on the canvas when [ColorPickerController.selectedPoint] changes
  * @param drawDefaultWheelIndicator should the indicator be drawn on the canvas. Defaults to false if either [wheelImageBitmap] or [drawOnPosSelected] are not null.
  * @param onColorChanged Color changed listener.
+ * @param onColorPickingFinished Invoked once when a gesture ends, with the color it settled on.
  */
 @Composable
 internal fun ColorPicker(
@@ -58,6 +58,7 @@ internal fun ColorPicker(
   drawOnPosSelected: (DrawScope.() -> Unit)? = null,
   drawDefaultWheelIndicator: Boolean = wheelImageBitmap == null && drawOnPosSelected == null,
   onColorChanged: (colorEnvelope: ColorEnvelope) -> Unit = {},
+  onColorPickingFinished: (colorEnvelope: ColorEnvelope) -> Unit = {},
   onStart: () -> Unit = {},
   onFinish: () -> Unit = {},
   sizeChanged: (IntSize) -> Unit = { _ -> },
@@ -66,18 +67,17 @@ internal fun ColorPicker(
 ) {
   var initialized by remember { mutableStateOf(false) }
 
+  // The wheel used to be handed over once, on the first layout pass, so a caller that rebuilt it
+  // per frame kept seeing the very first one.
+  SideEffect {
+    controller.wheelBitmap = wheelImageBitmap
+  }
+
   val debounceDuration = controller.debounceDuration
-  val coroutineScope = rememberCoroutineScope()
-  DisposableEffect(key1 = controller, key2 = debounceDuration) {
-    val job = coroutineScope.launch {
-      controller.getColorFlow(debounceDuration ?: 0).collect {
-        onColorChanged(it)
-      }
-    }
-    onDispose {
-      job.cancel()
-      controller.releaseBitmap()
-    }
+  controller.ObserveColorChanges(onColorChanged)
+
+  DisposableEffect(key1 = controller) {
+    onDispose { controller.releaseBitmap() }
   }
 
   Canvas(
@@ -87,7 +87,6 @@ internal fun ColorPicker(
           sizeChanged(size)
           controller.canvasSize = size.toSize()
           if (!initialized) {
-            controller.wheelBitmap = wheelImageBitmap
             controller.setup()
             initialized = true
           }
@@ -101,14 +100,22 @@ internal fun ColorPicker(
               fromUser = true,
               source = ColorChangeSource.Tap,
             )
+            // A tap is a whole gesture on its own, so it finishes as soon as it lands.
+            onColorPickingFinished(controller.currentEnvelope(ColorChangeSource.Tap))
           },
         )
       }
       .pointerInput(key1 = controller, key2 = debounceDuration) {
         detectDragGestures(
           onDragStart = { onStart() },
-          onDragEnd = { onFinish() },
-          onDragCancel = { onFinish() },
+          onDragEnd = {
+            onFinish()
+            onColorPickingFinished(controller.currentEnvelope(ColorChangeSource.Drag))
+          },
+          onDragCancel = {
+            onFinish()
+            onColorPickingFinished(controller.currentEnvelope(ColorChangeSource.Drag))
+          },
         ) { change, _ ->
           controller.selectByCoordinate(
             point = change.position,

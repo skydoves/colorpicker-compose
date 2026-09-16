@@ -24,12 +24,12 @@ subprojects {
   configure<com.diffplug.gradle.spotless.SpotlessExtension> {
     kotlin {
       target("**/*.kt")
-      targetExclude("$buildDir/**/*.kt")
+      targetExclude("${layout.buildDirectory.get()}/**/*.kt")
       ktlint().editorConfigOverride(
         mapOf(
           "indent_size" to "2",
           "continuation_indent_size" to "2",
-          // Composable functions conventionally use PascalCase; exempt them from function-naming.
+          // Composables are named like types by convention, which the naming rule does not know.
           "ktlint_function_naming_ignore_when_annotated_with" to "Composable"
         )
       )

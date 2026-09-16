@@ -18,6 +18,8 @@ package com.github.skydoves.colorpicker.compose
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -44,7 +46,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 
 /**
- * Slider allows you to adjust the a value of the selected color from color pickers.
+ * Slider allows you to adjust the value of the selected color from color pickers.
  * See [AlphaSlider] and [BrightnessSlider] for concrete versions.
  *
  * @param modifier [Modifier] to decorate the internal Canvas.
@@ -54,16 +56,18 @@ import androidx.compose.ui.unit.dp
  * @param borderColor [Color] of the border.
  * @param wheelImageBitmap [ImageBitmap] to draw the wheel.
  * @param wheelRadius Radius of the wheel.
- * @param wheelColor [Color] of th wheel.
+ * @param wheelColor [Color] of the wheel.
  * @param wheelPaint [Paint] to draw the wheel.
  * @param initialColor [Color] of the initial state. This property works for [HsvColorPicker] and
  * it will be selected on rightmost of slider if you give null value.
+ * @param orientation Whether the slider runs left to right or bottom to top.
  *
  * @param drawBackground optional function to draw anything on the canvas
  * @param getValue function to get the current value from the controller
  * @param setValue function to set the current value on the controller
- * @param onColorChanged Callback invoked when value changes.
+ * @param onValueChanged Callback invoked when value changes, with the new value in `0f..1f`.
  * Provides [ColorChangeSource] the update trigger source.
+ * @param onColorChanged Callback invoked with the color the controller ends up on.
  * @param onStart Callback invoked when user interaction with the slider starts.
  * @param onFinish Callback invoked when user interaction with the slider ends.
  * @param computeInitial function to compute the initial value from the initial color
@@ -85,117 +89,162 @@ internal fun Slider(
     alpha = wheelAlpha
   },
   initialColor: Color? = null,
+  orientation: SliderOrientation = SliderOrientation.Horizontal,
   drawBackground: Canvas.(IntSize) -> Unit = {},
   getValue: ColorPickerController.() -> Float,
   setValue: ColorPickerController.(Float, fromUser: Boolean, source: ColorChangeSource) -> Unit,
-  onColorChanged: (ColorChangeSource, Float) -> Unit = { _, _ -> },
+  onValueChanged: (ColorChangeSource, Float) -> Unit = { _, _ -> },
+  onColorChanged: ((ColorEnvelope) -> Unit)? = null,
   onStart: () -> Unit = {},
   onFinish: () -> Unit = {},
   computeInitial: (Color) -> Float,
   getGradientColors: ColorPickerController.() -> List<Color>,
 ) {
   val density = LocalDensity.current
+  val isVertical = orientation == SliderOrientation.Vertical
   val debounceDuration = controller.debounceDuration
-  var background: ImageBitmap? = null
+
+  var canvasSize by remember { mutableStateOf(IntSize.Zero) }
+  var isInitialized by remember { mutableStateOf(false) }
+
   val borderPaint = Paint().apply {
     style = PaintingStyle.Stroke
     strokeWidth = with(density) { borderSize.toPx() }
     color = borderColor
   }
-  val colorPaint = Paint().apply {
-    color = controller.pureSelectedColor.value
-  }
+  // The shader below supplies every color this paint draws. Taking one from the controller here
+  // also took its alpha, and a controller with nothing selected yet is fully transparent, which
+  // left a standalone slider drawing nothing at all.
+  val colorPaint = Paint()
   val wheelRadiusPx = with(density) { wheelRadius.toPx() }
+  // Half a thumb at each end, so it sits inside the track instead of being clipped by it.
+  val thumbInset = wheelImageBitmap
+    ?.let { (if (isVertical) it.height else it.width) * 0.5f }
+    ?: wheelRadiusPx
 
-  var isInitialized by remember { mutableStateOf(false) }
+  val background = canvasSize.takeIf { it.width != 0 && it.height != 0 }?.let { size ->
+    ImageBitmap.fromDrawing(size) {
+      drawBackground(size)
+      drawRoundRect(size, borderRadius.value, borderPaint)
+    }
+  }
 
-  fun setValue(wheelPoint: Float, source: ColorChangeSource) {
-    val position = background?.width?.toFloat()?.let { wheelPoint / it } ?: 0f
-    controller.setValue(position.coerceIn(0f, 1f), true, source)
-    onColorChanged.invoke(source, position)
+  controller.ObserveColorChanges(onColorChanged)
+
+  fun setValue(point: Float, source: ColorChangeSource) {
+    val size = canvasSize.takeIf { it.width != 0 && it.height != 0 } ?: return
+    val travel = travelOf(size, isVertical, thumbInset)
+    val fraction = (point - thumbInset) / travel
+    // Vertical sliders run bottom to top, the way anyone expects a fader to.
+    val position = (if (isVertical) 1f - fraction else fraction).coerceIn(0f, 1f)
+    controller.setValue(position, true, source)
+    onValueChanged(source, position)
   }
 
   Canvas(
     modifier = modifier
-      .fillMaxWidth()
+      .then(if (isVertical) Modifier.fillMaxHeight() else Modifier.fillMaxWidth())
       .clip(RoundedCornerShape(borderRadius))
       .onSizeChanged { size ->
         if (size.width != 0 && size.height != 0) {
-          background = ImageBitmap.fromDrawing(size) {
-            drawBackground(size)
-            drawRoundRect(size, borderRadius.value, borderPaint)
+          canvasSize = size
+          if (initialColor != null && !isInitialized) {
+            isInitialized = true
+            controller.setValue(computeInitial(initialColor), false, ColorChangeSource.Programmatic)
           }
         }
       }
-      .pointerInput(Unit) {
+      .pointerInput(key1 = controller, key2 = orientation) {
         detectTapGestures(
           onTap = { offset ->
-            setValue(offset.x, ColorChangeSource.Tap)
+            setValue(if (isVertical) offset.y else offset.x, ColorChangeSource.Tap)
           },
         )
       }
-      .pointerInput(key1 = controller, key2 = debounceDuration) {
-        detectHorizontalDragGestures(
-          onDragStart = { onStart() },
-          onDragEnd = { onFinish() },
-          onDragCancel = { onFinish() },
-        ) { change, _ ->
-          setValue(change.position.x, ColorChangeSource.Drag)
+      .pointerInput(controller, debounceDuration, orientation) {
+        if (isVertical) {
+          detectVerticalDragGestures(
+            onDragStart = { onStart() },
+            onDragEnd = { onFinish() },
+            onDragCancel = { onFinish() },
+          ) { change, _ -> setValue(change.position.y, ColorChangeSource.Drag) }
+        } else {
+          detectHorizontalDragGestures(
+            onDragStart = { onStart() },
+            onDragEnd = { onFinish() },
+            onDragCancel = { onFinish() },
+          ) { change, _ -> setValue(change.position.x, ColorChangeSource.Drag) }
         }
       },
   ) {
     drawIntoCanvas { canvas ->
       background?.let {
-        val (width, height) = it.size
+        val size = it.size
 
         // draw background bitmap.
         canvas.drawImage(it)
 
         // draw a linear gradient color shader.
-        val halfHeight = height * 0.5f
         colorPaint.shader = LinearGradientShader(
           colors = controller.getGradientColors(),
-          from = Offset(0f, halfHeight),
-          to = Offset(width.toFloat(), halfHeight),
+          from = gradientStart(size, isVertical),
+          to = gradientEnd(size, isVertical),
           tileMode = TileMode.Clamp,
         )
-        canvas.drawRoundRect(it.size, borderRadius.value, colorPaint)
+        canvas.drawRoundRect(size, borderRadius.value, colorPaint)
 
         // draw wheel bitmap on the canvas.
         canvas.drawWheel(
-          position = controller.getValue(),
-          width = width,
-          height = height,
+          center = thumbCenter(size, isVertical, thumbInset, controller.getValue()),
           wheelImageBitmap = wheelImageBitmap,
           wheelRadius = wheelRadiusPx,
-          wheelColor = wheelColor,
-          wheelAlpha = wheelAlpha,
           wheelPaint = wheelPaint,
         )
-      }
-
-      if (initialColor != null && !isInitialized) {
-        isInitialized = true
-        controller.setValue(computeInitial(initialColor), false, ColorChangeSource.Programmatic)
       }
     }
   }
 }
 
-private fun Canvas.drawWheel(
+/** How far the thumb center can travel, once a radius is reserved at each end. */
+private fun travelOf(size: IntSize, isVertical: Boolean, thumbInset: Float): Float {
+  val length = (if (isVertical) size.height else size.width).toFloat()
+  return (length - 2f * thumbInset).coerceAtLeast(1f)
+}
+
+private fun thumbCenter(
+  size: IntSize,
+  isVertical: Boolean,
+  thumbInset: Float,
   position: Float,
-  width: Int,
-  height: Int,
+): Offset {
+  val fraction = position.coerceIn(0f, 1f)
+  val along = thumbInset + (if (isVertical) 1f - fraction else fraction) *
+    travelOf(size, isVertical, thumbInset)
+  return if (isVertical) {
+    Offset(size.width * 0.5f, along)
+  } else {
+    Offset(along, size.height * 0.5f)
+  }
+}
+
+private fun gradientStart(size: IntSize, isVertical: Boolean): Offset = if (isVertical) {
+  Offset(size.width * 0.5f, size.height.toFloat())
+} else {
+  Offset(0f, size.height * 0.5f)
+}
+
+private fun gradientEnd(size: IntSize, isVertical: Boolean): Offset = if (isVertical) {
+  Offset(size.width * 0.5f, 0f)
+} else {
+  Offset(size.width.toFloat(), size.height * 0.5f)
+}
+
+private fun Canvas.drawWheel(
+  center: Offset,
   wheelImageBitmap: ImageBitmap?,
   wheelRadius: Float,
-  wheelColor: Color = Color.White,
-  wheelAlpha: Float = 1.0f,
-  wheelPaint: Paint = Paint().apply {
-    color = wheelColor
-    alpha = wheelAlpha
-  },
+  wheelPaint: Paint,
 ) {
-  val center = Offset(position.coerceIn(0f, 1f) * width, height * 0.5f)
   if (wheelImageBitmap == null) {
     drawCircle(center, wheelRadius, wheelPaint)
   } else {

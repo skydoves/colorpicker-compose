@@ -112,7 +112,7 @@ ImageColorPicker(
 )
 ```
 
-With the [modernstorage](https://github.com/google/modernstorage)'s [Photo Picker](https://google.github.io/modernstorage/photopicker/), you can set an desired image as the palette like the below:
+With the [modernstorage](https://github.com/google/modernstorage)'s [Photo Picker](https://google.github.io/modernstorage/photopicker/), you can set a desired image as the palette like the below:
 
 ```kotlin
 val context = LocalContext.current
@@ -168,6 +168,23 @@ To initialize the color picker with a specific color, pass the color to the `ini
 > **Note**: If you use `HsvColorPicker`, you can not set the palette and content scale with the `setPaletteImageBitmap` and `setPaletteContentScale` functions.
 
 The `onStart` / `onFinish` callbacks are also available on `ImageColorPicker`, `AlphaSlider`, `BrightnessSlider`, `HueSlider`, and `SaturationSlider`. Use them to bracket gesture-driven work — for example to show a press indicator, snapshot state when the gesture begins, or commit/throttle work when it ends.
+
+#### onColorPickingFinished
+
+`onColorChanged` fires for every step of a drag, which is more often than you want for saving a choice or logging one. `onColorPickingFinished` fires once, when the gesture is over, and both `HsvColorPicker` and `ImageColorPicker` accept it:
+
+```kotlin
+HsvColorPicker(
+    modifier = Modifier.fillMaxWidth().height(450.dp),
+    controller = controller,
+    onColorChanged = { colorEnvelope: ColorEnvelope ->
+        preview(colorEnvelope.color) // every step of the drag
+    },
+    onColorPickingFinished = { colorEnvelope: ColorEnvelope ->
+        save(colorEnvelope.color) // once, when the finger lifts
+    },
+)
+```
 
 ### ColorEnvelope
 
@@ -255,7 +272,7 @@ AlphaSlider(
 )
 ```
 
-You can customize the border of the sider with the following parameters:
+You can customize the border of the slider with the following parameters:
 
 ```kotlin
 AlphaSlider(
@@ -266,7 +283,7 @@ AlphaSlider(
 )
 ```
 
-You can customize the wheel of the sider with the following parameters:
+You can customize the wheel of the slider with the following parameters:
 
 ```kotlin
 AlphaSlider(
@@ -289,6 +306,38 @@ AlphaSlider(
 )
 ```
 
+#### Vertical Sliders
+
+Every slider runs left to right by default. Pass `orientation` to stand one up instead, and it will
+fill the height it is given with the lowest value at the bottom:
+
+```kotlin
+BrightnessSlider(
+    modifier = Modifier
+        .width(35.dp)
+        .height(300.dp),
+    controller = controller,
+    orientation = SliderOrientation.Vertical,
+)
+```
+
+#### Sliders Without a Picker
+
+`AlphaSlider`, `BrightnessSlider` and `SaturationSlider` take an `onColorChanged` callback, so a
+slider works on its own when there is no palette to show. A lone `BrightnessSlider` picks greys:
+
+```kotlin
+BrightnessSlider(
+    modifier = Modifier
+        .fillMaxWidth()
+        .height(35.dp),
+    controller = controller,
+    onColorChanged = { colorEnvelope: ColorEnvelope ->
+        // a grey from black to white
+    },
+)
+```
+
 <img src="preview/preview4.gif" width="270" align="right">
 
 ### BrightnessSlider
@@ -307,7 +356,7 @@ BrightnessSlider(
 )
 ```
 
-You can customize the wheel of the sider with the following parameters:
+You can customize the wheel of the slider with the following parameters:
 
 ```kotlin
 BrightnessSlider(

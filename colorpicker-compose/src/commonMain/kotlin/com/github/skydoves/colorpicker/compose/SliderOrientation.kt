@@ -13,9 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import androidx.compose.ui.window.ComposeUIViewController
-import com.github.skydoves.colorpickercomposedemo.MainScreen
+package com.github.skydoves.colorpicker.compose
 
-// Named after the type it builds, which is how iOS expects to find it.
-@Suppress("ktlint:standard:function-naming")
-fun MainViewController() = ComposeUIViewController { MainScreen() }
+/** Which way a slider runs, and therefore which way a drag moves its value. */
+public enum class SliderOrientation {
+
+  /** Left to right, the default. The slider fills the width it is given. */
+  Horizontal,
+
+  /** Bottom to top, so the lowest value sits at the bottom. The slider fills the height. */
+  Vertical,
+}

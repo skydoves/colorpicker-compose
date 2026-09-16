@@ -18,6 +18,7 @@ import com.github.skydoves.colorpicker.compose.Configuration
 plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.compose.compiler)
+  alias(libs.plugins.baseline.profile)
 }
 
 android {
@@ -51,6 +52,15 @@ android {
   lint {
     abortOnError = false
   }
+
+  buildTypes {
+    create("benchmark") {
+      initWith(buildTypes.getByName("release"))
+      signingConfig = signingConfigs.getByName("debug")
+      matchingFallbacks += listOf("release")
+      isDebuggable = false
+    }
+  }
 }
 
 dependencies {
@@ -60,6 +70,7 @@ dependencies {
   implementation(libs.compose.material)
   implementation(libs.compose.ui)
   implementation(libs.filekit.dialogs.compose)
+  baselineProfile(project(":benchmark"))
 }
 
 kotlin {

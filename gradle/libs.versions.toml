@@ -1,10 +1,10 @@
 [versions]
-agp = "9.2.1"
+agp = "9.4.0"
 dokka = "2.2.0"
-nexusPlugin = "0.36.0"
-kotlin = "2.4.0"
-kotlinBinaryCompatibility = "0.18.1"
-compose-plugin = "1.11.1"
+nexusPlugin = "0.37.0"
+kotlin = "2.4.20"
+kotlinBinaryCompatibility = "0.18.2"
+compose-plugin = "1.12.0"
 # Compose Multiplatform ships these on independent release tracks (CMP plugin no longer pins them).
 composeMaterial3 = "1.9.0"
 composeMaterialIconsExtended = "1.7.3"
@@ -14,9 +14,10 @@ androidxTest = "1.7.0"
 androidxNavigation = "2.9.2"
 filekit = "0.14.1"
 profileInstaller = "1.4.1"
-uiAutomator = "2.3.0"
-spotless = "8.6.0"
-androidxMacroBenchmark = "1.5.0-alpha06"
+uiAutomator = "2.4.0"
+spotless = "8.10.2"
+androidxMacroBenchmark = "1.5.0"
+coroutines = "1.11.0"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -48,7 +49,11 @@ compose-material3 = { module = "org.jetbrains.compose.material3:material3", vers
 compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "composeMaterialIconsExtended" }
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-plugin" }
 
-# unit test
+# test
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+compose-ui-test = { module = "org.jetbrains.compose.ui:ui-test", version.ref = "compose-plugin" }
+
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTest" }
 androidx-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "profileInstaller" }
 androidx-benchmark-macro = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "androidxMacroBenchmark" }

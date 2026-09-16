@@ -18,6 +18,10 @@ package com.github.skydoves.colorpicker.compose
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -26,6 +30,7 @@ import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 
 /**
@@ -48,22 +53,29 @@ public fun AlphaTile(
   tileSize: Dp = 12.dp,
 ) {
   val density = LocalDensity.current
-  var background: ImageBitmap? = null
+  var canvasSize by remember { mutableStateOf(IntSize.Zero) }
   val colorPaint = Paint().apply {
     color = controller?.selectedColor?.value ?: selectedColor
   }
-  val paint = alphaTilePaint(
-    tileSize = with(density) { tileSize.toPx() },
-    tileOddColor = tileOddColor,
-    tileEvenColor = tileEvenColor,
-  )
+  // The tiles only change when the canvas or the tiling does, so they are not worth redrawing on
+  // every color change.
+  val background = remember(canvasSize, tileSize, tileOddColor, tileEvenColor, density) {
+    canvasSize.takeIf { it.width != 0 && it.height != 0 }?.let { size ->
+      val paint = alphaTilePaint(
+        tileSize = with(density) { tileSize.toPx() },
+        tileOddColor = tileOddColor,
+        tileEvenColor = tileEvenColor,
+      )
+      ImageBitmap.fromPaint(paint, size)
+    }
+  }
 
   Canvas(
     modifier
       .fillMaxSize()
       .onSizeChanged { size ->
         if (size.width != 0 && size.height != 0) {
-          background = ImageBitmap.fromPaint(paint, size)
+          canvasSize = size
         }
       },
   ) {
