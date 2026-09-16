@@ -3,8 +3,8 @@ name: Android CI
 on:
   push:
     branches: [ main ]
+  # No branch filter, so a pull request stacked on another one gets checked too.
   pull_request:
-    branches: [ main ]
 
 jobs:
   lint:
@@ -38,6 +38,37 @@ jobs:
 
       - name: API Check
         run: ./gradlew apiCheck
+
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v7
+
+      - name: Setup JDK
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Grant Execute Permission for gradlew
+        run: chmod +x gradlew
+
+      # desktopTest runs commonTest plus the composition tests. The web targets cannot run them,
+      # and the Apple ones need a macOS runner.
+      - name: Test
+        run: ./gradlew :colorpicker-compose:desktopTest --stacktrace
+
+      - name: Upload Test Reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: '**/build/reports/tests/**'
 
   build:
     runs-on: ubuntu-latest

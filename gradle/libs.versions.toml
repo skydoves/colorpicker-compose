@@ -17,6 +17,7 @@ profileInstaller = "1.4.1"
 uiAutomator = "2.4.0"
 spotless = "6.21.0"
 androidxMacroBenchmark = "1.5.0-alpha07"
+coroutines = "1.11.0"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -48,7 +49,11 @@ compose-material3 = { module = "org.jetbrains.compose.material3:material3", vers
 compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "composeMaterialIconsExtended" }
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-plugin" }
 
-# unit test
+# test
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+compose-ui-test = { module = "org.jetbrains.compose.ui:ui-test", version.ref = "compose-plugin" }
+
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTest" }
 androidx-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "profileInstaller" }
 androidx-benchmark-macro = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "androidxMacroBenchmark" }
