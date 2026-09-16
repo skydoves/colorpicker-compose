@@ -26,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.painter.Painter
@@ -78,18 +79,19 @@ public fun ImageColorPicker(
   var offset by remember { mutableStateOf(Offset.Zero) }
   var scale by remember { mutableStateOf(1f) }
 
+  val paletteColorAt: (Offset) -> Pair<Color, Offset> = { point ->
+    val origPoint = (point - offset) / scale
+    val imPoint = Offset(
+      origPoint.x.coerceIn(0f, width - 1f),
+      origPoint.y.coerceIn(0f, height - 1f),
+    )
+    // TODO: transparent pixel handling
+    val px = imageBitmap.getPixel(imPoint.roundToInt())
+    px to (imPoint * scale + offset)
+  }
+
   LaunchedEffect(key1 = imageBitmap) {
-    controller.setup { point ->
-      val origPoint = (point - offset) / scale
-      val imPoint = Offset(
-        origPoint.x.coerceIn(0f, width - 1f),
-        origPoint.y.coerceIn(0f, height - 1f),
-      )
-      // TODO: transparent pixel handling
-      val px = imageBitmap.getPixel(imPoint.roundToInt())
-      val newPoint = imPoint * scale + offset
-      px to newPoint
-    }
+    controller.setup(coordinateToColor = paletteColorAt)
   }
 
   ColorPicker(
@@ -115,17 +117,7 @@ public fun ImageColorPicker(
       offset = metrics.second
     },
     setup = {
-      controller.setup { point ->
-        val origPoint = (point - offset) / scale
-        val imPoint = Offset(
-          origPoint.x.coerceIn(0f, width - 1f),
-          origPoint.y.coerceIn(0f, height - 1f),
-        )
-        // TODO: transparent pixel handling
-        val px = imageBitmap.getPixel(imPoint.roundToInt())
-        val newPoint = imPoint * scale + offset
-        px to newPoint
-      }
+      controller.setup(coordinateToColor = paletteColorAt)
     },
     draw = {
       drawImageRect(

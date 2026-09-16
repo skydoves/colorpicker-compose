@@ -92,6 +92,9 @@ public fun HsvColorPicker(
           Color.hsv(0f, 0f, 0f) to newPoint
         }
       }
+      // The palette only carries hue and saturation, so a coordinate alone reports the initial
+      // color at full brightness. Replaying the color puts its value and alpha back.
+      initialColor?.let { controller.selectByColor(it, fromUser = false) }
     },
     draw = { drawHsvColorGradient(controller.canvasSize) },
   )

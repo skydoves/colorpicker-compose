@@ -64,16 +64,28 @@ constructor(
 ) {
   internal var canvasSize: Size = Size.Zero
     set(value) {
-      if (value == field) {
+      val previous = field
+      if (value == previous) {
         return
       }
-      val cur = _selectedPoint.value
-      _selectedPoint.value = Offset(
-        // TODO: check this for aspect ratio preservation
-        cur.x * value.width / field.width,
-        cur.y * value.height / field.height,
-      )
       field = value
+
+      // Nothing has been laid out yet, so there is no old point to carry over. Scaling by the zero
+      // size used to produce Offset(NaN, NaN), which reads as Offset.Unspecified, and the canvas
+      // threw as soon as it tried to draw the wheel there.
+      if (previous.width == 0f || previous.height == 0f) {
+        _selectedPoint.value = value.center
+        return
+      }
+
+      val current = _selectedPoint.value
+      val scaled = Offset(
+        current.x * value.width / previous.width,
+        current.y * value.height / previous.height,
+      )
+      // Scaling each axis on its own distorts anything round, so hand the point back to the picker
+      // and let it say where that actually lands on the new canvas.
+      _selectedPoint.value = coordToColor?.invoke(scaled)?.second ?: scaled
     }
 
   private val _selectedPoint: MutableState<Offset> = mutableStateOf(Offset.Zero)
@@ -102,8 +114,14 @@ constructor(
   private var _paletteBitmap: MutableStateFlow<ImageBitmap?> = MutableStateFlow(null)
   public val paletteBitmap: StateFlow<ImageBitmap?> = _paletteBitmap
 
+  private val _wheelBitmap: MutableState<ImageBitmap?> = mutableStateOf(null)
+
   /** An [ImageBitmap] to be drawn on the canvas as a wheel. */
-  public var wheelBitmap: ImageBitmap? = null
+  public var wheelBitmap: ImageBitmap?
+    get() = _wheelBitmap.value
+    set(value) {
+      _wheelBitmap.value = value
+    }
 
   internal val _debounceDuration: MutableState<Long?> = mutableStateOf(null)
 
@@ -174,19 +192,38 @@ constructor(
   // Also returns an adjusted coordinate if appropriate
   private var coordToColor: ((Offset) -> Pair<Color, Offset>)? = null
 
+  /** True once a picker has registered itself and the canvas has a size to work with. */
+  private val isReady: Boolean
+    get() = coordToColor != null && canvasSize != Size.Zero
+
+  /** Set on the first [setup] call, so later ones leave the current selection alone. */
+  private var isSetUp: Boolean = false
+
+  /** A color asked for before the picker was ready, replayed once [setup] runs. */
+  private var pendingColor: Color? = null
+
   /**
    * Setup the controller for use by a picker. The initial position is the
    * initial value selected by the picker. The coordinateToColor function
    * is used to get the color at a given coordinate. The function should
    * return the color at the coordinate and the adjusted coordinate if
    * the coordinate was out of bounds.
+   *
+   * A picker re-runs this whenever its palette changes, and a palette rebuilt inside the
+   * composition changes on every recomposition, so only the first call gets to move the selection.
    */
   internal fun setup(
     initialPosition: Offset = canvasSize.center,
     coordinateToColor: (Offset) -> Pair<Color, Offset>,
   ) {
     this.coordToColor = coordinateToColor
-    selectByCoordinate(initialPosition, fromUser = false)
+    val position = if (isSetUp) _selectedPoint.value else initialPosition
+    isSetUp = true
+    selectByCoordinate(position, fromUser = false)
+    pendingColor?.let { color ->
+      pendingColor = null
+      selectByColor(color, fromUser = false)
+    }
     reviseTick.intValue++
   }
 
@@ -259,6 +296,12 @@ constructor(
    * @param fromUser Represents this event is triggered by user or not.
    */
   public fun selectByHsv(h: Float, s: Float, v: Float, alpha: Float, fromUser: Boolean) {
+    // Callers reach for this from a LaunchedEffect, which runs before the picker has been laid out.
+    // Without a canvas there is no coordinate to map the color onto, so hold it until there is one.
+    if (!isReady) {
+      pendingColor = Color.hsv(h, s, v, alpha)
+      return
+    }
     var changed = selectByCoordinate(hsvToCoord(h, s, canvasSize.center))
     changed = setAlpha(alpha) || changed
     changed = setBrightness(v) || changed
