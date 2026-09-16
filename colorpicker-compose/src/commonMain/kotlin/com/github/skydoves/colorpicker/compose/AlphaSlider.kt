@@ -80,11 +80,8 @@ public fun AlphaSlider(
   )
 
   DisposableEffect(controller) {
-    controller.isAttachedAlphaSlider = true
-
-    onDispose {
-      controller.isAttachedAlphaSlider = false
-    }
+    controller.attachAlphaSlider()
+    onDispose { controller.detachAlphaSlider() }
   }
 
   Slider(

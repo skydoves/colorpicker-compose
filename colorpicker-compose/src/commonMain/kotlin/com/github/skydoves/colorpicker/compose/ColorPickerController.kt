@@ -162,50 +162,49 @@ public class ColorPickerController {
       _enabled.value = value
     }
 
-  /** Indicates if the alpha slider has been attached. */
-  internal var isAttachedAlphaSlider: Boolean = false
-    set(value) {
-      if (field != value) {
-        field = value
-        if (!value) {
-          alpha.value = 1.0f
-        }
-        recalculateColorDueToAttachmentChange()
-      }
-    }
+  /** An alpha slider that leaves hands the alpha channel back to the palette color. */
+  private val alphaSliders = SliderAttachment { alpha.value = 1.0f }
 
-  /** Indicates if the brightness slider has been attached. */
-  internal var isAttachedBrightnessSlider: Boolean = false
-    set(value) {
-      if (field != value) {
-        field = value
-        if (!value) {
-          val (_, _, v) = pureSelectedColor.value.toHSV()
-          brightness.value = v
-        }
-        recalculateColorDueToAttachmentChange()
-      }
-    }
+  /** A brightness slider that leaves hands the value back to the palette color. */
+  private val brightnessSliders = SliderAttachment {
+    brightness.value = pureSelectedColor.value.toHSV().third
+  }
+
+  /** A saturation slider that leaves hands the saturation back to the palette color. */
+  private val saturationSliders = SliderAttachment {
+    saturation.value = pureSelectedColor.value.toHSV().second
+  }
+
+  /** Indicates if an alpha slider has been attached. */
+  internal val isAttachedAlphaSlider: Boolean
+    get() = alphaSliders.isAttached
+
+  /** Indicates if a brightness slider has been attached. */
+  internal val isAttachedBrightnessSlider: Boolean
+    get() = brightnessSliders.isAttached
 
   /** Whether a SaturationSlider is attached. */
-  internal var isAttachedSaturationSlider: Boolean = false
-    set(value) {
-      if (field != value) {
-        field = value
-        if (!value) {
-          val (_, s, _) = pureSelectedColor.value.toHSV()
-          saturation.value = s
-        }
-        recalculateColorDueToAttachmentChange()
-      }
-    }
+  internal val isAttachedSaturationSlider: Boolean
+    get() = saturationSliders.isAttached
+
+  internal fun attachAlphaSlider(): Unit = onAttachmentChanged(alphaSliders.attach())
+
+  internal fun detachAlphaSlider(): Unit = onAttachmentChanged(alphaSliders.detach())
+
+  internal fun attachBrightnessSlider(): Unit = onAttachmentChanged(brightnessSliders.attach())
+
+  internal fun detachBrightnessSlider(): Unit = onAttachmentChanged(brightnessSliders.detach())
+
+  internal fun attachSaturationSlider(): Unit = onAttachmentChanged(saturationSliders.attach())
+
+  internal fun detachSaturationSlider(): Unit = onAttachmentChanged(saturationSliders.detach())
 
   /**
-   * Forcibly recalculates the current color when dynamically added
-   * or removing sliders from the composition tree.
+   * Recalculates the selected color after a slider was added to, or removed from, the composition.
+   * Which factors apply depends on what is attached, so the color has to be built again.
    */
-  private fun recalculateColorDueToAttachmentChange() {
-    if (!enabled) return
+  private fun onAttachmentChanged(changed: Boolean) {
+    if (!changed || !enabled) return
     val newColor = applyHSVFactors(pureSelectedColor.value)
     if (_selectedColor.value != newColor) {
       _selectedColor.value = newColor
@@ -488,5 +487,30 @@ public class ColorPickerController {
   internal fun releaseBitmap() {
     wheelBitmap = null
     _paletteBitmap.value = null
+  }
+}
+
+/**
+ * Counts the sliders of one kind composed against a controller.
+ *
+ * A plain flag goes wrong the moment two sliders of the same kind share a controller: the first one
+ * to leave the composition clears it while the other is still on screen, and the surviving slider
+ * stops reaching the color.
+ */
+private class SliderAttachment(private val onLastDetached: () -> Unit) {
+
+  private var count: Int = 0
+
+  val isAttached: Boolean
+    get() = count > 0
+
+  /** Returns true when this is the first slider of its kind to arrive. */
+  fun attach(): Boolean = count++ == 0
+
+  /** Returns true when this was the last slider of its kind to leave. */
+  fun detach(): Boolean {
+    if (count == 0 || --count > 0) return false
+    onLastDetached()
+    return true
   }
 }

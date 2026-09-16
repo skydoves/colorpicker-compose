@@ -66,11 +66,8 @@ public fun SaturationSlider(
   onFinish: () -> Unit = {},
 ) {
   DisposableEffect(controller) {
-    controller.isAttachedSaturationSlider = true
-
-    onDispose {
-      controller.isAttachedSaturationSlider = false
-    }
+    controller.attachSaturationSlider()
+    onDispose { controller.detachSaturationSlider() }
   }
 
   Slider(

@@ -66,11 +66,8 @@ public fun BrightnessSlider(
   onFinish: () -> Unit = {},
 ) {
   DisposableEffect(controller) {
-    controller.isAttachedBrightnessSlider = true
-
-    onDispose {
-      controller.isAttachedBrightnessSlider = false
-    }
+    controller.attachBrightnessSlider()
+    onDispose { controller.detachBrightnessSlider() }
   }
 
   Slider(
