@@ -182,11 +182,7 @@ fun ApiAlphaSliderScreen() {
 }
 
 @Composable
-private fun ParameterItem(
-  name: String,
-  type: String,
-  description: String,
-) {
+private fun ParameterItem(name: String, type: String, description: String) {
   Column(
     modifier = Modifier.padding(vertical = 8.dp),
   ) {

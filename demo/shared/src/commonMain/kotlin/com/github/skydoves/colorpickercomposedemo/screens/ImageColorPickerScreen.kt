@@ -37,8 +37,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import colorpickercomposedemo.demo.shared.generated.resources.Res
-import colorpickercomposedemo.demo.shared.generated.resources.palettebar
 import com.github.skydoves.colorpicker.compose.AlphaSlider
 import com.github.skydoves.colorpicker.compose.AlphaTile
 import com.github.skydoves.colorpicker.compose.BrightnessSlider
@@ -46,6 +44,8 @@ import com.github.skydoves.colorpicker.compose.ColorEnvelope
 import com.github.skydoves.colorpicker.compose.ImageColorPicker
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 import com.github.skydoves.colorpickercomposedemo.PhotoPickerIcon
+import com.github.skydoves.colorpickercomposedemo.shared.Res
+import com.github.skydoves.colorpickercomposedemo.shared.palettebar
 import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.compose.resources.painterResource
 

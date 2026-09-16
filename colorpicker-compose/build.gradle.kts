@@ -53,12 +53,15 @@ kotlin {
   iosArm64()
   iosSimulatorArm64()
   macosArm64()
+  // The web targets do not run commonTest. ColorPickerController builds a Paint up front, and on
+  // Kotlin/JS that reaches for Skiko, whose WebAssembly binary a bare Node or headless browser test
+  // never loads. The same sources are covered by desktopTest instead.
   js(IR) {
-    browser()
-    nodejs()
+    browser { testTask { enabled = false } }
+    nodejs { testTask { enabled = false } }
   }
   wasmJs {
-    browser()
+    browser { testTask { enabled = false } }
     binaries.library()
   }
 
@@ -101,6 +104,25 @@ kotlin {
         implementation(libs.compose.ui)
       }
     }
+
+    val commonTest by getting {
+      languageSettings.optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+      dependencies {
+        implementation(libs.kotlin.test)
+        implementation(libs.kotlinx.coroutines.test)
+      }
+    }
+
+    // Tests that need a real composition or an ImageBitmap live here. runComposeUiTest wants a
+    // window, and compose.desktop.currentOs is what supplies the Skiko backend that draws into it.
+    val desktopTest by getting {
+      languageSettings.optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+      languageSettings.optIn("androidx.compose.ui.test.ExperimentalTestApi")
+      dependencies {
+        implementation(libs.compose.ui.test)
+        implementation(compose.desktop.currentOs)
+      }
+    }
   }
 
   explicitApi()
@@ -114,12 +136,6 @@ baselineProfile {
   baselineProfileOutputDir = "../../src/androidMain"
   filter {
     include("com.github.skydoves.colorpicker.compose.**")
-  }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-  compilerOptions {
-    freeCompilerArgs.add("-Xexplicit-api=strict")
   }
 }
 

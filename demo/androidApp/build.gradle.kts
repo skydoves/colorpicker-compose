@@ -69,6 +69,7 @@ dependencies {
   implementation(libs.compose.foundation)
   implementation(libs.compose.material)
   implementation(libs.compose.ui)
+  implementation(libs.filekit.dialogs.compose)
   baselineProfile(project(":benchmark"))
 }
 
