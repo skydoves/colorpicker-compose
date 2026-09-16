@@ -189,8 +189,9 @@ constructor(
     _colorFlow.filterNotNull().debounce(this.debounceDuration ?: debounceDuration)
 
   // Function that takes a coordinate and obtains a color
-  // Also returns an adjusted coordinate if appropriate
-  private var coordToColor: ((Offset) -> Pair<Color, Offset>)? = null
+  // Also returns an adjusted coordinate if appropriate, or null when the coordinate names nothing
+  // selectable, such as the band beside a letterboxed palette or a transparent pixel
+  private var coordToColor: ((Offset) -> Pair<Color, Offset>?)? = null
 
   /** True once a picker has registered itself and the canvas has a size to work with. */
   private val isReady: Boolean
@@ -207,14 +208,15 @@ constructor(
    * initial value selected by the picker. The coordinateToColor function
    * is used to get the color at a given coordinate. The function should
    * return the color at the coordinate and the adjusted coordinate if
-   * the coordinate was out of bounds.
+   * the coordinate was out of bounds, or null if the coordinate has no
+   * color to offer.
    *
    * A picker re-runs this whenever its palette changes, and a palette rebuilt inside the
    * composition changes on every recomposition, so only the first call gets to move the selection.
    */
   internal fun setup(
     initialPosition: Offset = canvasSize.center,
-    coordinateToColor: (Offset) -> Pair<Color, Offset>,
+    coordinateToColor: (Offset) -> Pair<Color, Offset>?,
   ) {
     this.coordToColor = coordinateToColor
     val position = if (isSetUp) _selectedPoint.value else initialPosition
@@ -373,7 +375,7 @@ constructor(
   private fun selectByCoordinate(point: Offset): Boolean {
     val coordToColor = coordToColor
     if (!enabled || coordToColor == null) return false
-    val (color, newPoint) = coordToColor(point)
+    val (color, newPoint) = coordToColor(point) ?: return false
     _selectedPoint.value = newPoint
     if (pureSelectedColor.value == color) return false
     _selectedColor.value = applyHSVFactors(color)

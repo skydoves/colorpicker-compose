@@ -16,6 +16,7 @@
 package com.github.skydoves.colorpicker.compose
 
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Paint
@@ -51,6 +52,17 @@ internal fun horizontalSplitBitmap(
   fill(Rect(0f, 0f, half, height.toFloat()), left)
   fill(Rect(half, 0f, width.toFloat(), height.toFloat()), right)
 }
+
+/** A bitmap whose right half is punched out, for checking what a transparent pixel reports. */
+internal fun halfTransparentBitmap(side: Int = 4, color: Color = Color.Red): ImageBitmap =
+  ImageBitmap.fromDrawing(IntSize(side, side)) {
+    val full = side.toFloat()
+    fill(Rect(0f, 0f, full, full), color)
+    drawRect(
+      Rect(side / 2f, 0f, full, full),
+      Paint().apply { blendMode = BlendMode.Clear },
+    )
+  }
 
 internal fun solidBitmap(size: IntSize, color: Color): ImageBitmap = ImageBitmap.fromDrawing(size) {
   fill(Rect(0f, 0f, size.width.toFloat(), size.height.toFloat()), color)
