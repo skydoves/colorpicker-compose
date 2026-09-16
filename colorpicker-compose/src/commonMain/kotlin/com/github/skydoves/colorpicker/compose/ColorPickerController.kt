@@ -25,7 +25,6 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.center
@@ -34,10 +33,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -46,9 +42,8 @@ import kotlinx.coroutines.flow.filterNotNull
 
 /** Creates and remembers a [ColorPickerController] on the current composer. */
 @Composable
-public fun rememberColorPickerController(): ColorPickerController {
-  val scope = rememberCoroutineScope()
-  return remember { ColorPickerController(scope) }
+public fun rememberColorPickerController(): ColorPickerController = remember {
+  ColorPickerController()
 }
 
 /**
@@ -57,11 +52,7 @@ public fun rememberColorPickerController(): ColorPickerController {
  * with the [rememberColorPickerController] extension.
  */
 @Stable
-public class ColorPickerController
-@OptIn(DelicateCoroutinesApi::class)
-constructor(
-  internal val coroutineScope: CoroutineScope = GlobalScope,
-) {
+public class ColorPickerController {
   internal var canvasSize: Size = Size.Zero
     set(value) {
       val previous = field
@@ -180,7 +171,7 @@ constructor(
   /** Whether a SaturationSlider is attached. */
   internal var isAttachedSaturationSlider: Boolean = false
 
-  internal var reviseTick = mutableIntStateOf(0)
+  internal val reviseTick = mutableIntStateOf(0)
 
   private val colorEvents = MutableStateFlow<ColorEnvelope?>(null)
 

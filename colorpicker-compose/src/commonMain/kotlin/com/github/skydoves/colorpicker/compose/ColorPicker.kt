@@ -37,8 +37,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.toSize
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 /**
  * ColorPicker allows you to get colors from a palette by tapping on the desired color.
@@ -76,16 +74,10 @@ internal fun ColorPicker(
   }
 
   val debounceDuration = controller.debounceDuration
-  DisposableEffect(key1 = controller, key2 = debounceDuration) {
-    val job = controller.coroutineScope.launch(Dispatchers.Main) {
-      controller.getColorFlow(debounceDuration ?: 0).collect {
-        onColorChanged(it)
-      }
-    }
-    onDispose {
-      job.cancel()
-      controller.releaseBitmap()
-    }
+  controller.ObserveColorChanges(onColorChanged)
+
+  DisposableEffect(key1 = controller) {
+    onDispose { controller.releaseBitmap() }
   }
 
   Canvas(

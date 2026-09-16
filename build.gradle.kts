@@ -13,9 +13,9 @@ plugins {
   alias(libs.plugins.kotlin.binary.compatibility)
 }
 
-// Only the published library is API-stable. Demo, benchmark, and docs modules are not.
+// Only the published library is API-stable. Demo, benchmark, wasmApp, desktopApp, and docs modules are not.
 apiValidation {
-  ignoredProjects.addAll(listOf("androidApp", "shared", "benchmark", "wasmApp", "docs"))
+  ignoredProjects.addAll(listOf("androidApp", "shared", "benchmark", "wasmApp", "desktopApp", "docs"))
 }
 
 subprojects {

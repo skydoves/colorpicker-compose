@@ -50,6 +50,7 @@ class StandaloneSliderTest {
     }
 
     onNodeWithTag("slider").performTouchInput { click(Offset(LENGTH / 2f, MIDDLE)) }
+    waitForIdle()
 
     val picked = envelopes.last()
     assertTrue(picked.fromUser)
@@ -91,6 +92,7 @@ class StandaloneSliderTest {
     }
 
     onNodeWithTag("slider").performTouchInput { click(Offset(LENGTH / 2f, MIDDLE)) }
+    waitForIdle()
 
     assertTrue(envelopes.isNotEmpty())
     assertTrue(abs(envelopes.last().color.alpha - 0.5f) < 0.02f)
@@ -110,6 +112,7 @@ class StandaloneSliderTest {
     }
 
     onNodeWithTag("slider").performTouchInput { click(Offset(LENGTH / 2f, MIDDLE)) }
+    waitForIdle()
 
     assertTrue(envelopes.isNotEmpty())
     assertTrue(abs(controller.saturation.value - 0.5f) < 0.02f)

@@ -106,6 +106,7 @@ class HsvColorPickerTest {
     }
 
     onNodeWithTag("picker").performTouchInput { click(Offset(199f, 100f)) }
+    waitForIdle()
 
     assertTrue(envelopes.last().fromUser)
     assertEquals(ColorChangeSource.Tap, envelopes.last().source)

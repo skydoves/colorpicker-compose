@@ -40,7 +40,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun selectingTheRightEdgeOfThePalettePicksRed() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
     controller.setupHsvPalette()
 
     controller.selectByCoordinate(Offset(200f, 100f), fromUser = true)
@@ -50,7 +50,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun selectingTheLeftEdgeOfThePalettePicksCyan() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
     controller.setupHsvPalette()
 
     controller.selectByCoordinate(Offset(0f, 100f), fromUser = true)
@@ -60,7 +60,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun selectingTheCenterOfThePalettePicksWhite() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
     controller.setupHsvPalette()
 
     controller.selectCenter(fromUser = true)
@@ -71,7 +71,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun aPointOutsideTheWheelIsSnappedOntoItsEdge() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
     controller.setupHsvPalette()
 
     controller.selectByCoordinate(Offset(400f, 100f), fromUser = true)
@@ -82,7 +82,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun selectByColorRoundTripsAHueThroughTheCoordinateSpace() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
     controller.setupHsvPalette()
 
     controller.selectByColor(Color.Magenta, fromUser = false)
@@ -92,7 +92,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun selectByHsvAcceptsAFloatArray() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
     controller.setupHsvPalette()
 
     controller.selectByHsv(floatArrayOf(120f, 1f, 1f), alpha = 1f, fromUser = false)
@@ -102,7 +102,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun setAlphaAppliesToTheSelectedColor() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
     controller.setupHsvPalette()
     controller.selectByCoordinate(Offset(200f, 100f), fromUser = false)
 
@@ -113,7 +113,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun setBrightnessDarkensTheSelectedColor() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
     controller.setupHsvPalette()
     controller.selectByCoordinate(Offset(200f, 100f), fromUser = false)
 
@@ -124,7 +124,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun setSaturationWashesOutTheSelectedColor() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
     controller.setupHsvPalette()
     controller.selectByCoordinate(Offset(200f, 100f), fromUser = false)
 
@@ -135,7 +135,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun setHueRotatesTheSelectedColor() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
     controller.setupHsvPalette()
 
     controller.setHue(240f / 360f, fromUser = true)
@@ -145,7 +145,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun theColorFlowReportsEveryChangeWithItsSource() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
     controller.setupHsvPalette()
     val envelopes = collectEnvelopes(controller)
 
@@ -159,7 +159,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun theColorFlowCarriesTheHexCodeOfTheSelectedColor() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
     controller.setupHsvPalette()
     val envelopes = collectEnvelopes(controller)
 
@@ -170,7 +170,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun programmaticChangesAreNotReportedAsComingFromTheUser() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
     controller.setupHsvPalette()
     val envelopes = collectEnvelopes(controller)
 
@@ -182,7 +182,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun reselectingTheSameColorDoesNotEmitAgain() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
     controller.setupHsvPalette()
     val envelopes = collectEnvelopes(controller)
     controller.selectByCoordinate(Offset(200f, 100f), fromUser = true)
@@ -195,7 +195,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun aDisabledControllerIgnoresSelection() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
     controller.setupHsvPalette()
     controller.selectCenter(fromUser = false)
     controller.enabled = false
@@ -207,7 +207,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun aDisabledControllerStartsAcceptingSelectionAgainOnceReenabled() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
     controller.setupHsvPalette()
     controller.enabled = false
     controller.selectByCoordinate(Offset(200f, 100f), fromUser = true)
@@ -220,7 +220,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun growingTheCanvasKeepsTheSelectionInTheSameRelativeSpot() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
     val palette = controller.setupHsvPalette()
     controller.selectByCoordinate(Offset(200f, 100f), fromUser = false)
 
@@ -231,7 +231,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun aNonUniformResizeKeepsTheIndicatorOnTheWheel() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
     val palette = controller.setupHsvPalette()
     controller.selectByCoordinate(Offset(200f, 100f), fromUser = false)
 
@@ -244,7 +244,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun theFirstCanvasSizeNeverLeavesAnUnspecifiedPoint() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
 
     controller.canvasSize = Size(200f, 200f)
 
@@ -256,7 +256,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun aSecondSetupLeavesTheCurrentSelectionAlone() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
     val palette = controller.setupHsvPalette()
     controller.selectByCoordinate(Offset(200f, 100f), fromUser = true)
 
@@ -268,7 +268,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun aColorChosenBeforeSetupIsAppliedWhenThePickerArrives() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
 
     controller.selectByColor(Color.Cyan, fromUser = false)
     controller.setupHsvPalette()
@@ -278,7 +278,7 @@ class ColorPickerControllerTest {
 
   @Test
   fun theDebounceDurationIsReadBack() = runTest {
-    val controller = ColorPickerController(backgroundScope)
+    val controller = ColorPickerController()
 
     controller.debounceDuration = 300L
 

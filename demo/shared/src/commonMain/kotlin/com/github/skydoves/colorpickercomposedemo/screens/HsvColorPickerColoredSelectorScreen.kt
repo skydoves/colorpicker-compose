@@ -15,6 +15,7 @@
  */
 package com.github.skydoves.colorpickercomposedemo.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -63,7 +64,7 @@ fun HsvColorPickerColoredSelectorScreen() {
   var lastSource by remember { mutableStateOf(ColorChangeSource.Programmatic) }
   var isInteracting by remember { mutableStateOf(false) }
 
-  Column {
+  Column(Modifier.background(Color.Black)) {
     Spacer(modifier = Modifier.weight(1f))
 
     Row(modifier = Modifier.weight(3f)) {
@@ -160,7 +161,7 @@ fun HsvColorPickerColoredSelectorScreen() {
     AlphaTile(
       modifier = Modifier
         .size(80.dp)
-        .clip(RoundedCornerShape(6.dp))
+        // .clip(RoundedCornerShape(6.dp))
         .align(Alignment.CenterHorizontally),
       controller = controller,
     )

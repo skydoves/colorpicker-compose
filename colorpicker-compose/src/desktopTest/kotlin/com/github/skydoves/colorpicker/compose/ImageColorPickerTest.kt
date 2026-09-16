@@ -130,6 +130,7 @@ class ImageColorPickerTest {
     // The palette centers on the bottom right quadrant, so tap a different one to get an event:
     // the controller drops a selection that lands on the color already showing.
     onNodeWithTag("picker").performTouchInput { click(Offset(150f, 50f)) }
+    waitForIdle()
 
     assertTrue(envelopes.last().fromUser)
     assertEquals(ColorChangeSource.Tap, envelopes.last().source)

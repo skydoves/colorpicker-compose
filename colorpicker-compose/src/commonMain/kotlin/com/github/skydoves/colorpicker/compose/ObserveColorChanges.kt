@@ -17,8 +17,8 @@ package com.github.skydoves.colorpicker.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
@@ -32,9 +32,10 @@ internal fun ColorPickerController.ObserveColorChanges(
   onColorChanged: ((ColorEnvelope) -> Unit)?,
 ) {
   val callback = rememberUpdatedState(onColorChanged)
+  val scope = rememberCoroutineScope()
   val debounceDuration = debounceDuration
   DisposableEffect(key1 = this, key2 = debounceDuration) {
-    val job = coroutineScope.launch(Dispatchers.Main) {
+    val job = scope.launch {
       getColorFlow(debounceDuration ?: 0).collect { callback.value?.invoke(it) }
     }
     onDispose { job.cancel() }

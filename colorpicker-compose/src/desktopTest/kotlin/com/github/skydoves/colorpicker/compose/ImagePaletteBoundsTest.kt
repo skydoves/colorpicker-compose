@@ -75,9 +75,11 @@ class ImagePaletteBoundsTest {
     }
     // Land on the red half first, so the band above the green half would be a visible change.
     onNodeWithTag("picker").performTouchInput { click(Offset(50f, 100f)) }
+    waitForIdle()
     val before = envelopes.size
 
     onNodeWithTag("picker").performTouchInput { click(Offset(150f, 10f)) }
+    waitForIdle()
 
     assertEquals(before, envelopes.size)
   }

@@ -41,8 +41,6 @@ public final class com/github/skydoves/colorpicker/compose/ColorEnvelope {
 public final class com/github/skydoves/colorpicker/compose/ColorPickerController {
 	public static final field $stable I
 	public fun <init> ()V
-	public fun <init> (Lkotlinx/coroutines/CoroutineScope;)V
-	public synthetic fun <init> (Lkotlinx/coroutines/CoroutineScope;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getColorFlow (J)Lkotlinx/coroutines/flow/Flow;
 	public static synthetic fun getColorFlow$default (Lcom/github/skydoves/colorpicker/compose/ColorPickerController;JILjava/lang/Object;)Lkotlinx/coroutines/flow/Flow;
 	public final fun getDebounceDuration ()Ljava/lang/Long;
