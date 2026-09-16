@@ -161,8 +161,8 @@ fun ApiHsvColorPickerScreen() {
     Spacer(modifier = Modifier.height(32.dp))
 
     Callout(
-      text = "Note: When using HsvColorPicker, you cannot use setPaletteImageBitmap() " +
-        "or setPaletteContentScale() functions on the controller.",
+      text = "Note: HsvColorPicker draws its own palette, so setPaletteImageBitmap() on the " +
+        "controller and the paletteContentScale parameter are for ImageColorPicker only.",
       type = CalloutType.Warning,
     )
 

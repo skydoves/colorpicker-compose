@@ -170,7 +170,7 @@ HsvColorPicker(
 
 To initialize the color picker with a specific color, pass the color to the `initialColor` argument. Initial color is white by default.
 
-> **Note**: If you use `HsvColorPicker`, you can not set the palette and content scale with the `setPaletteImageBitmap` and `setPaletteContentScale` functions.
+> **Note**: `HsvColorPicker` draws its own palette, so `setPaletteImageBitmap` on the controller and the `paletteContentScale` parameter are for `ImageColorPicker` only.
 
 The `onStart` / `onFinish` callbacks are also available on `ImageColorPicker`, `AlphaSlider`, `BrightnessSlider`, `HueSlider`, and `SaturationSlider`. Use them to bracket gesture-driven work — for example to show a press indicator, snapshot state when the gesture begins, or commit/throttle work when it ends.
 
