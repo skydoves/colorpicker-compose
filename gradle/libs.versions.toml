@@ -15,7 +15,7 @@ androidxNavigation = "2.9.2"
 filekit = "0.14.1"
 profileInstaller = "1.4.1"
 uiAutomator = "2.4.0"
-spotless = "8.10.2"
+spotless = "8.10.3"
 androidxMacroBenchmark = "1.5.0"
 coroutines = "1.11.0"
 
